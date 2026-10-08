@@ -1,4 +1,4 @@
-import type { Testimonial, CategoryType, VacancyType, CompanyType } from "@/types";
+import type { Testimonial, CategoryType, VacancyType, CompanyType, JobType } from "@/types";
 
 import { PenTool, CodeXml, TvMinimalPlay, Music, CirclePoundSterling, Cross, Database, Ad } from "lucide-react";
 import { Slack, Github, Figma, Notion } from "@thesvg/react";
@@ -195,4 +195,34 @@ export const companies: CompanyType[] = [
 	{ id: "2", name: "GitHub", location: "United States", href: "#", logo: Github },
 	{ id: "3", name: "Figma", location: "United Kingdom", href: "#", logo: Figma },
 	{ id: "4", name: "Notion", location: "Canada", href: "#", logo: Notion },
+];
+
+export const jobs: JobType[] = [
+	{
+		id: 1,
+		title: "Senior UX Designer",
+		company: "Instagram",
+		featured: true,
+		location: "New York, USA",
+		type: "Full Time",
+		salary: "$50k-80k/month",
+		education: "Graduation",
+		experience: "10-15 Years",
+		postedAt: "14 June, 2021",
+		deadline: "14 July, 2021",
+		companyInfo: {
+			tagline: "Social networking service",
+			founded: "March 21, 2006",
+			orgType: "Private Company",
+			size: "120-300 Employers",
+			phone: "(406) 555-0120",
+			email: "career@instagram.com",
+			website: "https://instagram.com",
+			socials: { facebook: "#", twitter: "#", instagram: "#", youtube: "#" },
+		},
+		description: "Integer aliquet pretium consequat. Donec et sapien id leo accumsan pellentesque eget maximus tellus.\n\nNam a nulla ante. Cras urna augue, mollis venenatis augue sed, porttitor aliquet nibh.",
+		responsibilities: ["Quisque semper gravida est et consectetut.", "Curabitur blandit lorem velit, vitae pretium leo placerat eget.", "Morbi mattis in ipsum ac tempus."],
+		requirements: ["Tối thiểu 5 năm kinh nghiệm thiết kế sản phẩm", "Thành thạo Figma"],
+		benefits: ["Bảo hiểm sức khỏe", "Làm việc hybrid"],
+	},
 ];

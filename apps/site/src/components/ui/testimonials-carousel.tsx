@@ -42,7 +42,7 @@ const useIsClient = () =>
 		() => false,
 	);
 
-const Skeleton = () => <div className="h-[420px] animate-pulse rounded-xl bg-white/60" />;
+const Skeleton = () => <div className="h-105 animate-pulse rounded-xl bg-white/60" />;
 
 const TestimonialsCarousel = () => {
 	const isClient = useIsClient();
@@ -51,9 +51,9 @@ const TestimonialsCarousel = () => {
 
 	return (
 		<>
-			<Swiper {...swiperProps} className="!px-1.5 !pt-1.5 !pb-2">
+			<Swiper {...swiperProps} className="px-1.5! pt-1.5! pb-2~">
 				{testimonials.map((item) => (
-					<SwiperSlide key={item.id} className="!h-auto">
+					<SwiperSlide key={item.id} className="h-auto!">
 						<TestimonialCard item={item} />
 					</SwiperSlide>
 				))}

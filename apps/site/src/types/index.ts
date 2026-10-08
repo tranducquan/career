@@ -33,3 +33,33 @@ export type CompanyType = {
 	featured?: boolean;
 	logo: ComponentType<SVGProps<SVGSVGElement>>;
 };
+
+export type CompanyInfoType = {
+	tagline?: string;
+	founded?: string;
+	orgType?: string;
+	size?: string;
+	phone?: string;
+	email?: string;
+	website?: string;
+	socials?: { facebook?: string; twitter?: string; instagram?: string; youtube?: string };
+};
+
+export type JobType = {
+	id: number | string;
+	title: string;
+	company: string;
+	companyInfo?: CompanyInfoType;
+	featured?: boolean;
+	location: string;
+	type: string;
+	salary?: string;
+	education?: string;
+	experience?: string;
+	postedAt?: string;
+	deadline?: string;
+	description: string; // tách đoạn bằng "\n\n"
+	responsibilities?: string[];
+	requirements?: string[];
+	benefits?: string[];
+};

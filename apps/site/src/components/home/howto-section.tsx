@@ -37,9 +37,9 @@ const HowToSection = () => {
 
 				<ol className="grid gap-3 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
 					{steps.map(({ title, text, icon: Icon }, i) => (
-						<li key={title} className="group relative flex items-start gap-4 rounded-xl bg-blue-100 p-4 transition-[background-color,box-shadow] duration-300 ease-out sm:flex-col sm:items-center sm:bg-blue-50 sm:p-6 sm:text-center sm:hover:bg-white sm:hover:shadow-lg">
+						<li key={title} className="group relative flex items-start gap-4 rounded-xl bg-blue-100 p-4 transition-[background-color,box-shadow] sm:flex-col sm:items-center sm:bg-transparent sm:p-6 sm:text-center sm:hover:bg-white sm:hover:shadow-lg cursor-pointer">
 							<div className="relative shrink-0">
-								<div className="flex size-14 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm transition-colors duration-300 ease-out group-hover:bg-blue-600 group-hover:text-white sm:size-18">
+								<div className="flex size-14 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm transition-colors group-hover:bg-blue-600 group-hover:text-white sm:size-18">
 									<Icon className="size-6 sm:size-7" />
 								</div>
 								<span className="absolute -top-1 -left-1 flex size-5 items-center justify-center rounded-full bg-blue-600 text-xs font-medium text-white sm:hidden">{i + 1}</span>
