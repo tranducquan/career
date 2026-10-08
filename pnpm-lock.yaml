@@ -172,6 +172,9 @@ importers:
 
   apps/site:
     dependencies:
+      '@thesvg/react':
+        specifier: ^3.3.12
+        version: 3.3.12(react@19.3.0)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -724,6 +727,12 @@ packages:
 
   '@tailwindcss/turbopack@4.3.3':
     resolution: {integrity: sha512-FgL4wRgItNdXcDjcgYUSd59gNsWqNVK4GotjZimZMmt7OOIkRNqH2QEUcRXLdBDXvwTsi5rkYxDxzfrFUkmObQ==}
+
+  '@thesvg/react@3.3.12':
+    resolution: {integrity: sha512-dUzTls10sk+dpBIQ5eoYXkb1lNKlOPf5Tp5CQpN1EC12DUFZSp+evDJX/TzTfcalJEfPNPBQQMGSJdpUK47Epw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: '>=18'
 
   '@turbo/darwin-64@2.11.7':
     resolution: {integrity: sha512-Z2LFOxwbiJueD1miByXJS/BrW21vv6YaQXZustty5jEX4vQYw6zyh101Sz1QO7WG0mqBzKagZ/DoAeeujI0/Sw==}
@@ -2679,6 +2688,10 @@ snapshots:
       '@tailwindcss/node': 4.3.3
       '@tailwindcss/oxide': 4.3.3
       tailwindcss: 4.3.3
+
+  '@thesvg/react@3.3.12(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
 
   '@turbo/darwin-64@2.11.7':
     optional: true
