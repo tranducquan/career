@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ArrowRight, Bookmark, BriefcaseBusiness, CalendarDays, GraduationCap, Globe, Hourglass, Mail, MapPin, Phone, Wallet } from "lucide-react";
 import { Facebook, Twitter, Instagram, Youtube, Pinterest } from "@thesvg/react";
 import Container from "@/components/layout/container";
@@ -7,20 +7,23 @@ import Button from "@/components/ui/button";
 import { jobs } from "@/data";
 import type { JobType } from "@/types";
 import { Suspense } from "react";
+import { jobPath, getIdFromSlug } from "@/lib/slug";
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ slug: string }> };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-const getJob = (id: string) => jobs.find((job) => String(job.id) === id);
+const getJob = (slug: string) => jobs.find((job) => String(job.id) === getIdFromSlug(slug));
+
+// const formatDate = (iso?: string) => (iso ? new Date(iso).toLocaleDateString("vi-VN") : undefined);
 
 export function generateStaticParams() {
-	return jobs.map((job) => ({ id: String(job.id) }));
+	return jobs.map((job) => ({ slug: jobPath(job).replace("/jobs/", "") }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const { id } = await params;
-	const job = getJob(id);
+	const { slug } = await params;
+	const job = getJob(slug);
 	if (!job) return { title: "Job not found" };
 
 	return { title: `${job.title} - ${job.company}`, description: job.description.slice(0, 150) };
@@ -53,7 +56,7 @@ const BulletList = ({ title, items }: { title: string; items?: string[] }) => {
 };
 
 const ShareButtons = ({ job }: { job: JobType }) => {
-	const url = encodeURIComponent(`${SITE_URL}/jobs/${job.id}`);
+	const url = encodeURIComponent(`${SITE_URL}${jobPath(job)}`);
 	const text = encodeURIComponent(job.title);
 
 	const links = [
@@ -155,16 +158,16 @@ const CompanyCard = ({ job }: { job: JobType }) => {
 };
 
 const JobDetail = async ({ params }: Props) => {
-	const { id } = await params;
-	const job = getJob(id);
+	const { slug } = await params;
+	const job = getJob(slug);
 	if (!job) notFound();
+	if (jobPath(job) !== `/jobs/${slug}`) permanentRedirect(jobPath(job));
 
 	const info = job.companyInfo;
 	const paragraphs = job.description.split("\n\n");
 
 	return (
 		<div className="pb-16 md:pb-24">
-			{/* Header */}
 			<Container>
 				<div className="flex flex-col gap-6 py-8 md:flex-row md:items-start md:justify-between md:py-10">
 					<div className="flex items-center gap-4 md:gap-6">

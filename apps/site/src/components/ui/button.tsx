@@ -19,7 +19,7 @@ type LinkProps = OwnProps & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 
 type Props = ButtonProps | LinkProps;
 
 const variants: Record<Variant, string> = {
-	primary: "border-blue-600 bg-blue-600 text-white hover:border-blue-700 hover:bg-blue-700",
+	primary: "border-blue-600 bg-blue-600 text-white hover:border-blue-800 hover:bg-blue-800",
 	outline: "border-blue-100 bg-transparent text-blue-600 hover:bg-blue-100",
 	light: "border-blue-100 bg-blue-100 text-blue-600 hover:border-blue-600 hover:bg-blue-600 group-hover:text-white",
 	ghost: "border-white bg-white text-blue-600 hover:shadow-md transition-shadow",

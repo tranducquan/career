@@ -6,7 +6,6 @@ import { cn } from "@/lib/cn";
 
 const MOBILE_LIMIT = 6;
 
-// Tạo formatter một lần, dùng lại cho cả danh sách
 const numberFormat = new Intl.NumberFormat("en-US");
 
 const CategorySection = () => {
