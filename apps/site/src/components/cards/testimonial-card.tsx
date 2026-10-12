@@ -8,7 +8,6 @@ type Props = {
 	className?: string;
 };
 
-// Tạo mảng một lần, không tạo lại mỗi lần render
 const STARS = [1, 2, 3, 4, 5];
 
 const TestimonialCard = ({ item, className }: Props) => {
