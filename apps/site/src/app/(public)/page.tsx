@@ -1,3 +1,4 @@
+import HeroSection from "@/components/home/hero-section";
 import VacancySection from "@/components/home/vacancy-section";
 import HowToSection from "@/components/home/howto-section";
 import CategorySection from "@/components/home/category-section";
@@ -9,6 +10,7 @@ import OtherSection from "@/components/home/other-section";
 const Page = () => {
 	return (
 		<div id="home-page">
+			<HeroSection />
 			<VacancySection />
 			<HowToSection />
 			<CategorySection />
