@@ -60,28 +60,32 @@ const Horizontal = ({ job, className }: Omit<Props, "layout">) => (
 );
 
 const Vertical = ({ job, className }: Omit<Props, "layout">) => (
-	<article className={cn("relative flex h-full flex-col gap-5 rounded-xl border border-gray-100 bg-white p-5 transition md:hover:shadow-lg md:p-6 md:hover:-translate-y-1 md:hover:border-blue-300", className)}>
-		<div className="flex items-center gap-3">
-			<CompanyLogo name={job.company} className="size-14 rounded-md text-xl" />
-			<div className="min-w-0">
-				<p className="truncate font-medium text-gray-900">{job.company}</p>
-				<p className="flex items-center gap-1.5 text-sm text-gray-400">
-					<MapPin aria-hidden className="size-4 shrink-0" strokeWidth={1.5} />
+	<article className={cn("relative flex h-full flex-col gap-3.5 rounded-xl border border-gray-200 p-5 transition-shadow hover:shadow-lg md:p-6", className)}>
+		<h3 className="line-clamp-2 text-[1.25rem] font-medium text-gray-900 leading-normal">
+			<Link href={jobPath(job)} className={stretched}>
+				{job.title}
+			</Link>
+		</h3>
+
+		<div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+			<span className={cn("rounded-xs px-2 py-0.5 text-xs font-semibold uppercase bg-green-100 text-green-600")}>{job.type}</span>
+			{job.salary && <span>{job.salary}</span>}
+		</div>
+
+		<div className="mt-auto flex items-center gap-3 pt-2.5">
+			<CompanyLogo name={job.company} className="size-14 rounded-md bg-blue-50 text-xl" />
+
+			<div className="min-w-0 flex-1">
+				<p className="truncate font-medium text-gray-900 text-base mb-1.5">{job.company}</p>
+				<p className="flex items-center gap-1.5 text-sm text-gray-500">
+					<MapPin aria-hidden className="size-5 shrink-0 text-gray-400" />
 					<span className="truncate">{job.location}</span>
 				</p>
 			</div>
-		</div>
 
-		<div>
-			<h3 className="line-clamp-2 text-lg font-medium text-gray-900">
-				<Link href={jobPath(job)} className={stretched}>
-					{job.title}
-				</Link>
-			</h3>
-			<p className="mt-2 text-sm text-gray-500">
-				{job.type}
-				{job.salary && <> &bull; {job.salary}</>}
-			</p>
+			<button type="button" aria-label="Save job" className="relative z-10 shrink-0 text-gray-300 transition-colors hover:text-blue-600">
+				<Bookmark aria-hidden className="size-6" />
+			</button>
 		</div>
 	</article>
 );

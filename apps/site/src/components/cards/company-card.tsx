@@ -6,7 +6,7 @@ const CompanyCard = ({ company }: { company: CompanyType }) => {
 	const { name, location, href, featured, logo: Logo } = company;
 
 	return (
-		<article className="group relative flex h-full flex-col gap-5 rounded-xl border border-gray-100 bg-white p-4 transition sm:p-5 md:gap-8 md:p-8 md:hover:-translate-y-1 md:hover:border-blue-300 md:hover:shadow-lg">
+		<article className="group relative flex h-full flex-col gap-5 rounded-xl border border-gray-100 bg-white p-4 transition sm:p-5 md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-blue-300 md:hover:shadow-lg">
 			{featured && <span className="absolute top-4 right-4 rounded-full bg-red-50 px-3 py-1 text-xs font-medium text-red-600 md:top-5 md:right-5">Featured</span>}
 
 			<div className="flex items-center gap-3 md:gap-4">
