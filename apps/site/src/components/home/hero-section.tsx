@@ -14,7 +14,7 @@ const numberFormat = new Intl.NumberFormat("en-US");
 
 const HeroSection = () => {
 	return (
-		<section className="bg-gray-100 py-20 md:py-24">
+		<section className="bg-gray-100 py-12 md:py-20 lg:py-24">
 			<Container>
 				<div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-22">
 					<div className="lg:col-span-7">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bell, ChevronDown } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Outfit } from "next/font/google";
 import Container from "./container";
 import NavLinks from "./nav-links";

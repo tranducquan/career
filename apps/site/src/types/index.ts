@@ -49,11 +49,16 @@ export type JobType = {
 	id: number | string;
 	title: string;
 	company: string;
+	logo?: CompanyType["logo"];
 	companyInfo?: CompanyInfoType;
 	featured?: boolean;
-	location: string;
+	location?: string;
+	remote?: boolean;
 	type: string;
-	salary?: string;
+	salary?: string; // dùng cho card ở trang danh sách, ví dụ "$30K-$35K/month"
+	salaryRange?: string; // dùng ở trang chi tiết, ví dụ "$100,000 - $120,000"
+	salaryType?: string; // ví dụ "Yearly salary"
+	level?: string; // ví dụ "Entry Level"
 	education?: string;
 	experience?: string;
 	postedAt?: string;
@@ -61,5 +66,12 @@ export type JobType = {
 	description: string; // tách đoạn bằng "\n\n"
 	responsibilities?: string[];
 	requirements?: string[];
-	benefits?: string[];
+	desirable?: string[]; // mục "Desirable"
+	benefits?: string[]; // bullet ở cột trái
+	perks?: string[]; // tag xanh trong card "Job Benefits"
+	tags?: string[]; // "Job tags"
 };
+
+export type FaqItemType = { question: string; answer: string };
+
+export type FaqGroupType = { title: string; items: FaqItemType[] };

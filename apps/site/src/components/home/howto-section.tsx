@@ -31,7 +31,7 @@ const HowToSection = () => {
 	const lastIndex = steps.length - 1;
 
 	return (
-		<section className="bg-gray-100 py-16 md:py-24">
+		<section className="bg-gray-100 py-12 md:py-20 lg:py-24">
 			<Container>
 				<SectionHeading title="How Jobplatform Work" align="center" />
 

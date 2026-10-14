@@ -8,7 +8,7 @@ const navs = [
 		title: "Quick Link",
 		list: [
 			{ title: "About", link: "#" },
-			{ title: "Contact", link: "#" },
+			{ title: "Contact", link: "/contact" },
 			{ title: "Pricing", link: "#" },
 			{ title: "Blog", link: "#" },
 		],
@@ -34,9 +34,9 @@ const navs = [
 	{
 		title: "Support",
 		list: [
-			{ title: "Faqs", link: "#" },
-			{ title: "Privacy Policy", link: "#" },
-			{ title: "Terms & Conditions", link: "#" },
+			{ title: "Faqs", link: "/faqs" },
+			{ title: "Privacy Policy", link: "/privacy-policy" },
+			{ title: "Terms & Conditions", link: "/privacy-policy" },
 		],
 	},
 ];

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "outline" | "light" | "ghost";
-type Size = "sm" | "md" | "lg";
+type Size = "sm" | "md" | "lg" | "icon";
 
 type OwnProps = {
 	variant?: Variant;
@@ -27,8 +27,9 @@ const variants: Record<Variant, string> = {
 
 const sizes: Record<Size, string> = {
 	sm: "min-h-11 px-4 py-2 text-sm sm:min-h-10 [&_svg]:size-4",
-	md: "px-5 py-2.5 text-sm sm:px-6 sm:text-base [&_svg]:size-4 sm:[&_svg]:size-5",
+	md: "px-5 py-3 text-sm sm:px-6 sm:text-base [&_svg]:size-4 sm:[&_svg]:size-5",
 	lg: "px-6 py-3 text-base sm:px-8 sm:text-lg [&_svg]:size-5 sm:[&_svg]:size-6",
+	icon: "size-12 p-0 [&_svg]:size-5",
 };
 
 const base = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border font-semibold transition-colors " + "[&_svg]:shrink-0 " + "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 " + "disabled:pointer-events-none disabled:opacity-50";
