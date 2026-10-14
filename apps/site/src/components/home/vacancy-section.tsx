@@ -12,7 +12,7 @@ const numberFormat = new Intl.NumberFormat("en-US");
 
 const VacancySection = () => {
 	return (
-		<section className="border-b border-gray-100 py-16 md:py-24">
+		<section className="border-b border-gray-100 py-12 md:py-20 lg:py-24">
 			<Container>
 				<SectionHeading title="Most Popular Vacancies" />
 

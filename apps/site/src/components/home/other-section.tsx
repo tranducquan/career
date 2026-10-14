@@ -38,7 +38,7 @@ const CtaCard = ({ title, text, href, variant }: CtaCardProps) => {
 
 const OtherSection = () => {
 	return (
-		<section className="py-16 md:py-24">
+		<section className="py-12 md:py-20 lg:py-24">
 			<Container>
 				<div className="grid gap-4 md:grid-cols-2 md:gap-6">
 					<CtaCard variant="light" title="Become a Candidate" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur." href="/login" />

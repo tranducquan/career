@@ -1,16 +1,21 @@
 import Container from "../layout/container";
 import SectionHeading from "../ui/section-heading";
 import CompanyCard from "../cards/company-card";
-import { companies } from "@/data";
+import { getTopCompanies } from "@/lib/companies";
+
+const COMPANIES_LIMIT = 8;
 
 const CompaniesSection = () => {
-	return (
-		<section className="py-16 md:py-24">
-			<Container>
-				<SectionHeading title="Top Companies" href="#" />
+	const topCompanies = getTopCompanies(COMPANIES_LIMIT);
+	if (topCompanies.length === 0) return null;
 
-				<ul className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3">
-					{companies.map((company) => (
+	return (
+		<section className="py-12 md:py-20 lg:py-24">
+			<Container>
+				<SectionHeading title="Top Companies" href="/employers" />
+
+				<ul className="grid gap-3 md:gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+					{topCompanies.map((company) => (
 						<li key={company.id}>
 							<CompanyCard company={company} />
 						</li>
