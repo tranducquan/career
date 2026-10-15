@@ -1,24 +1,25 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { ArrowRight, Bookmark, BriefcaseBusiness, CalendarDays, Globe, Layers, Map as MapIcon, Timer, Wallet, Mail } from "lucide-react";
-import { Facebook, Twitter, Linkedin } from "@thesvg/react";
+import { ArrowRight, BriefcaseBusiness, CalendarDays, Globe, Layers, Mail, Map as MapIcon, Timer, Wallet } from "lucide-react";
+import { Facebook, Linkedin, Twitter } from "@thesvg/react";
+
 import Container from "@/components/layout/container";
 import Button from "@/components/ui/button";
+import CompanyLogo from "@/components/ui/company-logo";
+// import CopyLinkButton from "@/components/ui/copy-link-button";
+import FeaturedBadge from "@/components/jobs/featured-badge";
+import SaveJobButton from "@/components/jobs/save-job-button";
+
 import { jobs } from "@/data";
 import type { JobType } from "@/types";
-import { Suspense } from "react";
-import { jobPath, getIdFromSlug } from "@/lib/slug";
-import CompanyLogo from "@/components/ui/company-logo";
-import FeaturedBadge from "@/components/jobs/featured-badge";
+import { jobPath, jobSlug } from "@/lib/slug";
+import { getJob, SITE_URL, typeLabel } from "@/lib/jobs";
 
 type Props = { params: Promise<{ slug: string }> };
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
-const getJob = (slug: string) => jobs.find((job) => String(job.id) === getIdFromSlug(slug));
-
 export function generateStaticParams() {
-	return jobs.map((job) => ({ slug: jobPath(job).replace("/jobs/", "") }));
+	return jobs.map((job) => ({ slug: jobSlug(job) }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -31,16 +32,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const card = "rounded-lg border border-blue-100 bg-white";
 const gridCols = "lg:grid-cols-[1fr_28rem] lg:gap-10 xl:grid-cols-[1fr_32rem] xl:gap-14";
-
-const Logo = ({ name, className }: { name: string; className: string }) => <div className={`flex shrink-0 items-center justify-center bg-linear-to-br from-blue-500 to-blue-700 font-semibold text-white ${className}`}>{name.charAt(0)}</div>;
+const heading = "text-lg leading-normal font-medium text-gray-900 md:text-xl";
 
 const BulletList = ({ title, items }: { title: string; items?: string[] }) => {
 	if (!items?.length) return null;
 
 	return (
 		<section>
-			<h2 className="mb-4 text-lg md:text-xl leading-normal font-medium text-gray-900">{title}</h2>
-			<ul className="list-disc space-y-1.5 pl-5 text-sm md:text-base leading-relaxed text-gray-500 marker:text-gray-500">
+			<h2 className={`mb-4 ${heading}`}>{title}</h2>
+			<ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-gray-500 marker:text-gray-500 md:text-base">
 				{items.map((item) => (
 					<li key={item}>{item}</li>
 				))}
@@ -58,9 +58,9 @@ const SalaryLocation = ({ job }: { job: JobType }) => {
 	const locationNote = job.remote ? (job.location ?? "Work from anywhere") : undefined;
 
 	return (
-		<div className={`${card} grid grid-cols-2 items-center gap-4 p-4 md:p-6`}>
+		<div className={`${card} grid ${hasLocation ? "grid-cols-2" : "grid-cols-1"} items-center gap-4 p-4 md:p-6`}>
 			<div className="pr-2 text-center">
-				<p className="text-base md:text-lg font-medium leading-normal text-gray-900">Salary (USD)</p>
+				<p className="text-base leading-normal font-medium text-gray-900 md:text-lg">Salary (USD)</p>
 				{job.salaryRange && <p className="mt-2 text-lg font-medium text-green-600 md:text-xl">{job.salaryRange}</p>}
 				{job.salaryType && <p className="mt-1 text-sm text-gray-500">{job.salaryType}</p>}
 			</div>
@@ -68,8 +68,8 @@ const SalaryLocation = ({ job }: { job: JobType }) => {
 			{hasLocation && (
 				<div className="border-l border-blue-100 pl-2 text-center">
 					<LocationIcon aria-hidden className="mx-auto mb-2 size-7 text-blue-600" strokeWidth={1.5} />
-					<p className="text-base md:text-lg font-medium leading-normal text-gray-900">Job Location</p>
-					<p className="mt-1 text-sm md:text-base text-gray-500">{locationValue}</p>
+					<p className="text-base leading-normal font-medium text-gray-900 md:text-lg">Job Location</p>
+					<p className="mt-1 text-sm text-gray-500 md:text-base">{locationValue}</p>
 					{locationNote && <p className="text-sm text-gray-400">{locationNote}</p>}
 				</div>
 			)}
@@ -82,7 +82,7 @@ const JobBenefits = ({ perks }: { perks?: string[] }) => {
 
 	return (
 		<div className={`${card} p-4 md:p-6`}>
-			<h2 className="mb-5 text-lg md:text-xl leading-normal font-medium text-gray-900">Job Benefits</h2>
+			<h2 className={`mb-5 ${heading}`}>Job Benefits</h2>
 			<ul className="flex flex-wrap gap-2.5">
 				{perks.map((perk) => (
 					<li key={perk} className="rounded-sm bg-green-100 px-3 py-2 text-sm font-medium text-green-700">
@@ -133,24 +133,24 @@ const JobOverview = ({ job }: { job: JobType }) => {
 	return (
 		<div className={card}>
 			<div className="p-4 md:p-6">
-				<h2 className="mb-5 text-lg md:text-xl leading-normal font-medium text-gray-900">Job Overview</h2>
+				<h2 className={`mb-5 ${heading}`}>Job Overview</h2>
 				<dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
 					{items.map(({ icon: Icon, label, value }) => (
 						<div key={label}>
 							<Icon aria-hidden className="mb-4 size-7 text-blue-600" strokeWidth={1.5} />
 							<dt className="text-sm text-gray-500 uppercase">{label}</dt>
-							<dd className="mt-1.5 text-sm md:text-base font-medium text-gray-900">{value}</dd>
+							<dd className="mt-1.5 text-sm font-medium text-gray-900 md:text-base">{value}</dd>
 						</div>
 					))}
 				</dl>
 			</div>
 
-			<div className="space-y-4 md:space-y-6 border-t border-blue-100 p-4 md:p-6">
+			<div className="space-y-4 border-t border-blue-100 p-4 md:space-y-6 md:p-6">
 				<ShareButtons job={job} />
 
 				{job.tags && job.tags.length > 0 && (
 					<div>
-						<h3 className="mb-5 text-lg md:text-xl leading-normal font-medium text-gray-900">Job tags:</h3>
+						<h3 className={`mb-5 ${heading}`}>Job tags:</h3>
 						<ul className="flex flex-wrap gap-2.5">
 							{job.tags.map((tag) => (
 								<li key={tag} className="rounded-sm bg-gray-100 px-3 py-2 text-sm text-gray-600">
@@ -179,20 +179,19 @@ const JobDetail = async ({ params }: Props) => {
 				<div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-10">
 					<div className="flex items-center gap-4 md:gap-6">
 						<CompanyLogo name={job.company} logo={job.logo} className="size-17 rounded-full text-2xl md:size-20" />
+
 						<div className="min-w-0">
-							<h1 className="text-xl font-medium text-gray-900 md:text-2xl lg:text-3xl leading-normal">{job.title}</h1>
+							<h1 className="text-xl leading-normal font-medium text-gray-900 md:text-2xl lg:text-3xl">{job.title}</h1>
 							<div className="mt-2.5 flex flex-wrap items-center gap-2.5">
 								<span className="text-sm text-gray-500">at {job.company}</span>
-								<span className="rounded-sm bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white uppercase">{job.type.replace(" ", "-")}</span>
-								{job.featured && <FeaturedBadge />}{" "}
+								{job.featured && <FeaturedBadge />}
+								<span className="rounded-sm bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white uppercase">{typeLabel(job.type)}</span>
 							</div>
 						</div>
 					</div>
 
 					<div className="flex items-center gap-3">
-						<button type="button" aria-label="Save job" className="flex size-12 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600 transition-colors hover:bg-blue-100 motion-reduce:transition-none">
-							<Bookmark aria-hidden className="size-5" />
-						</button>
+						<SaveJobButton jobId={job.id} />
 						<Button href="/login" size="lg" className="flex-1 md:flex-none">
 							Apply Now <ArrowRight aria-hidden />
 						</Button>
@@ -204,8 +203,8 @@ const JobDetail = async ({ params }: Props) => {
 				<div className={`grid gap-8 ${gridCols}`}>
 					<article className="min-w-0 space-y-6">
 						<section>
-							<h2 className="mb-4 text-lg md:text-xl font-medium text-gray-900 leading-normal">Job Description</h2>
-							<div className="space-y-4 text-sm md:text-base leading-relaxed text-gray-500">
+							<h2 className={`mb-4 ${heading}`}>Job Description</h2>
+							<div className="space-y-4 text-sm leading-relaxed text-gray-500 md:text-base">
 								{paragraphs.map((p, i) => (
 									<p key={i}>{p}</p>
 								))}
@@ -232,7 +231,7 @@ const JobDetailFallback = () => (
 	<Container>
 		<div className="space-y-8 py-8 md:py-10">
 			<div className="flex items-center gap-4 md:gap-6">
-				<div className="size-16 animate-pulse rounded-full bg-gray-100 md:size-20" />
+				<div className="size-17 animate-pulse rounded-full bg-gray-100 md:size-20" />
 				<div className="space-y-3">
 					<div className="h-6 w-64 max-w-full animate-pulse rounded bg-gray-100" />
 					<div className="h-4 w-48 max-w-full animate-pulse rounded bg-gray-100" />

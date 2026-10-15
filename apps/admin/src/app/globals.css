@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+	--background: #ffffff;
+	--foreground: #333333;
+	--link: #235a81;
+	--border: #aaaaaa;
+	color-scheme: light;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-geist-sans), Tahoma, Arial, sans-serif;
+	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@layer base {
+	body {
+		background: var(--background);
+		color: var(--foreground);
+		font-family: Tahoma, Arial, sans-serif;
+		font-size: 14px;
+		line-height: 1.7;
+		letter-spacing: 0.01em;
+	}
+
+	a {
+		color: var(--link);
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+
+	h1 {
+		font-size: 1.6em;
+		font-weight: bold;
+		margin-bottom: 1em;
+	}
+	h2 {
+		font-size: 1.25em;
+		font-weight: bold;
+		margin: 1.4em 0 0.7em;
+	}
+	p {
+		margin-bottom: 0.75em;
+	}
+
+	table {
+		border-collapse: collapse;
+	}
+	th,
+	td {
+		border: 1px solid #ccc;
+		padding: 6px 12px;
+		text-align: left;
+		vertical-align: top;
+	}
+	th {
+		background: linear-gradient(#ffffff, #cccccc);
+		font-weight: bold;
+		white-space: nowrap;
+	}
+	tbody tr:nth-child(odd) {
+		background: #ffffff;
+	}
+	tbody tr:nth-child(even) {
+		background: #dfdfdf;
+	}
+	tbody tr:hover {
+		background: #cfe3f3;
+	}
+
+	input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+	select,
+	textarea {
+		border: 1px solid var(--border);
+		background: #fff;
+		padding: 4px 8px;
+	}
+	input:focus,
+	select:focus,
+	textarea:focus {
+		outline: 1px solid #235a81;
+	}
+
+	button {
+		border: 1px solid var(--border);
+		border-radius: 2px;
+		background: linear-gradient(#ffffff, #dddddd);
+	}
+}
