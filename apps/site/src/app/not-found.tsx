@@ -17,10 +17,10 @@ const NotFound = () => {
 						<h1 className="text-3xl md:text-[2.5rem] font-medium mb-6 leading-normal">Oops! Page not found</h1>
 						<p className="text-gray-700 text-base md:text-lg">Something went wrong. It looks like the link is broken or the page is removed.</p>
 						<div className="justify-center lg:justify-start items-start flex gap-4 mt-8">
-							<Link href="/" className="rounded-md border-2 border-blue-600 bg-blue-600 px-6 py-2.5 text-base font-semibold text-white capitalize">
+							<Link href="/" className="rounded-md border-2 border-primary-500 bg-primary-500 px-6 py-2.5 text-base font-semibold text-white capitalize">
 								Home
 							</Link>
-							<Link href="/jobs" className="rounded-md border-2 border-blue-100 px-6 py-2.5 text-base text-blue-600 font-semibold capitalize">
+							<Link href="/jobs" className="rounded-md border-2 border-primary-100 px-6 py-2.5 text-base text-primary-500 font-semibold capitalize">
 								Go back
 							</Link>
 						</div>

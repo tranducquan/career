@@ -75,3 +75,20 @@ export type JobType = {
 export type FaqItemType = { question: string; answer: string };
 
 export type FaqGroupType = { title: string; items: FaqItemType[] };
+
+export type PostType = {
+	id: string;
+	slug: string;
+	title: string;
+	excerpt: string;
+	content: string;
+	image: string;
+	date: string;
+	comments: number;
+	category: string;
+	author: {
+		name: string;
+		avatar: string;
+	};
+	tags: string[];
+};

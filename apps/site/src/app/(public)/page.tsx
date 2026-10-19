@@ -7,7 +7,7 @@ import CompaniesSection from "@/components/home/companies-section";
 import TestimonialsSection from "@/components/home/testimonials-section";
 import OtherSection from "@/components/home/other-section";
 
-const Page = () => {
+const HomePage = () => {
 	return (
 		<div id="home-page">
 			<HeroSection />
@@ -22,4 +22,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default HomePage;

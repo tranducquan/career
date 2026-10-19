@@ -7,7 +7,7 @@ const CompanyCard = ({ company }: { company: CompanyType }) => {
 	const { name, location, href, featured, logo: Logo } = company;
 
 	return (
-		<article className="group flex h-full flex-col gap-5 rounded-xl border border-gray-100 bg-white p-4 transition sm:p-5 md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-blue-300 md:hover:shadow-lg">
+		<article className="group flex h-full flex-col gap-5 rounded-xl border border-gray-100 bg-white p-4 transition sm:p-5 md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg">
 			<div className="flex items-center gap-3 md:gap-4">
 				<div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-gray-100 p-2.5 md:size-16 md:p-3">
 					<Logo className="size-full" aria-hidden />
@@ -25,7 +25,7 @@ const CompanyCard = ({ company }: { company: CompanyType }) => {
 				</div>
 			</div>
 
-			<Button href={href} variant="light" fullWidth aria-label={`Open positions at ${name}`} className="mt-auto md:group-hover:border-blue-600 md:group-hover:bg-blue-600 md:group-hover:text-white">
+			<Button href={href} variant="light" fullWidth aria-label={`Open positions at ${name}`} className="mt-auto md:group-hover:border-primary-500 md:group-hover:bg-primary-500 md:group-hover:text-white">
 				Open Position
 			</Button>
 		</article>

@@ -21,7 +21,7 @@ const jsonLd = {
 		})),
 };
 
-const Page = () => (
+const FaqsPage = () => (
 	<div id="faqs-page">
 		<section className="py-12 md:py-20 lg:py-24">
 			<Container>
@@ -40,4 +40,4 @@ const Page = () => (
 	</div>
 );
 
-export default Page;
+export default FaqsPage;

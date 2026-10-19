@@ -7,10 +7,10 @@ const navs = [
 	{
 		title: "Quick Link",
 		list: [
-			{ title: "About", link: "#" },
+			{ title: "About", link: "/about" },
 			{ title: "Contact", link: "/contact" },
 			{ title: "Pricing", link: "#" },
-			{ title: "Blog", link: "#" },
+			{ title: "Blog", link: "/blog" },
 		],
 	},
 	{
@@ -60,12 +60,12 @@ const Footer = () => {
 							</Link>
 
 							<div className="space-y-3">
-								<a href="tel:+13195550115" className="flex items-center gap-3 font-medium text-white transition-colors hover:text-blue-400 md:text-lg">
-									<Phone className="size-5 shrink-0 text-blue-400" />
+								<a href="tel:+13195550115" className="flex items-center gap-3 font-medium text-white transition-colors hover:text-primary-400 md:text-lg">
+									<Phone className="size-5 shrink-0 text-primary-400" />
 									(319) 555-0115
 								</a>
 								<p className="flex max-w-sm items-start gap-3">
-									<MapPin className="mt-0.5 size-5 shrink-0 text-blue-400" />
+									<MapPin className="mt-0.5 size-5 shrink-0 text-primary-400" />
 									6391 Elgin St. Celina, Delaware 10299, New York, United States of America
 								</p>
 							</div>

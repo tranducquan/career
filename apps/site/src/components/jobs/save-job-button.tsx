@@ -21,7 +21,7 @@ const SaveJobButton = ({ jobId, appearance = "solid", className }: Props) => {
 
 	if (appearance === "plain") {
 		return (
-			<button type="button" aria-label={label} aria-pressed={saved} onClick={toggle} className={cn("shrink-0 cursor-pointer transition-colors hover:text-blue-600 [&_svg]:size-6", saved ? "text-blue-600" : "text-gray-400", className)}>
+			<button type="button" aria-label={label} aria-pressed={saved} onClick={toggle} className={cn("shrink-0 cursor-pointer transition-colors hover:text-primary-500 [&_svg]:size-6", saved ? "text-primary-500" : "text-gray-400", className)}>
 				{icon}
 			</button>
 		);

@@ -20,7 +20,7 @@ const Accordion = ({ items }: { items: Item[] }) => {
 				return (
 					<div key={question} className={cn("rounded-lg border border-gray-200 bg-white transition", isOpen && "shadow-lg")}>
 						<h3>
-							<button type="button" id={buttonId} aria-expanded={isOpen} aria-controls={panelId} onClick={() => setOpen(isOpen ? null : i)} className={cn("flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left text-base font-medium transition-colors md:text-lg", isOpen ? "text-blue-600" : "text-gray-900")}>
+							<button type="button" id={buttonId} aria-expanded={isOpen} aria-controls={panelId} onClick={() => setOpen(isOpen ? null : i)} className={cn("flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left text-base font-medium transition-colors md:text-lg", isOpen ? "text-primary-500" : "text-gray-900")}>
 								{question}
 								<Plus aria-hidden className={cn("size-5 shrink-0 transition-transform", isOpen ? "rotate-45 text-gray-900" : "text-gray-400")} />
 							</button>

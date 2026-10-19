@@ -35,18 +35,18 @@ const HowToSection = () => {
 			<Container>
 				<SectionHeading title="How Jobplatform Work" align="center" />
 
-				<ol className="grid gap-3 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
+				<ol className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4 xl:gap-6">
 					{steps.map(({ title, text, icon: Icon }, i) => (
-						<li key={title} className="group relative flex items-start gap-4 rounded-xl bg-blue-100 p-4 transition-[background-color,box-shadow] sm:flex-col sm:items-center sm:bg-transparent sm:p-6 sm:text-center sm:hover:bg-white sm:hover:shadow-lg cursor-pointer">
+						<li key={title} className="group relative flex cursor-pointer items-start gap-4 rounded-xl bg-primary-100 p-4 transition-[background-color,box-shadow] md:p-5 xl:flex-col xl:items-center xl:bg-transparent xl:p-6 xl:text-center xl:hover:bg-white xl:hover:shadow-lg">
 							<div className="relative shrink-0">
-								<div className="flex size-14 items-center justify-center rounded-full bg-white text-blue-600 shadow-sm transition-colors group-hover:bg-blue-600 group-hover:text-white sm:size-18">
-									<Icon className="size-6 sm:size-7" />
+								<div className="flex size-14 items-center justify-center rounded-full bg-white text-primary-500 shadow-sm transition-colors group-hover:bg-primary-500 group-hover:text-white xl:size-18">
+									<Icon className="size-6 xl:size-7" strokeWidth={1.5} />
 								</div>
-								<span className="absolute -top-1 -left-1 flex size-5 items-center justify-center rounded-full bg-blue-600 text-xs font-medium text-white sm:hidden">{i + 1}</span>
+								<span className="absolute -top-1 -left-1 flex size-5 items-center justify-center rounded-full bg-primary-500 text-xs font-medium text-white xl:hidden">{i + 1}</span>
 							</div>
 
-							<div className="min-w-0 sm:flex sm:flex-col sm:items-center">
-								<h3 className="mb-1 text-base font-medium sm:mt-6 sm:mb-3 md:text-lg">{title}</h3>
+							<div className="min-w-0 xl:flex xl:flex-col xl:items-center">
+								<h3 className="mb-1 text-base font-medium md:text-lg xl:mt-6 xl:mb-3">{title}</h3>
 								<p className="max-w-xs text-sm text-gray-500">{text}</p>
 							</div>
 
