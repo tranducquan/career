@@ -10,13 +10,13 @@ import { testimonials } from "@/data";
 
 import "swiper/css";
 
-const navBtn = "flex size-10 items-center justify-center rounded-lg bg-white text-blue-600 shadow-sm transition-colors hover:bg-blue-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-blue-600 md:size-12";
+const navBtn = "flex size-10 items-center justify-center rounded-lg bg-white text-primary-500 shadow-sm transition-colors hover:bg-primary-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-primary-500 md:size-12";
 
 const swiperProps: SwiperProps = {
 	modules: [Navigation, Pagination, Autoplay],
 	slidesPerView: 1.08,
 	spaceBetween: 16,
-	autoplay: { delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true },
+	autoplay: { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true },
 	loop: testimonials.length >= 6,
 	breakpoints: {
 		640: { slidesPerView: 1.5, spaceBetween: 20 },

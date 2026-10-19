@@ -1,0 +1,33 @@
+{
+	"name": "@repo/db",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./public": "./src/queries/public.ts",
+		"./admin": "./src/queries/admin.ts",
+		"./schema": "./src/schema/index.ts",
+		"./validation": "./src/validation/index.ts"
+	},
+	"scripts": {
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio",
+		"db:seed": "tsx scripts/seed.ts",
+		"db:reset": "tsx scripts/reset.ts",
+		"db:reseed": "tsx scripts/reset.ts && tsx scripts/seed.ts",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@neondatabase/serverless": "^1.2.0",
+		"dotenv": "^18.0.7",
+		"drizzle-orm": "^0.45.4",
+		"zod": "^4.6.7"
+	},
+	"devDependencies": {
+		"@types/node": "^26.6.5",
+		"drizzle-kit": "^0.31.11",
+		"tsx": "^4.23.15",
+		"typescript": "^7.0.2"
+	}
+}

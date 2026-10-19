@@ -14,7 +14,7 @@ const Breadcrumb = ({ items, className }: Props) => (
 				return (
 					<li key={item.label} className="flex items-center gap-2">
 						{item.href && !isLast ? (
-							<Link href={item.href} className="transition-colors hover:text-blue-600 motion-reduce:transition-none">
+							<Link href={item.href} className="transition-colors hover:text-primary-500 motion-reduce:transition-none">
 								{item.label}
 							</Link>
 						) : (

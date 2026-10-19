@@ -19,12 +19,12 @@ const VacancySection = () => {
 				<ul className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4">
 					{vacancies.map((item, i) => (
 						<li key={item.id} className={cn(i >= MOBILE_LIMIT && "max-md:hidden")}>
-							<Link href={item.href} className="group flex items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3.5 transition-colors hover:border-blue-200 hover:bg-blue-50/50 active:bg-blue-50 md:px-5 md:py-4">
+							<Link href={item.href} className="group flex items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3.5 transition-colors hover:border-primary-200 hover:bg-primary-50/50 active:bg-primary-50 md:px-5 md:py-4">
 								<span className="min-w-0">
-									<span className="block truncate text-base font-medium transition-colors group-hover:text-blue-600 md:text-lg">{item.name}</span>
+									<span className="block truncate text-base font-medium transition-colors group-hover:text-primary-500 md:text-lg">{item.name}</span>
 									<span className="mt-2 block text-sm text-gray-500">{numberFormat.format(item.count)} open positions</span>
 								</span>
-								<ArrowUpRight className="size-5 shrink-0 text-gray-300 transition-colors group-hover:text-blue-600" aria-hidden />
+								<ArrowUpRight className="size-5 shrink-0 text-gray-300 transition-colors group-hover:text-primary-500" aria-hidden />
 							</Link>
 						</li>
 					))}

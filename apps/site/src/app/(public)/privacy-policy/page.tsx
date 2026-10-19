@@ -14,7 +14,7 @@ const sections = [
 
 const pad = (n: number) => String(n + 1).padStart(2, "0"); // 0 -> "01"
 
-const Page = () => {
+const PrivacyPage = () => {
 	return (
 		<div id="privacy-page">
 			<section className="py-12 md:py-20 lg:py-24">
@@ -86,4 +86,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default PrivacyPage;

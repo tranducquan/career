@@ -19,10 +19,10 @@ type LinkProps = OwnProps & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 
 type Props = ButtonProps | LinkProps;
 
 const variants: Record<Variant, string> = {
-	primary: "border-blue-600 bg-blue-600 text-white hover:border-blue-800 hover:bg-blue-800",
-	outline: "border-blue-100 bg-transparent text-blue-600 hover:bg-blue-100",
-	light: "border-blue-100 bg-blue-100 text-blue-600 hover:border-blue-600 hover:bg-blue-600 group-hover:text-white",
-	ghost: "border-white bg-white text-blue-600 hover:shadow-md transition-shadow",
+	primary: "border-primary-500 bg-primary-500 text-white hover:border-primary-700 hover:bg-primary-700",
+	outline: "border-primary-100 bg-transparent text-primary-500 hover:bg-primary-100",
+	light: "border-primary-100 bg-primary-100 text-primary-500 hover:border-primary-500 hover:bg-primary-500 group-hover:text-white",
+	ghost: "border-white bg-white text-primary-500 hover:shadow-md",
 };
 
 const sizes: Record<Size, string> = {
@@ -32,7 +32,7 @@ const sizes: Record<Size, string> = {
 	icon: "size-12 p-0 [&_svg]:size-5",
 };
 
-const base = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border font-semibold transition-colors " + "[&_svg]:shrink-0 " + "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 " + "disabled:pointer-events-none disabled:opacity-50";
+const base = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border font-semibold transition " + "[&_svg]:shrink-0 " + "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 " + "disabled:pointer-events-none disabled:opacity-50";
 
 const isExternal = (href: string) => /^(https?:)?\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("tel:");
 

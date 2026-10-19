@@ -31,14 +31,14 @@ const Header = () => {
 		<HeaderShell>
 			<Container>
 				<div className="flex h-16 items-center justify-between gap-6 md:h-22.5">
-					<Link href="/" className={`${logoFont.className} shrink-0 text-2xl font-semibold tracking-tight text-blue-600 md:text-3xl`}>
+					<Link href="/" className={`${logoFont.className} shrink-0 text-2xl font-semibold tracking-tight text-primary-500 md:text-3xl`}>
 						JobPlatform
 					</Link>
 
 					<NavLinks navs={navs} className="hidden lg:flex" />
 
 					<div className="flex items-center gap-2 md:gap-3">
-						{/* <button type="button" className="hidden items-center gap-1.5 rounded-md px-2 py-2 text-sm text-gray-600 transition-colors hover:text-blue-600 md:flex">
+						{/* <button type="button" className="hidden items-center gap-1.5 rounded-md px-2 py-2 text-sm text-gray-500 transition-colors hover:text-primary-500 md:flex">
 							<span aria-hidden>🇺🇸</span>
 							EN
 							<ChevronDown className="size-4" aria-hidden />
@@ -46,10 +46,10 @@ const Header = () => {
 
 						{user ? (
 							<>
-								<button type="button" aria-label="Notifications" className="flex size-10 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-600">
+								<button type="button" aria-label="Notifications" className="flex size-10 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-500">
 									<Bell className="size-5" />
 								</button>
-								<Link href="/candidate" aria-label="Account" className="flex size-10 items-center justify-center rounded-full bg-blue-100 font-medium text-blue-600">
+								<Link href="/candidate" aria-label="Account" className="flex size-10 items-center justify-center rounded-full bg-primary-100 font-medium text-primary-500">
 									{user.name.charAt(0)}
 								</Link>
 							</>

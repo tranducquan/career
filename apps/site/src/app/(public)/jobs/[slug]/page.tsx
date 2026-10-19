@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	return { title: `${job.title} - ${job.company}`, description: job.description.slice(0, 150) };
 }
 
-const card = "rounded-lg border border-blue-100 bg-white";
+const card = "rounded-lg border border-primary-100 bg-white";
 const gridCols = "lg:grid-cols-[1fr_28rem] lg:gap-10 xl:grid-cols-[1fr_32rem] xl:gap-14";
 const heading = "text-lg leading-normal font-medium text-gray-900 md:text-xl";
 
@@ -61,13 +61,13 @@ const SalaryLocation = ({ job }: { job: JobType }) => {
 		<div className={`${card} grid ${hasLocation ? "grid-cols-2" : "grid-cols-1"} items-center gap-4 p-4 md:p-6`}>
 			<div className="pr-2 text-center">
 				<p className="text-base leading-normal font-medium text-gray-900 md:text-lg">Salary (USD)</p>
-				{job.salaryRange && <p className="mt-2 text-lg font-medium text-green-600 md:text-xl">{job.salaryRange}</p>}
+				{job.salaryRange && <p className="mt-2 text-lg font-medium text-green-500 md:text-xl">{job.salaryRange}</p>}
 				{job.salaryType && <p className="mt-1 text-sm text-gray-500">{job.salaryType}</p>}
 			</div>
 
 			{hasLocation && (
-				<div className="border-l border-blue-100 pl-2 text-center">
-					<LocationIcon aria-hidden className="mx-auto mb-2 size-7 text-blue-600" strokeWidth={1.5} />
+				<div className="border-l border-primary-100 pl-2 text-center">
+					<LocationIcon aria-hidden className="mx-auto mb-2 size-7 text-primary-500" strokeWidth={1.5} />
 					<p className="text-base leading-normal font-medium text-gray-900 md:text-lg">Job Location</p>
 					<p className="mt-1 text-sm text-gray-500 md:text-base">{locationValue}</p>
 					{locationNote && <p className="text-sm text-gray-400">{locationNote}</p>}
@@ -112,7 +112,7 @@ const ShareButtons = ({ job }: { job: JobType }) => {
 			<div className="flex flex-wrap items-center gap-2">
 				{/* <CopyLinkButton url={fullUrl} />
 				{links.map(({ label, icon: Icon, href }) => (
-					<a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Share on ${label}`} className="flex size-10 items-center justify-center rounded-sm bg-blue-50 text-blue-600 transition-colors hover:bg-blue-600 hover:text-white motion-reduce:transition-none">
+					<a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Share on ${label}`} className="flex size-10 items-center justify-center rounded-sm bg-primary-50 text-primary-500 transition-colors hover:bg-primary-500 hover:text-white motion-reduce:transition-none">
 						<Icon aria-hidden className="size-5" />
 					</a>
 				))} */}
@@ -137,7 +137,7 @@ const JobOverview = ({ job }: { job: JobType }) => {
 				<dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
 					{items.map(({ icon: Icon, label, value }) => (
 						<div key={label}>
-							<Icon aria-hidden className="mb-4 size-7 text-blue-600" strokeWidth={1.5} />
+							<Icon aria-hidden className="mb-4 size-7 text-primary-500" strokeWidth={1.5} />
 							<dt className="text-sm text-gray-500 uppercase">{label}</dt>
 							<dd className="mt-1.5 text-sm font-medium text-gray-900 md:text-base">{value}</dd>
 						</div>
@@ -145,7 +145,7 @@ const JobOverview = ({ job }: { job: JobType }) => {
 				</dl>
 			</div>
 
-			<div className="space-y-4 border-t border-blue-100 p-4 md:space-y-6 md:p-6">
+			<div className="space-y-4 border-t border-primary-100 p-4 md:space-y-6 md:p-6">
 				<ShareButtons job={job} />
 
 				{job.tags && job.tags.length > 0 && (
@@ -153,7 +153,7 @@ const JobOverview = ({ job }: { job: JobType }) => {
 						<h3 className={`mb-5 ${heading}`}>Job tags:</h3>
 						<ul className="flex flex-wrap gap-2.5">
 							{job.tags.map((tag) => (
-								<li key={tag} className="rounded-sm bg-gray-100 px-3 py-2 text-sm text-gray-600">
+								<li key={tag} className="rounded-sm bg-gray-100 px-3 py-2 text-sm text-gray-500">
 									{tag}
 								</li>
 							))}
@@ -185,7 +185,7 @@ const JobDetail = async ({ params }: Props) => {
 							<div className="mt-2.5 flex flex-wrap items-center gap-2.5">
 								<span className="text-sm text-gray-500">at {job.company}</span>
 								{job.featured && <FeaturedBadge />}
-								<span className="rounded-sm bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white uppercase">{typeLabel(job.type)}</span>
+								<span className="rounded-sm bg-green-500 px-2.5 py-0.5 text-xs font-medium text-white uppercase">{typeLabel(job.type)}</span>
 							</div>
 						</div>
 					</div>
@@ -245,10 +245,10 @@ const JobDetailFallback = () => (
 	</Container>
 );
 
-const Page = ({ params }: Props) => (
+const JobsPage = ({ params }: Props) => (
 	<Suspense fallback={<JobDetailFallback />}>
 		<JobDetail params={params} />
 	</Suspense>
 );
 
-export default Page;
+export default JobsPage;

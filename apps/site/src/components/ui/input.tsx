@@ -2,7 +2,7 @@ import { useId } from "react";
 import { cn } from "@/lib/cn";
 
 // Xuất ra để dùng cho các control khác (select, ô tìm kiếm...) cho đồng bộ giao diện
-export const controlStyles = "w-full rounded-md border border-gray-200 bg-white px-4 py-3 text-sm md:text-base text-gray-900 outline-none transition-colors placeholder:text-gray-400 hover:border-blue-600 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 aria-invalid:border-red-500 aria-invalid:focus:ring-red-500/20";
+export const controlStyles = "w-full rounded-md border border-gray-200 bg-white px-4 py-3 text-sm md:text-base text-gray-900 outline-none transition-colors placeholder:text-gray-400 hover:border-primary-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 aria-invalid:border-red-500 aria-invalid:focus:ring-red-500/20";
 
 type FieldProps = {
 	placeholder: string; // bắt buộc: đồng thời là tên truy cập (aria-label) của ô
@@ -20,7 +20,7 @@ const Shell = ({ id, error, hint, containerClassName, children }: ShellProps) =>
 		{children}
 
 		{error ? (
-			<p id={`${id}-error`} className="mt-1.5 text-xs text-red-600">
+			<p id={`${id}-error`} className="mt-1.5 text-xs text-red-500">
 				{error}
 			</p>
 		) : hint ? (

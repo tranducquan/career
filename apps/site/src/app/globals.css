@@ -3,6 +3,17 @@
 @theme {
 	--default-transition-duration: 300ms;
 	--default-transition-timing-function: ease-out;
+
+	--color-primary-50: #e7f0fa;
+	--color-primary-100: #cee0f5;
+	--color-primary-200: #9dc1eb;
+	--color-primary-300: #6ca3e0;
+	--color-primary-400: #3b84d6;
+	--color-primary-500: #0a65cc; /* màu chính */
+	--color-primary-600: #0851a3;
+	--color-primary-700: #063d7a;
+	--color-primary-800: #042852;
+	--color-primary-900: #021429;
 }
 
 @layer base {
