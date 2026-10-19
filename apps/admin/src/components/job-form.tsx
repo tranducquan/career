@@ -4,6 +4,8 @@ import { useActionState } from "react";
 import Link from "next/link";
 import type { Job } from "@repo/db/schema";
 import type { FormState } from "@/lib/form-state";
+import { input, textarea } from "./styles";
+import { Field, FormErrors, Metabox, SubmitButton } from "./wp";
 
 type Option = { id: number; name: string };
 
@@ -16,16 +18,6 @@ type Props = {
 
 type TextField = "title" | "type" | "level" | "location" | "salary" | "salaryRange" | "salaryType" | "education" | "experience" | "postedAt" | "deadline" | "description" | "companyId" | "categoryId" | "status";
 type ListField = "responsibilities" | "requirements" | "desirable" | "benefits" | "perks" | "tags";
-
-const input = "w-full rounded border border-gray-300 px-3 py-2";
-
-const Field = ({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) => (
-	<label className="block">
-		<span className="mb-1 block">{label}</span>
-		{children}
-		{hint && <span className="mt-1 block text-gray-500">{hint}</span>}
-	</label>
-);
 
 const JobForm = ({ action, companies, categories, job }: Props) => {
 	const [state, formAction, pending] = useActionState(action, undefined);
@@ -41,140 +33,133 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 	const list = (name: ListField) => (values ? (values[name] ?? "") : (job?.[name] ?? []).join("\n"));
 	const checked = (name: "remote" | "featured") => (values ? values[name] === "on" : (job?.[name] ?? false));
 
-	const listField = (name: ListField, label: string) => (
-		<Field label={label} hint="One item per line">
-			<textarea name={name} defaultValue={list(name)} rows={4} className={input} />
-		</Field>
+	const listBox = (name: ListField, title: string) => (
+		<Metabox title={title}>
+			<textarea name={name} defaultValue={list(name)} rows={4} aria-label={title} className={textarea} />
+			<p className="text-[12px] text-[#646970]">One item per line.</p>
+		</Metabox>
 	);
 
 	return (
-		<form action={formAction} className="max-w-3xl space-y-4">
-			{errors.length > 0 && (
-				<ul role="alert" className="list-disc rounded border border-red-300 bg-red-50 py-2 pr-3 pl-7 text-red-700">
-					{errors.map((message) => (
-						<li key={message}>{message}</li>
-					))}
-				</ul>
-			)}
+		<form action={formAction}>
+			<FormErrors errors={errors} />
 
-			<div className="grid gap-4 sm:grid-cols-2">
-				<Field label="Company *">
-					<select name="companyId" defaultValue={text("companyId")} required className={input}>
-						<option value="">Choose a company</option>
-						{companies.map((company) => (
-							<option key={company.id} value={company.id}>
-								{company.name}
-							</option>
-						))}
-					</select>
-				</Field>
+			<div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_17.5rem]">
+				{/* Cột chính */}
+				<div className="min-w-0 space-y-5">
+					<input name="title" defaultValue={text("title")} placeholder="Add title" aria-label="Title" required className="w-full border border-wp-border bg-white px-3 py-1.5 text-[1.5rem] leading-[1.7] text-wp-title shadow-[inset_0_1px_2px_rgb(0_0_0/7%)] focus:border-wp-accent focus:shadow-[0_0_0_1px_var(--color-wp-accent)] focus:outline-none" />
 
-				<Field label="Category">
-					<select name="categoryId" defaultValue={text("categoryId")} className={input}>
-						<option value="">None</option>
-						{categories.map((category) => (
-							<option key={category.id} value={category.id}>
-								{category.name}
-							</option>
-						))}
-					</select>
-				</Field>
-			</div>
+					<Metabox title="Description">
+						<textarea name="description" defaultValue={text("description")} rows={12} required aria-label="Description" className={textarea} />
+						<p className="text-[12px] text-[#646970]">Separate paragraphs with a blank line.</p>
+					</Metabox>
 
-			<Field label="Title *">
-				<input name="title" defaultValue={text("title")} required className={input} />
-			</Field>
-
-			<div className="grid gap-4 sm:grid-cols-3">
-				<Field label="Type *">
-					<input name="type" defaultValue={text("type")} list="job-types" required className={input} />
-					<datalist id="job-types">
-						{["Full Time", "Part Time", "Contract", "Internship", "Freelance"].map((type) => (
-							<option key={type} value={type} />
-						))}
-					</datalist>
-				</Field>
-
-				<Field label="Level">
-					<input name="level" defaultValue={text("level")} list="job-levels" className={input} />
-					<datalist id="job-levels">
-						{["Intern", "Entry Level", "Mid Level", "Senior Level", "Lead"].map((level) => (
-							<option key={level} value={level} />
-						))}
-					</datalist>
-				</Field>
-
-				<Field label="Status *">
-					<select name="status" defaultValue={text("status") || "draft"} className={input}>
-						<option value="draft">Draft</option>
-						<option value="published">Published</option>
-						<option value="closed">Closed</option>
-					</select>
-				</Field>
-			</div>
-
-			<div className="grid gap-4 sm:grid-cols-2">
-				<Field label="Location" hint="Required unless the job is remote. For remote jobs, use it for the allowed region (for example US only).">
-					<input name="location" defaultValue={text("location")} className={input} />
-				</Field>
-
-				<div className="flex items-end gap-6 pb-2">
-					<label className="flex items-center gap-2">
-						<input type="checkbox" name="remote" defaultChecked={checked("remote")} />
-						<span>Remote</span>
-					</label>
-					<label className="flex items-center gap-2">
-						<input type="checkbox" name="featured" defaultChecked={checked("featured")} />
-						<span>Featured</span>
-					</label>
+					{listBox("requirements", "Requirements")}
+					{listBox("desirable", "Desirable")}
+					{listBox("benefits", "Benefits")}
+					{listBox("responsibilities", "Responsibilities")}
+					{listBox("perks", "Perks (tags)")}
+					{listBox("tags", "Job tags")}
 				</div>
-			</div>
 
-			<div className="grid gap-4 sm:grid-cols-3">
-				<Field label="Salary (short)" hint="Shown on cards, e.g. $30K-$35K/month">
-					<input name="salary" defaultValue={text("salary")} className={input} />
-				</Field>
-				<Field label="Salary range" hint="e.g. $100,000 - $120,000">
-					<input name="salaryRange" defaultValue={text("salaryRange")} className={input} />
-				</Field>
-				<Field label="Salary type" hint="e.g. Yearly salary">
-					<input name="salaryType" defaultValue={text("salaryType")} className={input} />
-				</Field>
-			</div>
+				{/* Cột bên phải */}
+				<aside className="min-w-0 space-y-5">
+					<Metabox
+						title="Publish"
+						footer={
+							<>
+								<Link href="/jobs" className="text-wp-danger hover:underline">
+									Cancel
+								</Link>
+								<SubmitButton pending={pending} label={job ? "Update" : "Save"} />
+							</>
+						}
+					>
+						<Field label="Status">
+							<select name="status" defaultValue={text("status") || "draft"} className={input}>
+								<option value="draft">Draft</option>
+								<option value="published">Published</option>
+								<option value="closed">Closed</option>
+							</select>
+						</Field>
+						<Field label="Posted at">
+							<input type="date" name="postedAt" defaultValue={text("postedAt")} className={input} />
+						</Field>
+						<Field label="Deadline">
+							<input type="date" name="deadline" defaultValue={text("deadline")} className={input} />
+						</Field>
+						<label className="flex items-center gap-2">
+							<input type="checkbox" name="featured" defaultChecked={checked("featured")} />
+							<span>Featured</span>
+						</label>
+					</Metabox>
 
-			<div className="grid gap-4 sm:grid-cols-2">
-				<Field label="Education">
-					<input name="education" defaultValue={text("education")} className={input} />
-				</Field>
-				<Field label="Experience">
-					<input name="experience" defaultValue={text("experience")} className={input} />
-				</Field>
-				<Field label="Posted at">
-					<input type="date" name="postedAt" defaultValue={text("postedAt")} className={input} />
-				</Field>
-				<Field label="Deadline">
-					<input type="date" name="deadline" defaultValue={text("deadline")} className={input} />
-				</Field>
-			</div>
+					<Metabox title="Company">
+						<select name="companyId" defaultValue={text("companyId")} required aria-label="Company" className={input}>
+							<option value="">Choose a company</option>
+							{companies.map((company) => (
+								<option key={company.id} value={company.id}>
+									{company.name}
+								</option>
+							))}
+						</select>
+					</Metabox>
 
-			<Field label="Description *" hint="Separate paragraphs with a blank line">
-				<textarea name="description" defaultValue={text("description")} rows={10} required className={input} />
-			</Field>
+					<Metabox title="Category">
+						<select name="categoryId" defaultValue={text("categoryId")} aria-label="Category" className={input}>
+							<option value="">None</option>
+							{categories.map((category) => (
+								<option key={category.id} value={category.id}>
+									{category.name}
+								</option>
+							))}
+						</select>
+					</Metabox>
 
-			{listField("responsibilities", "Responsibilities")}
-			{listField("requirements", "Requirements")}
-			{listField("desirable", "Desirable")}
-			{listField("benefits", "Benefits")}
-			{listField("perks", "Perks (tags)")}
-			{listField("tags", "Job tags")}
+					<Metabox title="Job details">
+						<Field label="Type">
+							<input name="type" defaultValue={text("type")} list="job-types" required className={input} />
+							<datalist id="job-types">
+								{["Full Time", "Part Time", "Contract", "Internship", "Freelance"].map((type) => (
+									<option key={type} value={type} />
+								))}
+							</datalist>
+						</Field>
+						<Field label="Level">
+							<input name="level" defaultValue={text("level")} list="job-levels" className={input} />
+							<datalist id="job-levels">
+								{["Intern", "Entry Level", "Mid Level", "Senior Level", "Lead"].map((level) => (
+									<option key={level} value={level} />
+								))}
+							</datalist>
+						</Field>
+						<Field label="Location" hint="Required unless the job is remote. For remote jobs, use it for the allowed region.">
+							<input name="location" defaultValue={text("location")} className={input} />
+						</Field>
+						<label className="flex items-center gap-2">
+							<input type="checkbox" name="remote" defaultChecked={checked("remote")} />
+							<span>Remote</span>
+						</label>
+						<Field label="Education">
+							<input name="education" defaultValue={text("education")} className={input} />
+						</Field>
+						<Field label="Experience">
+							<input name="experience" defaultValue={text("experience")} className={input} />
+						</Field>
+					</Metabox>
 
-			<div className="flex items-center gap-4">
-				<button type="submit" disabled={pending} className="rounded bg-black px-4 py-2 text-white disabled:opacity-50">
-					{pending ? "Saving..." : "Save"}
-				</button>
-				<Link href="/jobs" className="underline">
-					Cancel
-				</Link>
+					<Metabox title="Salary">
+						<Field label="Short" hint="Shown on cards, e.g. $30K-$35K/month">
+							<input name="salary" defaultValue={text("salary")} className={input} />
+						</Field>
+						<Field label="Range" hint="e.g. $100,000 - $120,000">
+							<input name="salaryRange" defaultValue={text("salaryRange")} className={input} />
+						</Field>
+						<Field label="Type" hint="e.g. Yearly salary">
+							<input name="salaryType" defaultValue={text("salaryType")} className={input} />
+						</Field>
+					</Metabox>
+				</aside>
 			</div>
 		</form>
 	);

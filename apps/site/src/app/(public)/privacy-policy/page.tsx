@@ -20,7 +20,7 @@ const PrivacyPage = () => {
 			<section className="py-12 md:py-20 lg:py-24">
 				<Container>
 					<div className="grid grid-cols-4 gap-x-20 relative">
-						<div className="col-span-full lg:col-span-3 flex flex-col gap-y-5 md:gap-y-6 [&_h2:not(:first-child)]:mt-6 [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-4">
+						<div className="col-span-full lg:col-span-3 flex flex-col gap-y-5 md:gap-y-6 [&_h2]:scroll-mt-32 [&_h2:not(:first-child)]:mt-6 [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-4">
 							<h2 id="terms" className="font-medium text-2xl md:text-[2rem] leading-normal">
 								01. Terms & Condition
 							</h2>
@@ -32,7 +32,6 @@ const PrivacyPage = () => {
 								<li>Vestibulum rhoncus sagittis dolor vel finibus.</li>
 								<li>Integer feugiat lacus ut efficitur mattis. Sed quis molestie velit.</li>
 							</ul>
-
 							<h2 id="limitations" className="font-medium text-2xl md:text-[2rem] leading-normal">
 								02. Limitations
 							</h2>
@@ -44,12 +43,10 @@ const PrivacyPage = () => {
 								<li>Vestibulum rhoncus sagittis dolor vel finibus.</li>
 								<li>Integer feugiat lacus ut efficitur mattis. Sed quis molestie velit.</li>
 							</ul>
-
 							<h2 id="security" className="font-medium text-2xl md:text-[2rem] leading-normal">
 								03. Security
 							</h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ex neque, elementum eu blandit in, ornare eu purus. Fusce eu rhoncus mi, quis ultrices lacus. Phasellus id pellentesque nulla. Cras erat nisi, mattis et efficitur et, iaculis a lacus. Fusce gravida augue quis leo facilisis.</p>
-
 							<h2 id="privacy" className="font-medium text-2xl md:text-[2rem] leading-normal">
 								04. Privacy Policy
 							</h2>

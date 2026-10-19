@@ -1,16 +1,22 @@
 import Link from "next/link";
 import { listCompanies } from "@repo/db/admin";
 import ConfirmButton from "@/components/confirm-button";
-import { ActionsTd, EmptyRow, TBody, THead, Table, Td, Th, Tr } from "@/components/data-table";
+import { EmptyRow, RowActions, TBody, THead, Table, Td, Th, Tr } from "@/components/data-table";
 import Pagination from "@/components/pagination";
-import { dash, day, yesNo } from "@/lib/format";
+import { Notice, PageTitle, SearchBox } from "@/components/wp";
 import { parsePage } from "@/lib/parse";
 import { requireAdmin } from "@/lib/require-admin";
 import { deleteCompanyAction } from "./actions";
 
-type Props = { searchParams: Promise<{ q?: string; page?: string; error?: string }> };
+type Props = { searchParams: Promise<{ q?: string; page?: string; message?: string; error?: string }> };
 
-const errorMessages: Record<string, string> = {
+const messages: Record<string, string> = {
+	created: "Company created.",
+	updated: "Company updated.",
+	deleted: "Company deleted.",
+};
+
+const errors: Record<string, string> = {
 	"has-jobs": "Cannot delete: this company still has jobs. Delete or move its jobs first.",
 	invalid: "Invalid company.",
 };
@@ -18,80 +24,63 @@ const errorMessages: Record<string, string> = {
 const CompaniesPage = async ({ searchParams }: Props) => {
 	await requireAdmin();
 
-	const { q, page, error } = await searchParams;
-	const { items, total, totalPages, page: currentPage } = await listCompanies({ q: q?.trim() || undefined, page: parsePage(page) });
+	const { q, page, message, error } = await searchParams;
+	const query = q?.trim() || undefined;
+	const { items, total, totalPages, page: currentPage } = await listCompanies({ q: query, page: parsePage(page) });
 
 	return (
 		<div>
-			<div className="mb-4 flex flex-wrap items-center gap-4">
-				<h1 className="text-lg font-medium">Companies ({total})</h1>
-				<Link href="/companies/new" className="rounded bg-black px-3 py-1.5 text-white">
-					New company
-				</Link>
+			<PageTitle title="Companies" addHref="/companies/new" />
+
+			{message && messages[message] && <Notice>{messages[message]}</Notice>}
+			{error && errors[error] && <Notice type="error">{errors[error]}</Notice>}
+
+			<div className="mb-2 flex justify-end">
+				<SearchBox label="Search Companies" defaultValue={q} />
 			</div>
 
-			<form method="get" className="mb-4 flex gap-2">
-				<input type="search" name="q" defaultValue={q} placeholder="Search by name" className="min-w-0 flex-1 rounded border border-gray-300 px-3 py-1.5 sm:max-w-xs" />
-				<button type="submit" className="rounded border border-gray-300 px-3 py-1.5">
-					Search
-				</button>
-			</form>
-
-			{error && errorMessages[error] && (
-				<p role="alert" className="mb-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-red-700">
-					{errorMessages[error]}
-				</p>
-			)}
+			<Pagination page={currentPage} totalPages={totalPages} total={total} basePath="/companies" params={{ q: query }} />
 
 			<Table>
 				<THead>
-					<Th primary>Name</Th>
-					<Th>ID</Th>
-					<Th>Location</Th>
-					<Th>Link</Th>
-					<Th>Logo URL</Th>
-					<Th>Featured</Th>
-					<Th>Jobs</Th>
-					<Th>Created</Th>
-					<Th actions>
-						<span className="sr-only">Actions</span>
-					</Th>
+					<Th>Name</Th>
+					<Th secondary>Location</Th>
+					<Th secondary>Jobs</Th>
 				</THead>
 				<TBody>
 					{items.map((company) => (
 						<Tr key={company.id}>
-							<Td primary>{company.name}</Td>
-							<Td>{company.id}</Td>
-							<Td>{company.location}</Td>
-							<Td truncate title={company.href}>
-								{company.href}
-							</Td>
-							<Td truncate title={company.logoUrl ?? undefined}>
-								{dash(company.logoUrl)}
-							</Td>
-							<Td>{yesNo(company.featured)}</Td>
-							<Td>{company.jobCount}</Td>
-							<Td>{day(company.createdAt)}</Td>
-							<ActionsTd>
-								<Link href={`/companies/${company.id}`} className="py-1 underline">
-									Edit
+							<Td>
+								<Link href={`/companies/${company.id}`} className="font-semibold text-wp-accent hover:text-wp-accent-dark">
+									{company.name}
 								</Link>
-								{company.jobCount === 0 && (
-									<form action={deleteCompanyAction}>
-										<input type="hidden" name="id" value={company.id} />
-										<ConfirmButton message={`Delete ${company.name}?`} className="py-1 text-red-600 underline">
-											Delete
-										</ConfirmButton>
-									</form>
-								)}
-							</ActionsTd>
+								{company.featured && <span className="font-semibold text-wp-title"> — Featured</span>}
+								<div className="mt-0.5 text-[12px] text-[#646970] md:hidden">
+									{company.location} · {company.jobCount} {company.jobCount === 1 ? "job" : "jobs"}
+								</div>
+								<RowActions>
+									<Link href={`/companies/${company.id}`} className="text-wp-accent hover:text-wp-accent-dark hover:underline">
+										Edit
+									</Link>
+									{company.jobCount === 0 && (
+										<form action={deleteCompanyAction}>
+											<input type="hidden" name="id" value={company.id} />
+											<ConfirmButton message={`Delete ${company.name}?`} className="cursor-pointer text-wp-danger hover:underline">
+												Delete
+											</ConfirmButton>
+										</form>
+									)}
+								</RowActions>
+							</Td>
+							<Td secondary>{company.location}</Td>
+							<Td secondary>{company.jobCount}</Td>
 						</Tr>
 					))}
-					{items.length === 0 && <EmptyRow colSpan={9}>No companies found.</EmptyRow>}
+					{items.length === 0 && <EmptyRow colSpan={3}>No companies found.</EmptyRow>}
 				</TBody>
 			</Table>
 
-			<Pagination page={currentPage} totalPages={totalPages} basePath="/companies" params={{ q }} />
+			<Pagination page={currentPage} totalPages={totalPages} total={total} basePath="/companies" params={{ q: query }} />
 		</div>
 	);
 };

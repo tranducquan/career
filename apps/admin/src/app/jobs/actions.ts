@@ -9,6 +9,7 @@ import { isForeignKeyError } from "@/lib/db-errors";
 import { stringValues, type FormState } from "@/lib/form-state";
 import { parseId } from "@/lib/parse";
 import { requireAdmin } from "@/lib/require-admin";
+import { withMessage } from "@/lib/redirect";
 
 // Chỉ cho quay về đường dẫn nội bộ thuộc /jobs (giữ lại ô tìm kiếm, bộ lọc và trang)
 const returnPath = (formData: FormData) => {
@@ -37,7 +38,7 @@ export async function saveJob(id: number | null, _state: FormState, formData: Fo
 	if (!found) notFound();
 
 	revalidatePath("/jobs");
-	redirect("/jobs");
+	redirect(withMessage("/jobs", id === null ? "created" : "updated"));
 }
 
 export async function setJobStatusAction(formData: FormData) {
@@ -52,7 +53,7 @@ export async function setJobStatusAction(formData: FormData) {
 	await updateJobStatus(id, status as (typeof jobStatuses)[number]);
 
 	revalidatePath("/jobs");
-	redirect(back);
+	redirect(withMessage(back, status === "published" ? "published" : "closed"));
 }
 
 export async function deleteJobAction(formData: FormData) {
@@ -65,5 +66,5 @@ export async function deleteJobAction(formData: FormData) {
 	await deleteJob(id);
 
 	revalidatePath("/jobs");
-	redirect(back);
+	redirect(withMessage(back, "deleted"));
 }

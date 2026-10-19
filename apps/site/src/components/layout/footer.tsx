@@ -7,10 +7,10 @@ const navs = [
 	{
 		title: "Quick Link",
 		list: [
-			{ title: "About", link: "#" },
+			{ title: "About", link: "/about" },
 			{ title: "Contact", link: "/contact" },
 			{ title: "Pricing", link: "#" },
-			{ title: "Blog", link: "#" },
+			{ title: "Blog", link: "/blog" },
 		],
 	},
 	{

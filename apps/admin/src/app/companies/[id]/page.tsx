@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCompany } from "@repo/db/admin";
 import CompanyForm from "@/components/company-form";
 import { parseId } from "@/lib/parse";
+import { PageTitle } from "@/components/wp";
 import { requireAdmin } from "@/lib/require-admin";
 import { saveCompany } from "../actions";
 
@@ -18,7 +19,7 @@ const EditCompanyPage = async ({ params }: Props) => {
 
 	return (
 		<div>
-			<h1 className="mb-4 text-lg font-medium">Edit company</h1>
+			<PageTitle title="Edit Company" addHref="/companies/new" />
 			<CompanyForm action={saveCompany.bind(null, id)} company={company} />
 		</div>
 	);

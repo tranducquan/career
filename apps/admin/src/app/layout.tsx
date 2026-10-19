@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Sidebar from "@/components/sidebar";
+import AdminShell from "@/components/admin-shell";
 import { isAdmin } from "@/lib/require-admin";
 import "./globals.css";
 
@@ -13,18 +13,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
 	return (
 		<html lang="en">
-			<body className="text-sm text-gray-900">
-				{loggedIn ? (
-					<>
-						<Sidebar />
-						<main className="min-w-0 max-w-full p-3 lg:ml-56 lg:p-6">
-							<div className="min-w-0">{children}</div>
-						</main>
-					</>
-				) : (
-					children
-				)}
-			</body>
+			<body>{loggedIn ? <AdminShell>{children}</AdminShell> : children}</body>
 		</html>
 	);
 };

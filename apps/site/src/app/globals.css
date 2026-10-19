@@ -32,18 +32,3 @@
 		padding-inline: 1.5rem;
 	}
 }
-
-.testimonial-bullet {
-	display: block;
-	width: 0.625rem;
-	height: 0.625rem;
-	border-radius: 9999px;
-	background: #bfdbfe;
-	cursor: pointer;
-	transition: all 0.2s;
-}
-
-.testimonial-bullet-active {
-	width: 1.5rem;
-	background: #2563eb;
-}

@@ -8,11 +8,14 @@ import Button from "../ui/button";
 type Props = {
 	navs: { title: string; href: string }[];
 	isLoggedIn: boolean;
+	postJobHref?: string;
 };
 
-const MobileMenu = ({ navs, isLoggedIn }: Props) => {
+const MobileMenu = ({ navs, isLoggedIn, postJobHref }: Props) => {
 	const [open, setOpen] = useState(false);
 	const close = () => setOpen(false);
+
+	const showActions = !isLoggedIn || Boolean(postJobHref);
 
 	return (
 		<div className="lg:hidden">
@@ -29,16 +32,21 @@ const MobileMenu = ({ navs, isLoggedIn }: Props) => {
 							</Link>
 						))}
 					</nav>
-					<div className="flex flex-col gap-2 border-t border-gray-100 p-4 md:p-3">
-						{!isLoggedIn && (
-							<Button href="/login" onClick={close}>
-								Sign In
-							</Button>
-						)}
-						<Button href="/employer/post-job" onClick={close}>
-							Post a Job
-						</Button>
-					</div>
+
+					{showActions && (
+						<div className="flex flex-col gap-2 border-t border-gray-100 p-4 md:p-3">
+							{!isLoggedIn && (
+								<Button href="/login" variant="outline" onClick={close}>
+									Sign In
+								</Button>
+							)}
+							{postJobHref && (
+								<Button href={postJobHref} onClick={close}>
+									Post a Job
+								</Button>
+							)}
+						</div>
+					)}
 				</div>
 			)}
 		</div>

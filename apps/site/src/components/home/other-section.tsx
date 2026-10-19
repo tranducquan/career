@@ -9,7 +9,7 @@ import type { StaticImageData } from "next/image";
 type CtaCardProps = {
 	title: string;
 	text: string;
-	href: string;
+	role: "candidate" | "employer";
 	variant: "light" | "primary";
 	image: string | StaticImageData;
 };
@@ -27,7 +27,7 @@ const cardStyles = {
 	},
 } as const;
 
-const CtaCard = ({ title, text, href, variant, image }: CtaCardProps) => {
+const CtaCard = ({ title, text, role, variant, image }: CtaCardProps) => {
 	const styles = cardStyles[variant];
 
 	return (
@@ -37,7 +37,7 @@ const CtaCard = ({ title, text, href, variant, image }: CtaCardProps) => {
 			<div className="md:max-w-2/3">
 				<h3 className="text-2xl leading-normal font-medium text-balance md:text-[2rem]">{title}</h3>
 				<p className={cn("mt-4 leading-relaxed", styles.text)}>{text}</p>
-				<Button href={href} variant="ghost" className="mt-6 md:mt-8">
+				<Button href={`/register?role=${role}`} variant="ghost" className="mt-6 md:mt-8">
 					Register now
 					<ArrowRight aria-hidden />
 				</Button>
@@ -51,8 +51,8 @@ const OtherSection = () => {
 		<section className="py-12 md:py-20 lg:py-24">
 			<Container>
 				<div className="grid gap-4 md:grid-cols-2 md:gap-6">
-					<CtaCard variant="light" image="/images/become4.jpg" title="Become a Candidate" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur." href="/login" />
-					<CtaCard variant="primary" image="/images/become.jpg" title="Become an Employer" text="Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi sed efficitur dolor. Pelque augue risus, aliqu." href="/login" />
+					<CtaCard role="candidate" variant="light" image="/images/become4.jpg" title="Become a Candidate" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur." />
+					<CtaCard role="employer" variant="primary" image="/images/become.jpg" title="Become an Employer" text="Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi sed efficitur dolor. Pelque augue risus, aliqu." />
 				</div>
 			</Container>
 			``

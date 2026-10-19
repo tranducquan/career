@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getJob, listCategoryOptions, listCompanyOptions } from "@repo/db/admin";
 import JobForm from "@/components/job-form";
 import { parseId } from "@/lib/parse";
+import { PageTitle } from "@/components/wp";
 import { requireAdmin } from "@/lib/require-admin";
 import { saveJob } from "../actions";
 
@@ -18,7 +19,7 @@ const EditJobPage = async ({ params }: Props) => {
 
 	return (
 		<div>
-			<h1 className="mb-4 text-lg font-medium">Edit job</h1>
+			<PageTitle title="Edit Job" addHref="/jobs/new" />
 			<JobForm action={saveJob.bind(null, id)} companies={companies} categories={categories} job={job} />
 		</div>
 	);

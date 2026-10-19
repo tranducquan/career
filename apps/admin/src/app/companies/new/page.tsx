@@ -1,4 +1,5 @@
 import CompanyForm from "@/components/company-form";
+import { PageTitle } from "@/components/wp";
 import { requireAdmin } from "@/lib/require-admin";
 import { saveCompany } from "../actions";
 
@@ -7,7 +8,7 @@ const NewCompanyPage = async () => {
 
 	return (
 		<div>
-			<h1 className="mb-4 text-lg font-medium">New company</h1>
+			<PageTitle title="Add New Company" />
 			<CompanyForm action={saveCompany.bind(null, null)} />
 		</div>
 	);

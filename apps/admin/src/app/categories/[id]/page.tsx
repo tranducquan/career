@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCategory } from "@repo/db/admin";
 import CategoryForm from "@/components/category-form";
 import { parseId } from "@/lib/parse";
+import { PageTitle } from "@/components/wp";
 import { requireAdmin } from "@/lib/require-admin";
 import { saveCategory } from "../actions";
 
@@ -18,7 +19,7 @@ const EditCategoryPage = async ({ params }: Props) => {
 
 	return (
 		<div>
-			<h1 className="mb-4 text-lg font-medium">Edit category</h1>
+			<PageTitle title="Edit Category" addHref="/categories/new" />
 			<CategoryForm action={saveCategory.bind(null, id)} category={category} />
 		</div>
 	);

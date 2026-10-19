@@ -8,6 +8,7 @@ import { isForeignKeyError } from "@/lib/db-errors";
 import { stringValues, type FormState } from "@/lib/form-state";
 import { parseId } from "@/lib/parse";
 import { requireAdmin } from "@/lib/require-admin";
+import { withMessage } from "@/lib/redirect";
 
 // id = null: tạo mới, có id: cập nhật. Trang gắn id bằng .bind(null, id)
 export async function saveCompany(id: number | null, _state: FormState, formData: FormData): Promise<FormState> {
@@ -26,7 +27,7 @@ export async function saveCompany(id: number | null, _state: FormState, formData
 
 	revalidatePath("/companies");
 	// redirect phải nằm ngoài try/catch vì nó hoạt động bằng cách ném một lỗi đặc biệt
-	redirect("/companies");
+	redirect(withMessage("/companies", id === null ? "created" : "updated"));
 }
 
 export async function deleteCompanyAction(formData: FormData) {
@@ -43,5 +44,5 @@ export async function deleteCompanyAction(formData: FormData) {
 	}
 
 	revalidatePath("/companies");
-	redirect("/companies");
+	redirect(withMessage("/companies", "deleted"));
 }

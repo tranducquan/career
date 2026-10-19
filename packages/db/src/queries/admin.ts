@@ -26,7 +26,17 @@ export const listJobs = async ({ q, status, page = 1, pageSize = PAGE_SIZE }: Li
 
 	const [items, totals] = await Promise.all([
 		db
-			.select({ ...getTableColumns(jobs), company: companies.name, category: categories.name })
+			.select({
+				id: jobs.id,
+				title: jobs.title,
+				type: jobs.type,
+				status: jobs.status,
+				featured: jobs.featured,
+				postedAt: jobs.postedAt,
+				updatedAt: jobs.updatedAt,
+				company: companies.name,
+				category: categories.name,
+			})
 			.from(jobs)
 			.innerJoin(companies, eq(jobs.companyId, companies.id))
 			.leftJoin(categories, eq(jobs.categoryId, categories.id))
@@ -38,6 +48,14 @@ export const listJobs = async ({ q, status, page = 1, pageSize = PAGE_SIZE }: Li
 	]);
 
 	return { items, ...pageInfo(totals[0]?.total ?? 0, page, pageSize) };
+};
+
+// Số job theo từng trạng thái, dùng cho các tab "All | Published | Draft | Closed"
+export const countJobsByStatus = async () => {
+	const rows = await getDb().select({ status: jobs.status, total: count() }).from(jobs).groupBy(jobs.status);
+	const result: Record<JobStatus, number> = { draft: 0, published: 0, closed: 0 };
+	for (const row of rows) result[row.status] = row.total;
+	return result;
 };
 
 export const getJob = async (id: number) => {

@@ -1,4 +1,5 @@
 import CategoryForm from "@/components/category-form";
+import { PageTitle } from "@/components/wp";
 import { requireAdmin } from "@/lib/require-admin";
 import { saveCategory } from "../actions";
 
@@ -7,7 +8,7 @@ const NewCategoryPage = async () => {
 
 	return (
 		<div>
-			<h1 className="mb-4 text-lg font-medium">New category</h1>
+			<PageTitle title="Add New Category" />
 			<CategoryForm action={saveCategory.bind(null, null)} />
 		</div>
 	);

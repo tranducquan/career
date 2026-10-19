@@ -1,66 +1,54 @@
-// Bảng luôn ở dạng ngang và cuộn bên trong khung riêng, cả trang không bị kéo rộng ra.
-// - Khung có chiều cao tối đa theo màn hình, nên thanh cuộn ngang luôn nằm trong tầm nhìn
-//   (dùng chuột kéo thanh này, hoặc giữ Shift rồi lăn chuột).
-// - Thanh cuộn được vẽ lại để luôn hiện, kể cả trên macOS khi dùng chuột.
-// - Dòng tiêu đề dính ở trên, cột đầu dính bên trái, cột thao tác dính bên phải.
+import { Children } from "react";
 
 type WithChildren = { children: React.ReactNode; className?: string };
 
-const scrollbar = "[&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-400 [scrollbar-width:thin] [scrollbar-color:var(--color-gray-400)_var(--color-gray-100)]";
-
-// relative: phần tử absolute bên trong (như sr-only) phải bị cắt theo khung cuộn này,
-// nếu không nó nằm ở tận cuối bảng và kéo cả trang rộng ra
+// relative: phần tử absolute bên trong (như sr-only) phải bị cắt theo khung này,
+// nếu không nó có thể kéo cả trang rộng ra
 export const Table = ({ children }: WithChildren) => (
-	<div className={`relative max-h-[max(20rem,calc(100dvh-16rem))] overflow-auto rounded border border-gray-200 ${scrollbar}`}>
-		<table className="w-full min-w-max border-collapse text-left whitespace-nowrap">{children}</table>
+	<div className="relative overflow-x-auto border border-wp-border bg-white shadow-sm">
+		<table className="w-full border-collapse text-left">{children}</table>
 	</div>
 );
 
 export const THead = ({ children }: WithChildren) => (
 	<thead>
-		<tr>{children}</tr>
+		<tr className="border-b border-wp-border">{children}</tr>
 	</thead>
 );
 
-type ThProps = WithChildren & {
-	// primary: cột đầu (tên), actions: cột thao tác
-	primary?: boolean;
-	actions?: boolean;
-};
-
-// Ô tiêu đề dính ở trên. Ô nằm ở góc (cột đầu, cột thao tác) có z-index cao hơn để không bị ô khác đè
-export const Th = ({ children, primary, actions, className = "" }: ThProps) => {
-	const corner = primary ? "left-0 z-30" : actions ? "right-0 z-30" : "z-20";
-	return <th className={`sticky top-0 bg-white py-2 pr-6 pl-3 font-medium shadow-[inset_0_-1px_0_var(--color-gray-300)] ${corner} ${className}`}>{children}</th>;
-};
+// secondary: cột phụ, chỉ hiện từ màn hình md trở lên (trên điện thoại chỉ còn cột tiêu đề)
+export const Th = ({ children, secondary, className = "" }: WithChildren & { secondary?: boolean }) => (
+	<th scope="col" className={`px-3 py-2 text-[14px] font-normal text-wp-title ${secondary ? "hidden md:table-cell" : ""} ${className}`}>
+		{children}
+	</th>
+);
 
 export const TBody = ({ children }: WithChildren) => <tbody>{children}</tbody>;
 
-export const Tr = ({ children }: WithChildren) => <tr className="border-b border-gray-100 last:border-b-0">{children}</tr>;
+// group: để hiện các liên kết thao tác khi rê chuột vào dòng; dòng lẻ có nền xám nhạt như WordPress
+export const Tr = ({ children }: WithChildren) => <tr className="group odd:bg-[#f6f7f7]">{children}</tr>;
 
-type TdProps = WithChildren & {
-	primary?: boolean;
-	// Cắt chữ dài bằng dấu "...", đặt title để rê chuột xem đủ nội dung
-	truncate?: boolean;
-	title?: string;
+export const Td = ({ children, secondary, className = "" }: WithChildren & { secondary?: boolean }) => <td className={`px-3 py-2.5 align-top ${secondary ? "hidden md:table-cell" : ""} ${className}`}>{children}</td>;
+
+// Các liên kết "Edit | Publish | Delete" dưới tiêu đề. Chỉ ẩn khi thiết bị có chuột và màn hình rộng (hiện khi rê chuột hoặc focus),
+// còn lại (điện thoại, máy tính bảng) luôn hiện. Quy tắc nằm trong globals.css.
+export const RowActions = ({ children }: { children: React.ReactNode }) => {
+	const items = Children.toArray(children).filter(Boolean);
+	return (
+		<div className="row-actions mt-1 flex flex-wrap items-center text-[13px] leading-5">
+			{items.map((item, index) => (
+				<span key={index} className="inline-flex items-center">
+					{index > 0 && <span className="px-1.5 text-[#a7aaad]">|</span>}
+					{item}
+				</span>
+			))}
+		</div>
+	);
 };
-
-export const Td = ({ children, primary, truncate, title, className = "" }: TdProps) => (
-	<td title={title} className={`py-2.5 pr-6 pl-3 ${primary ? "sticky left-0 z-10 bg-white font-medium" : ""} ${truncate ? "max-w-64 truncate" : ""} ${className}`}>
-		{children}
-	</td>
-);
-
-// Cột thao tác dính ở mép phải khi cuộn ngang
-export const ActionsTd = ({ children }: WithChildren) => (
-	<td className="sticky right-0 z-10 bg-white py-2.5 pr-3 pl-4">
-		<div className="flex items-center gap-4">{children}</div>
-	</td>
-);
 
 export const EmptyRow = ({ colSpan, children }: { colSpan: number; children: React.ReactNode }) => (
 	<tr>
-		<td colSpan={colSpan} className="py-6 text-center text-gray-500">
+		<td colSpan={colSpan} className="px-3 py-4 text-wp-title">
 			{children}
 		</td>
 	</tr>

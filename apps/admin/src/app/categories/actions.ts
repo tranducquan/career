@@ -8,6 +8,7 @@ import { isForeignKeyError, isUniqueError } from "@/lib/db-errors";
 import { stringValues, type FormState } from "@/lib/form-state";
 import { parseId } from "@/lib/parse";
 import { requireAdmin } from "@/lib/require-admin";
+import { withMessage } from "@/lib/redirect";
 
 // id = null: tạo mới, có id: cập nhật. Trang gắn id bằng .bind(null, id)
 export async function saveCategory(id: number | null, _state: FormState, formData: FormData): Promise<FormState> {
@@ -29,7 +30,7 @@ export async function saveCategory(id: number | null, _state: FormState, formDat
 	if (!found) notFound();
 
 	revalidatePath("/categories");
-	redirect("/categories");
+	redirect(withMessage("/categories", id === null ? "created" : "updated"));
 }
 
 export async function deleteCategoryAction(formData: FormData) {
@@ -46,5 +47,5 @@ export async function deleteCategoryAction(formData: FormData) {
 	}
 
 	revalidatePath("/categories");
-	redirect("/categories");
+	redirect(withMessage("/categories", "deleted"));
 }
