@@ -4,7 +4,8 @@
 		"dev": { "cache": false, "persistent": true },
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
+			"outputs": [".next/**", "!.next/cache/**", "dist/**"],
+			"env": ["ADMIN_PASSWORD", "ADMIN_SESSION_SECRET"]
 		},
 		"lint": {}
 	}
