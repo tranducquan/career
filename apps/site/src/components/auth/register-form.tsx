@@ -51,17 +51,17 @@ const RegisterForm = () => {
 			</p>
 
 			<form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
-				<fieldset className="rounded-md bg-gray-100 p-3">
+				<fieldset className="rounded-md bg-gray-100 p-4">
 					<legend className="sr-only">Create account as a</legend>
-					<p aria-hidden className="mb-2 text-center text-xs tracking-wide text-gray-500 uppercase">
+					<p aria-hidden className="mb-4 text-center text-xs tracking-wide font-medium text-gray-500 uppercase">
 						Create account as a
 					</p>
-					<div className="grid grid-cols-2 gap-2">
+					<div className="grid grid-cols-2 gap-4">
 						{roles.map(({ value, label, icon: Icon }) => (
 							<label key={value} className="cursor-pointer">
 								<input type="radio" name="role" value={value} checked={role === value} onChange={() => setRole(value)} className="peer sr-only" />
-								<span className="flex h-12 items-center justify-center gap-2 rounded-md text-sm font-medium text-gray-700 transition-colors peer-checked:bg-primary-900 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 peer-focus-visible:ring-offset-2">
-									<Icon aria-hidden className="size-5" />
+								<span className="flex h-12 items-center justify-center gap-2.5 rounded-md text-sm font-medium text-gray-700 transition-colors peer-checked:bg-primary-900 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 peer-focus-visible:ring-offset-2">
+									<Icon aria-hidden className="size-5.5" strokeWidth={1.75} />
 									{label}
 								</span>
 							</label>

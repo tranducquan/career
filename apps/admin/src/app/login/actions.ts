@@ -17,7 +17,7 @@ const passwordMatches = (input: string) => {
 // Chỉ cho chuyển hướng về đường dẫn nội bộ, tránh open redirect
 const safeNext = (value: FormDataEntryValue | null) => {
 	const next = typeof value === "string" ? value : "";
-	return next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/login") ? next : "/jobs";
+	return next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/login") ? next : "/";
 };
 
 export async function login(formData: FormData) {

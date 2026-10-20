@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Job } from "@repo/db/schema";
 import type { FormState } from "@/lib/form-state";
 import { input, textarea } from "./styles";
+import RichTextEditor from "./rich-text-editor";
 import { Field, FormErrors, Metabox, SubmitButton } from "./wp";
 
 type Option = { id: number; name: string };
@@ -36,7 +37,7 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 	const listBox = (name: ListField, title: string) => (
 		<Metabox title={title}>
 			<textarea name={name} defaultValue={list(name)} rows={4} aria-label={title} className={textarea} />
-			<p className="text-[12px] text-[#646970]">One item per line.</p>
+			<p className="text-xs text-[#646970]">One item per line.</p>
 		</Metabox>
 	);
 
@@ -47,11 +48,10 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 			<div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_17.5rem]">
 				{/* Cột chính */}
 				<div className="min-w-0 space-y-5">
-					<input name="title" defaultValue={text("title")} placeholder="Add title" aria-label="Title" required className="w-full border border-wp-border bg-white px-3 py-1.5 text-[1.5rem] leading-[1.7] text-wp-title shadow-[inset_0_1px_2px_rgb(0_0_0/7%)] focus:border-wp-accent focus:shadow-[0_0_0_1px_var(--color-wp-accent)] focus:outline-none" />
+					<input name="title" defaultValue={text("title")} placeholder="Add title" aria-label="Title" required className="w-full border border-wp-border bg-white px-3 py-1.5 text-2xl leading-[1.7] text-wp-title shadow-[inset_0_1px_2px_rgb(0_0_0/7%)] focus:border-wp-accent focus:shadow-[0_0_0_1px_var(--color-wp-accent)] focus:outline-none" />
 
 					<Metabox title="Description">
-						<textarea name="description" defaultValue={text("description")} rows={12} required aria-label="Description" className={textarea} />
-						<p className="text-[12px] text-[#646970]">Separate paragraphs with a blank line.</p>
+						<RichTextEditor name="description" defaultValue={text("description")} label="Description" />
 					</Metabox>
 
 					{listBox("requirements", "Requirements")}
