@@ -18,7 +18,7 @@ export const THead = ({ children }: WithChildren) => (
 
 // secondary: cột phụ, chỉ hiện từ màn hình md trở lên (trên điện thoại chỉ còn cột tiêu đề)
 export const Th = ({ children, secondary, className = "" }: WithChildren & { secondary?: boolean }) => (
-	<th scope="col" className={`px-3 py-2 text-[14px] font-normal text-wp-title ${secondary ? "hidden md:table-cell" : ""} ${className}`}>
+	<th scope="col" className={`px-3 py-2 text-sm font-normal text-wp-title ${secondary ? "hidden md:table-cell" : ""} ${className}`}>
 		{children}
 	</th>
 );
@@ -35,7 +35,7 @@ export const Td = ({ children, secondary, className = "" }: WithChildren & { sec
 export const RowActions = ({ children }: { children: React.ReactNode }) => {
 	const items = Children.toArray(children).filter(Boolean);
 	return (
-		<div className="row-actions mt-1 flex flex-wrap items-center text-[13px] leading-5">
+		<div className="row-actions mt-1 flex flex-wrap items-center text-sm leading-5">
 			{items.map((item, index) => (
 				<span key={index} className="inline-flex items-center">
 					{index > 0 && <span className="px-1.5 text-[#a7aaad]">|</span>}

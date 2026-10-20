@@ -16,7 +16,7 @@ const PasswordInput = ({ className, containerClassName, ...props }: PasswordInpu
 		<div className={cn("relative", containerClassName)}>
 			<Input {...props} type={visible ? "text" : "password"} className={cn("h-12 pr-12", className)} />
 			<button type="button" onClick={() => setVisible((v) => !v)} aria-label={visible ? "Hide password" : "Show password"} aria-pressed={visible} className="absolute top-0 right-0 flex h-12 w-12 items-center justify-center text-gray-500 transition-colors hover:text-gray-900">
-				{visible ? <EyeOff aria-hidden className="size-5" /> : <Eye aria-hidden className="size-5" />}
+				{visible ? <EyeOff aria-hidden className="size-5" strokeWidth={1.75} /> : <Eye aria-hidden className="size-5" strokeWidth={1.75} />}
 			</button>
 		</div>
 	);

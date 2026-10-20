@@ -55,7 +55,7 @@ const CategoriesPage = async ({ searchParams }: Props) => {
 								<Link href={`/categories/${category.id}`} className="font-semibold text-wp-accent hover:text-wp-accent-dark">
 									{category.name}
 								</Link>
-								<div className="mt-0.5 text-[12px] text-[#646970] md:hidden">
+								<div className="mt-0.5 text-xs text-[#646970] md:hidden">
 									{category.slug} · {category.jobCount} {category.jobCount === 1 ? "job" : "jobs"}
 								</div>
 								<RowActions>

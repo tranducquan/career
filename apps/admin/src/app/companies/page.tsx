@@ -55,7 +55,7 @@ const CompaniesPage = async ({ searchParams }: Props) => {
 									{company.name}
 								</Link>
 								{company.featured && <span className="font-semibold text-wp-title"> — Featured</span>}
-								<div className="mt-0.5 text-[12px] text-[#646970] md:hidden">
+								<div className="mt-0.5 text-xs text-[#646970] md:hidden">
 									{company.location} · {company.jobCount} {company.jobCount === 1 ? "job" : "jobs"}
 								</div>
 								<RowActions>

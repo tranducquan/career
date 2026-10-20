@@ -39,10 +39,7 @@ const JobsPage = async ({ searchParams }: Props) => {
 	const returnTo = search.toString() ? `/jobs?${search}` : "/jobs";
 
 	const allCount = counts.draft + counts.published + counts.closed;
-	const tabs = [
-		{ label: "All", count: allCount, href: "/jobs", active: !statusFilter },
-		...jobStatuses.map((item) => ({ label: statusLabels[item], count: counts[item], href: `/jobs?status=${item}`, active: statusFilter === item })),
-	];
+	const tabs = [{ label: "All", count: allCount, href: "/jobs", active: !statusFilter }, ...jobStatuses.map((item) => ({ label: statusLabels[item], count: counts[item], href: `/jobs?status=${item}`, active: statusFilter === item }))];
 
 	return (
 		<div>
@@ -74,7 +71,7 @@ const JobsPage = async ({ searchParams }: Props) => {
 								</Link>
 								{job.featured && <span className="font-semibold text-wp-title"> — Featured</span>}
 								{/* Điện thoại: các cột phụ bị ẩn nên tóm tắt ngay dưới tiêu đề */}
-								<div className="mt-0.5 text-[12px] text-[#646970] md:hidden">
+								<div className="mt-0.5 text-xs text-[#646970] md:hidden">
 									{job.company} · {statusLabels[job.status]}
 								</div>
 								<RowActions>

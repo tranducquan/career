@@ -9,7 +9,7 @@ type Item = { label: string; href: string };
 type Section = { label: string; href: string; icon: ReactNode; items: Item[] };
 
 const Svg = ({ children }: { children: ReactNode }) => (
-	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-5 shrink-0" aria-hidden>
+	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="size-5 shrink-0" aria-hidden>
 		{children}
 	</svg>
 );
@@ -86,15 +86,28 @@ const AdminShell = ({ children }: { children: ReactNode }) => {
 	return (
 		<>
 			{/* Thanh admin trên cùng */}
-			<header className="fixed inset-x-0 top-0 z-50 flex h-11 items-center bg-wp-bar text-[13px] text-[#f0f0f1] md:h-8">
-				<button type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="admin-menu" onClick={() => setOpenFor(open ? null : pathname)} className="flex h-11 w-12 items-center justify-center text-[18px] md:hidden">
-					{open ? "✕" : "☰"}
+			<header className="fixed inset-x-0 top-0 z-50 flex h-11 items-center bg-wp-bar text-sm text-wp-bg md:h-8">
+				<button type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="admin-menu" onClick={() => setOpenFor(open ? null : pathname)} className="flex h-11 w-12 items-center justify-center md:hidden">
+					<Svg>
+						{open ? (
+							<>
+								<path d="M18 6 6 18" />
+								<path d="m6 6 12 12" />
+							</>
+						) : (
+							<>
+								<path d="M4 6h16" />
+								<path d="M4 12h16" />
+								<path d="M4 18h16" />
+							</>
+						)}
+					</Svg>
 				</button>
-				<Link href="/jobs" className="px-3 hover:text-[#72aee6] md:pl-3">
+				<Link href="/" className="px-3 hover:text-[#72aee6] md:pl-3">
 					Career Admin
 				</Link>
 				<div className="ml-auto flex items-center gap-3 pr-3">
-					<span className="hidden text-[#c3c4c7] sm:inline">Howdy, Admin</span>
+					<span className="hidden text-wp-border sm:inline">Howdy, Admin</span>
 					<form action={logout}>
 						<button type="submit" className="cursor-pointer hover:text-[#72aee6]">
 							Log Out
@@ -105,13 +118,24 @@ const AdminShell = ({ children }: { children: ReactNode }) => {
 
 			{/* Sidebar tối bên trái. Mobile: mở bằng nút trên thanh admin */}
 			{open && <button type="button" aria-label="Close menu" onClick={() => setOpenFor(null)} className="fixed inset-0 top-11 z-30 bg-black/40 md:hidden" />}
-			<nav id="admin-menu" aria-label="Main menu" className={`fixed top-11 bottom-0 left-0 z-40 w-64 overflow-y-auto bg-wp-menu pt-2 text-[14px] md:top-8 md:w-40 ${open ? "block" : "hidden md:block"}`}>
+			<nav id="admin-menu" aria-label="Main menu" className={`fixed top-11 bottom-0 left-0 z-40 w-64 overflow-y-auto bg-wp-menu text-sm md:top-8 md:w-40 lg:w-50 ${open ? "block" : "hidden md:block"}`}>
 				<ul>
+					<li>
+						<Link href="/" aria-current={pathname === "/" ? "page" : undefined} className={`flex items-center gap-2.5 px-3 py-3 md:py-2 ${pathname === "/" ? "bg-wp-accent text-white" : "text-wp-bg hover:bg-wp-menu-hover hover:text-[#72aee6]"}`}>
+							<Svg>
+								<rect width="7" height="9" x="3" y="3" rx="1" />
+								<rect width="7" height="5" x="14" y="3" rx="1" />
+								<rect width="7" height="9" x="14" y="12" rx="1" />
+								<rect width="7" height="5" x="3" y="16" rx="1" />
+							</Svg>
+							<span>Dashboard</span>
+						</Link>
+					</li>
 					{sections.map((section) => {
 						const current = pathname === section.href || pathname.startsWith(`${section.href}/`);
 						return (
 							<li key={section.href}>
-								<Link href={section.href} aria-current={current ? "page" : undefined} className={`flex items-center gap-2 px-3 py-3 md:py-2 ${current ? "bg-wp-accent text-white" : "text-[#f0f0f1] hover:bg-wp-menu-hover hover:text-[#72aee6]"}`}>
+								<Link href={section.href} aria-current={current ? "page" : undefined} className={`flex items-center gap-2.5 px-3 py-3 md:py-2 ${current ? "bg-wp-accent text-white" : "text-wp-bg hover:bg-wp-menu-hover hover:text-[#72aee6]"}`}>
 									{section.icon}
 									<span>{section.label}</span>
 								</Link>
@@ -119,7 +143,7 @@ const AdminShell = ({ children }: { children: ReactNode }) => {
 									<ul className="bg-wp-submenu py-2">
 										{section.items.map((item) => (
 											<li key={item.href}>
-												<Link href={item.href} className={`block py-1.5 pr-2 pl-10 text-[13px] md:py-1 md:pl-10 ${isItemActive(item, pathname) ? "font-semibold text-white" : "text-[#c3c4c7] hover:text-[#72aee6]"}`}>
+												<Link href={item.href} className={`block py-1.5 pr-2 pl-10 text-sm md:py-1 md:pl-10 ${isItemActive(item, pathname) ? "font-semibold text-white" : "text-wp-border hover:text-[#72aee6]"}`}>
 													{item.label}
 												</Link>
 											</li>
@@ -132,7 +156,7 @@ const AdminShell = ({ children }: { children: ReactNode }) => {
 				</ul>
 			</nav>
 
-			<main className="pt-11 md:ml-40 md:pt-8">
+			<main className="pt-11 md:ml-40 lg:ml-50 md:pt-8">
 				<div className="p-3 md:px-5 md:py-4">{children}</div>
 			</main>
 		</>

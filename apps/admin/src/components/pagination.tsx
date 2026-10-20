@@ -32,7 +32,7 @@ const Pagination = ({ page, totalPages, total, basePath, params = {} }: Props) =
 		);
 
 	return (
-		<div className="flex items-center justify-end gap-2 py-2 text-[13px]">
+		<div className="flex items-center justify-end gap-2 py-2 text-sm">
 			<span className="text-[#50575e]">
 				{total} {total === 1 ? "item" : "items"}
 			</span>
