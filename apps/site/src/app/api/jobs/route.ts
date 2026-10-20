@@ -1,12 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createJob, getJobSlug, queryJobs, toJobDTO } from "@/lib/jobs";
+import { createJob, queryJobs, toJobDTO } from "@/lib/jobs";
 import { validateJobInput } from "@/lib/job-validation";
+import { jobSlug } from "@/lib/slug";
 
 const MAX_LIMIT = 50;
 
 const parseBool = (value: string | null) => (value === null ? undefined : value === "true" || value === "1");
 
-const parseInt = (value: string | null, fallback: number, min: number, max: number) => {
+const parseIntParam = (value: string | null, fallback: number, min: number, max: number) => {
 	const n = Number.parseInt(value ?? "", 10);
 	return Number.isNaN(n) ? fallback : Math.min(Math.max(n, min), max);
 };
@@ -23,8 +24,8 @@ export async function GET(request: NextRequest) {
 		remote: parseBool(sp.get("remote")),
 		featured: parseBool(sp.get("featured")),
 		sort: sort === "deadline" ? "deadline" : "newest",
-		page: parseInt(sp.get("page"), 1, 1, Number.MAX_SAFE_INTEGER),
-		limit: parseInt(sp.get("limit"), 12, 1, MAX_LIMIT),
+		page: parseIntParam(sp.get("page"), 1, 1, Number.MAX_SAFE_INTEGER),
+		limit: parseIntParam(sp.get("limit"), 12, 1, MAX_LIMIT),
 	});
 
 	return NextResponse.json({ data: items.map(toJobDTO), meta }, { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } });
@@ -45,5 +46,5 @@ export async function POST(request: NextRequest) {
 	}
 
 	const job = createJob(result.data);
-	return NextResponse.json({ data: toJobDTO(job) }, { status: 201, headers: { Location: `/api/jobs/${getJobSlug(job)}` } });
+	return NextResponse.json({ data: toJobDTO(job) }, { status: 201, headers: { Location: `/api/jobs/${jobSlug(job)}` } });
 }
