@@ -19,7 +19,7 @@ export type CategoryType = {
 };
 
 export type VacancyType = {
-	id: string;
+	id: string | number;
 	name: string;
 	count: number;
 	href: string;
