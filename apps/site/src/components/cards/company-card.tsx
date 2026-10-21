@@ -1,17 +1,16 @@
 import { MapPin } from "lucide-react";
 import Button from "../ui/button";
+import CompanyLogo from "../ui/company-logo";
 import FeaturedBadge from "../jobs/featured-badge";
 import type { CompanyType } from "@/types";
 
 const CompanyCard = ({ company }: { company: CompanyType }) => {
-	const { name, location, href, featured, logo: Logo } = company;
+	const { name, location, href, featured, logo, logoUrl } = company;
 
 	return (
 		<article className="group flex h-full flex-col gap-5 rounded-xl border border-gray-100 bg-white p-4 transition sm:p-5 md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg">
 			<div className="flex items-center gap-3 md:gap-4">
-				<div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-gray-100 p-2.5 md:size-16 md:p-3">
-					<Logo className="size-full" aria-hidden />
-				</div>
+				<CompanyLogo name={name} logo={logo} logoUrl={logoUrl} className="size-12 md:size-16 p-1" />
 
 				<div className="min-w-0 flex-1">
 					<div className="flex items-center gap-2">

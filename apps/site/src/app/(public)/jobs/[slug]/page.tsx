@@ -11,20 +11,16 @@ import CompanyLogo from "@/components/ui/company-logo";
 import FeaturedBadge from "@/components/jobs/featured-badge";
 import SaveJobButton from "@/components/jobs/save-job-button";
 
-import { jobs } from "@/data";
 import type { JobType } from "@/types";
-import { jobPath, jobSlug } from "@/lib/slug";
-import { getJob, SITE_URL, typeLabel } from "@/lib/jobs";
+import { jobPath } from "@/lib/slug";
+import { getJob, SITE_URL } from "@/lib/jobs";
+import { typeLabel } from "@/lib/job-format";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-	return jobs.map((job) => ({ slug: jobSlug(job) }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
-	const job = getJob(slug);
+	const job = await getJob(slug);
 	if (!job) return { title: "Job not found" };
 
 	return { title: `${job.title} - ${job.company}`, description: job.description.slice(0, 150) };
@@ -108,7 +104,7 @@ const ShareButtons = ({ job }: { job: JobType }) => {
 
 	return (
 		<div>
-			<h3 className="mb-3 text-base font-medium text-gray-900">Share this job:</h3>
+			<h3 className={`mb-5 ${heading}`}>Share this job:</h3>
 			<div className="flex flex-wrap items-center gap-2">
 				{/* <CopyLinkButton url={fullUrl} />
 				{links.map(({ label, icon: Icon, href }) => (
@@ -167,7 +163,7 @@ const JobOverview = ({ job }: { job: JobType }) => {
 
 const JobDetail = async ({ params }: Props) => {
 	const { slug } = await params;
-	const job = getJob(slug);
+	const job = await getJob(slug);
 	if (!job) notFound();
 	if (jobPath(job) !== `/jobs/${slug}`) permanentRedirect(jobPath(job));
 
@@ -178,8 +174,7 @@ const JobDetail = async ({ params }: Props) => {
 			<Container>
 				<div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-10">
 					<div className="flex items-center gap-4 md:gap-6">
-						<CompanyLogo name={job.company} logo={job.logo} className="size-17 rounded-full text-2xl md:size-20" />
-
+						<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-17 rounded-full text-3xl md:size-20 p-2.5" />
 						<div className="min-w-0">
 							<h1 className="text-xl leading-normal font-medium text-gray-900 md:text-2xl lg:text-3xl">{job.title}</h1>
 							<div className="mt-2.5 flex flex-wrap items-center gap-2.5">

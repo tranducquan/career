@@ -1,4 +1,5 @@
 // components/layout/header.tsx
+import { Suspense } from "react";
 import Link from "next/link";
 import { Bell } from "lucide-react";
 import Container from "./container";
@@ -26,6 +27,17 @@ const extraNavs = [
 // Tạm hard-code, sau này lấy từ session
 const user = null as null | { name: string; role: "candidate" | "employer" };
 
+// Hiển thị khi chưa biết pathname (lúc prerender), cùng style với NavLinks nhưng chưa có trạng thái active
+const NavLinksFallback = () => (
+	<nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+		{navs.map((item) => (
+			<Link key={item.title} href={item.href} className="relative py-2 text-base font-medium text-gray-500 transition-colors hover:text-primary-500">
+				{item.title}
+			</Link>
+		))}
+	</nav>
+);
+
 const Header = () => {
 	const postJob = getPostJobAction(user);
 
@@ -35,7 +47,9 @@ const Header = () => {
 				<div className="flex h-16 items-center justify-between gap-6 md:h-22.5">
 					<Logo />
 
-					<NavLinks navs={navs} className="hidden lg:flex" />
+					<Suspense fallback={<NavLinksFallback />}>
+						<NavLinks navs={navs} className="hidden lg:flex" />
+					</Suspense>
 
 					<div className="flex items-center gap-2 md:gap-3">
 						{user ? (

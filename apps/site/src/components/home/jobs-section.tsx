@@ -5,8 +5,8 @@ import { getFeaturedJobs } from "@/lib/jobs";
 
 const JOBS_LIMIT = 12;
 
-const JobsSection = () => {
-	const featuredJobs = getFeaturedJobs(JOBS_LIMIT);
+const JobsSection = async () => {
+	const featuredJobs = await getFeaturedJobs(JOBS_LIMIT);
 	if (featuredJobs.length === 0) return null;
 
 	return (

@@ -224,6 +224,9 @@ importers:
 
   apps/site:
     dependencies:
+      '@repo/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@thesvg/react':
         specifier: ^3.3.12
         version: 3.4.0(react@19.3.0)

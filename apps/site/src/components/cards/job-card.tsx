@@ -5,7 +5,7 @@ import DaysRemaining from "@/components/ui/days-remaining";
 import SaveJobButton from "@/components/jobs/save-job-button";
 import { cn } from "@/lib/cn";
 import { jobPath } from "@/lib/slug";
-import { getJobLocation } from "@/lib/jobs";
+import { getJobLocation } from "@/lib/job-format";
 import type { JobType } from "@/types";
 import FeaturedBadge from "../jobs/featured-badge";
 
@@ -34,8 +34,7 @@ const Horizontal = ({ job, className }: CardProps) => {
 
 	return (
 		<article className={cn("group relative flex items-center gap-4 rounded-xl border border-gray-100 p-4 transition md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg", className)}>
-			<CompanyLogo name={job.company} logo={job.logo} className="size-14 rounded-md text-xl md:size-16" />
-
+			<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="..." />
 			<div className="min-w-0 flex-1">
 				<div className="flex flex-wrap items-center gap-2">
 					<h3 className="text-base font-medium text-gray-900 md:text-lg group-hover:text-primary-500">
@@ -86,8 +85,7 @@ const Vertical = ({ job, className }: CardProps) => {
 			</div>
 
 			<div className="mt-auto flex items-center gap-3 pt-2.5">
-				<CompanyLogo name={job.company} logo={job.logo} className="size-14 rounded-md bg-primary-50 text-xl" />
-
+				<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="..." />
 				<div className="min-w-0 flex-1">
 					<p className="mb-1.5 truncate text-base font-medium text-gray-900">{job.company}</p>
 					{location && (

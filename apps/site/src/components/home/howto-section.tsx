@@ -40,7 +40,7 @@ const HowToSection = () => {
 						<li key={title} className="group relative flex cursor-pointer items-start gap-4 rounded-xl bg-primary-100 p-4 transition-[background-color,box-shadow] md:p-5 xl:flex-col xl:items-center xl:bg-transparent xl:p-6 xl:text-center xl:hover:bg-white xl:hover:shadow-lg">
 							<div className="relative shrink-0">
 								<div className="flex size-14 items-center justify-center rounded-full bg-white text-primary-500 shadow-sm transition-colors group-hover:bg-primary-500 group-hover:text-white xl:size-18">
-									<Icon className="size-6 xl:size-7" strokeWidth={1.5} />
+									<Icon className="size-6 xl:size-7" strokeWidth={1.75} />
 								</div>
 								<span className="absolute -top-1 -left-1 flex size-5 items-center justify-center rounded-full bg-primary-500 text-xs font-medium text-white xl:hidden">{i + 1}</span>
 							</div>

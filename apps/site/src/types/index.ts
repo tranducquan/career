@@ -26,12 +26,13 @@ export type VacancyType = {
 };
 
 export type CompanyType = {
-	id: string;
+	id: string | number;
 	name: string;
 	location: string;
 	href: string;
 	featured?: boolean;
-	logo: ComponentType<SVGProps<SVGSVGElement>>;
+	logo?: ComponentType<SVGProps<SVGSVGElement>>;
+	logoUrl?: string; // logo lấy từ database
 };
 
 export type CompanyInfoType = {
@@ -50,6 +51,7 @@ export type JobType = {
 	title: string;
 	company: string;
 	logo?: CompanyType["logo"];
+	logoUrl?: string; // logo lấy từ database
 	companyInfo?: CompanyInfoType;
 	featured?: boolean;
 	location?: string;
