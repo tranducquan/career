@@ -5,8 +5,8 @@ import { getTopCompanies } from "@/lib/companies";
 
 const COMPANIES_LIMIT = 8;
 
-const CompaniesSection = () => {
-	const topCompanies = getTopCompanies(COMPANIES_LIMIT);
+const CompaniesSection = async () => {
+	const topCompanies = await getTopCompanies(COMPANIES_LIMIT);
 	if (topCompanies.length === 0) return null;
 
 	return (

@@ -63,22 +63,32 @@ export const getJob = async (id: number) => {
 	return job;
 };
 
+const today = () => new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+
 export const createJob = async (input: JobInput) => {
-	const [created] = await getDb().insert(jobs).values(input).returning({ id: jobs.id });
+	const values = {
+		...input,
+		postedAt: input.postedAt ?? (input.status === "published" ? today() : null),
+	};
+	const [created] = await getDb().insert(jobs).values(values).returning({ id: jobs.id });
 	return created;
 };
 
 export const updateJob = async (id: number, input: JobInput) => {
+	const current = await getJob(id);
+	const postedAt = input.postedAt ?? current?.postedAt ?? (input.status === "published" ? today() : null);
 	const [updated] = await getDb()
 		.update(jobs)
-		.set({ ...input, updatedAt: new Date() })
+		.set({ ...input, postedAt, updatedAt: new Date() })
 		.where(eq(jobs.id, id))
 		.returning({ id: jobs.id });
 	return updated;
 };
 
 export const updateJobStatus = async (id: number, status: JobStatus) => {
-	const [updated] = await getDb().update(jobs).set({ status, updatedAt: new Date() }).where(eq(jobs.id, id)).returning({ id: jobs.id });
+	const current = await getJob(id);
+	const postedAt = current?.postedAt ?? (status === "published" ? today() : null);
+	const [updated] = await getDb().update(jobs).set({ status, postedAt, updatedAt: new Date() }).where(eq(jobs.id, id)).returning({ id: jobs.id });
 	return updated;
 };
 

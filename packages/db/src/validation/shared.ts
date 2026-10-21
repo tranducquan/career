@@ -8,7 +8,13 @@ const emptyToNull = (value: unknown) => (typeof value === "string" && value.trim
 
 export const nullableText = z.preprocess(emptyToNull, z.string().max(300).nullable());
 
-export const nullableDate = z.preprocess(emptyToNull, z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use the format YYYY-MM-DD").nullable());
+export const nullableDate = z.preprocess(
+	emptyToNull,
+	z
+		.string()
+		.regex(/^\d{4}-\d{2}-\d{2}$/, "Use the format YYYY-MM-DD")
+		.nullable(),
+);
 
 // Một ô văn bản, mỗi dòng một mục
 export const lines = z.preprocess(
@@ -41,3 +47,8 @@ export const slugify = (text: string) =>
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/^-+|-+$/g, "");
+
+// Logo: tên icon thesvg ("thesvg:figma"), link http(s) hoặc đường dẫn nội bộ "/..."
+const logoPattern = /^(thesvg:[a-z0-9-]+|https?:\/\/\S+|\/\S+)$/i;
+
+export const logoValue = z.preprocess(emptyToNull, z.string().max(300).regex(logoPattern, "Logo must be an icon name or a link starting with http(s):// or /").nullable());

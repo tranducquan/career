@@ -1,12 +1,14 @@
-import { jobs } from "@/data";
+import { cacheLife } from "next/cache";
+import { getPublishedJobById, getPublishedJobs, isValidId } from "@repo/db/public";
 import type { JobType } from "@/types";
-import { jobPath, jobSlug, getIdFromSlug } from "@/lib/slug";
+import { getIdFromSlug } from "@/lib/slug";
 
 export type JobQuery = {
 	q?: string;
 	type?: string;
 	level?: string;
 	location?: string;
+	category?: string; // slug danh mục
 	remote?: boolean;
 	featured?: boolean;
 	sort?: "newest" | "deadline";
@@ -14,59 +16,67 @@ export type JobQuery = {
 	limit: number;
 };
 
-const toTime = (date?: string) => {
-	const time = date ? Date.parse(date) : NaN;
-	return Number.isNaN(time) ? 0 : time;
-};
+type Row = Awaited<ReturnType<typeof getPublishedJobs>>["items"][number];
 
-const includes = (value: string | undefined, needle: string) => !!value?.toLowerCase().includes(needle);
+const opt = <T>(value: T | null | undefined) => value ?? undefined;
 
-export const queryJobs = ({ q, type, level, location, remote, featured, sort = "newest", page, limit }: JobQuery) => {
-	const needle = q?.trim().toLowerCase();
-	const place = location?.trim().toLowerCase();
+// Chuyển dòng database sang JobType để component không phải sửa
+const toJob = ({ job, companyName, companyLogoUrl }: Row): JobType => ({
+	id: job.id,
+	title: job.title,
+	company: companyName,
+	logoUrl: opt(companyLogoUrl),
+	featured: job.featured,
+	location: opt(job.location),
+	remote: job.remote,
+	type: job.type,
+	salary: opt(job.salary),
+	salaryRange: opt(job.salaryRange),
+	salaryType: opt(job.salaryType),
+	level: opt(job.level),
+	education: opt(job.education),
+	experience: opt(job.experience),
+	postedAt: opt(job.postedAt),
+	deadline: opt(job.deadline),
+	description: job.description,
+	responsibilities: job.responsibilities,
+	requirements: job.requirements,
+	desirable: job.desirable,
+	benefits: job.benefits,
+	perks: job.perks,
+	tags: job.tags,
+});
 
-	const filtered = jobs.filter((job) => {
-		if (needle && !(includes(job.title, needle) || includes(job.company, needle) || job.tags?.some((tag) => includes(tag, needle)))) return false;
-		if (type && job.type.toLowerCase() !== type.toLowerCase()) return false;
-		if (level && job.level?.toLowerCase() !== level.toLowerCase()) return false;
-		if (place && !includes(job.location, place)) return false;
-		if (remote !== undefined && !!job.remote !== remote) return false;
-		if (featured !== undefined && !!job.featured !== featured) return false;
-		return true;
-	});
+export const queryJobs = async (query: JobQuery) => {
+	"use cache";
+	cacheLife("minutes");
 
-	filtered.sort((a, b) => (sort === "deadline" ? toTime(a.deadline) - toTime(b.deadline) : toTime(b.postedAt) - toTime(a.postedAt)));
-
-	const total = filtered.length;
-	const start = (page - 1) * limit;
-
-	return {
-		items: filtered.slice(start, start + limit),
-		meta: { page, limit, total, totalPages: Math.max(1, Math.ceil(total / limit)) },
-	};
-};
-
-export const createJob = (input: Omit<JobType, "id">): JobType => {
-	const id = Math.max(0, ...jobs.map((job) => Number(job.id) || 0)) + 1;
-	const job: JobType = { ...input, id };
-	jobs.unshift(job);
-	return job;
-};
-
-// `logo` là React component, không serialize được sang JSON nên loại ra
-export const toJobDTO = (job: JobType) => {
-	const { logo, ...dto } = job;
-	void logo;
-	return { ...dto, slug: jobSlug(job), path: jobPath(job) };
+	const { items, meta } = await getPublishedJobs(query);
+	return { items: items.map(toJob), meta };
 };
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-export const getJob = (slug: string) => jobs.find((job) => String(job.id) === getIdFromSlug(slug));
+export const getJob = async (slug: string) => {
+	"use cache";
+	cacheLife("minutes");
 
-export const getJobLocation = (job: JobType) => (job.remote ? (job.location ? `Remote (${job.location})` : "Remote") : job.location);
+	const id = getIdFromSlug(slug);
+	if (!isValidId(id)) return undefined;
 
-export const typeLabel = (type: string) => type.replace(/\s+/g, "-");
+	const row = await getPublishedJobById(Number(id));
+	return row ? toJob(row) : undefined;
+};
 
-// Job featured lên đầu, các job còn lại giữ nguyên thứ tự gốc
-export const getFeaturedJobs = (limit: number) => [...jobs].sort((a, b) => Number(!!b.featured) - Number(!!a.featured)).slice(0, limit);
+// Job featured lên đầu, thiếu thì lấy thêm job mới nhất cho đủ
+export const getFeaturedJobs = async (limit: number) => {
+	"use cache";
+	cacheLife("minutes");
+
+	const featured = await getPublishedJobs({ featured: true, page: 1, limit });
+	const items = featured.items.map(toJob);
+	if (items.length >= limit) return items;
+
+	const rest = await getPublishedJobs({ featured: false, page: 1, limit: limit - items.length });
+	return [...items, ...rest.items.map(toJob)];
+};

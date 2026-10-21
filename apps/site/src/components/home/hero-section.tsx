@@ -49,7 +49,7 @@ const HeroSection = () => {
 					{stats.map(({ value, label, icon: Icon }) => (
 						<li key={label} className="group flex items-center gap-3 rounded-xl bg-white p-4 transition hover:shadow-md md:gap-5 md:p-5 cursor-pointer">
 							<div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-primary-100 text-primary-500 md:size-15 group-hover:bg-primary-500 group-hover:text-white transition-colors">
-								<Icon className="size-6 md:size-7" aria-hidden />
+								<Icon className="size-6 md:size-7" aria-hidden strokeWidth={1.75} />
 							</div>
 							<div className="min-w-0">
 								<p className="text-lg font-medium md:text-xl mb-1">{numberFormat.format(value)}</p>
