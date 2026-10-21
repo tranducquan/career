@@ -3,4 +3,5 @@ node_modules
 .turbo
 dist
 .env*.local
-.DS_Store
+.DS_Store.env
+.env.local
