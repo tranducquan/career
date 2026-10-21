@@ -5,7 +5,7 @@
 		"build": {
 			"dependsOn": ["^build"],
 			"outputs": [".next/**", "!.next/cache/**", "dist/**"],
-			"env": ["ADMIN_PASSWORD", "ADMIN_SESSION_SECRET"]
+			"env": ["ADMIN_PASSWORD", "ADMIN_SESSION_SECRET", "DATABASE_URL"]
 		},
 		"lint": {}
 	}
