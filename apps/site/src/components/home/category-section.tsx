@@ -4,6 +4,7 @@ import Container from "../layout/container";
 import SectionHeading from "../ui/section-heading";
 import { getCategories } from "@/lib/categories";
 import { cn } from "@/lib/cn";
+import Section from "../layout/section";
 
 const MOBILE_LIMIT = 6;
 
@@ -14,7 +15,7 @@ const CategorySection = async () => {
 	if (categories.length === 0) return null;
 
 	return (
-		<section className="border-b border-gray-100 py-12 md:py-20 lg:py-24">
+		<Section className=" border-gray-100" bordered>
 			<Container>
 				<SectionHeading title="Popular Category" href="/jobs" />
 
@@ -35,7 +36,7 @@ const CategorySection = async () => {
 					))}
 				</ul>
 			</Container>
-		</section>
+		</Section>
 	);
 };
 

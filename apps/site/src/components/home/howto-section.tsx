@@ -3,6 +3,7 @@ import { UserRoundPlus, CloudUpload, ZoomIn, BadgeCheck } from "lucide-react";
 import Container from "../layout/container";
 import SectionHeading from "../ui/section-heading";
 import { cn } from "@/lib/cn";
+import Section from "../layout/section";
 
 type Step = {
 	title: string;
@@ -31,7 +32,7 @@ const HowToSection = () => {
 	const lastIndex = steps.length - 1;
 
 	return (
-		<section className="bg-gray-100 py-12 md:py-20 lg:py-24">
+		<Section className="bg-gray-100">
 			<Container>
 				<SectionHeading title="How Jobplatform Work" align="center" />
 
@@ -55,7 +56,7 @@ const HowToSection = () => {
 					))}
 				</ol>
 			</Container>
-		</section>
+		</Section>
 	);
 };
 

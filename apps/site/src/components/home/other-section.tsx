@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Container from "../layout/container";
 import Button from "../ui/button";
 import { cn } from "@/lib/cn";
+import Section from "../layout/section";
 
 import Image from "next/image";
 import type { StaticImageData } from "next/image";
@@ -48,7 +49,7 @@ const CtaCard = ({ title, text, role, variant, image }: CtaCardProps) => {
 
 const OtherSection = () => {
 	return (
-		<section className="py-12 md:py-20 lg:py-24">
+		<Section>
 			<Container>
 				<div className="grid gap-4 md:grid-cols-2 md:gap-6">
 					<CtaCard role="candidate" variant="light" image="/images/become4.jpg" title="Become a Candidate" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur." />
@@ -56,7 +57,7 @@ const OtherSection = () => {
 				</div>
 			</Container>
 			``
-		</section>
+		</Section>
 	);
 };
 

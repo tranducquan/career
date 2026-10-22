@@ -2,6 +2,7 @@ import Container from "../layout/container";
 import SectionHeading from "../ui/section-heading";
 import CompanyCard from "../cards/company-card";
 import { getTopCompanies } from "@/lib/companies";
+import Section from "../layout/section";
 
 const COMPANIES_LIMIT = 8;
 
@@ -10,7 +11,7 @@ const CompaniesSection = async () => {
 	if (topCompanies.length === 0) return null;
 
 	return (
-		<section className="py-12 md:py-20 lg:py-24">
+		<Section>
 			<Container>
 				<SectionHeading title="Top Companies" href="/employers" />
 
@@ -22,7 +23,7 @@ const CompaniesSection = async () => {
 					))}
 				</ul>
 			</Container>
-		</section>
+		</Section>
 	);
 };
 

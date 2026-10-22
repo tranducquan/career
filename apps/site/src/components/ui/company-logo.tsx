@@ -25,7 +25,7 @@ const CompanyLogo = ({ name, logo: Svg, logoUrl, className }: Props) => {
 	const hasLogo = !!(Svg || src);
 
 	return (
-		<div className={cn("flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg", hasLogo ? "border border-gray-100 bg-gray-200" : "bg-linear-to-br from-primary-400 to-primary-600 font-semibold text-white", className)}>
+		<div className={cn("flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg", hasLogo ? "border border-gray-100 bg-gray-100" : "bg-linear-to-br from-primary-400 to-primary-600 font-semibold text-white", className)}>
 			{Svg ? (
 				<Svg aria-hidden className="h-7 w-7 shrink-0 object-contain" />
 			) : logoUrl ? (
