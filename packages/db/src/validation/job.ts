@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { jobStatuses } from "../schema/jobs";
-import { checkbox, lines, nullableDate, nullableText } from "./shared";
+import { checkbox, lines, nullableDate, nullableText, countryCode } from "./shared";
 
 export const jobInputSchema = z
 	.object({
@@ -11,6 +11,7 @@ export const jobInputSchema = z
 		type: z.string().trim().min(1, "Type is required").max(50),
 		level: nullableText,
 		location: nullableText,
+		country: countryCode,
 		remote: checkbox,
 		featured: checkbox,
 		status: z.enum(jobStatuses),

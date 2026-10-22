@@ -5,15 +5,18 @@ import { getIdFromSlug } from "@/lib/slug";
 
 export type JobQuery = {
 	q?: string;
-	type?: string;
+	type?: string[];
 	level?: string;
+	experience?: string;
+	education?: string[];
 	location?: string;
-	category?: string; // slug danh mục
+	category?: string;
 	remote?: boolean;
 	featured?: boolean;
 	sort?: "newest" | "deadline";
 	page: number;
 	limit: number;
+	country?: string;
 };
 
 type Row = Awaited<ReturnType<typeof getPublishedJobs>>["items"][number];
@@ -27,6 +30,7 @@ const toJob = ({ job, companyName, companyLogoUrl }: Row): JobType => ({
 	company: companyName,
 	logoUrl: opt(companyLogoUrl),
 	featured: job.featured,
+	country: opt(job.country),
 	location: opt(job.location),
 	remote: job.remote,
 	type: job.type,

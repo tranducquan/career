@@ -9,16 +9,24 @@ const escapeLike = (value: string) => value.replace(/[\\%_]/g, (char) => `\\${ch
 
 export type PublicJobQuery = {
 	q?: string;
-	type?: string;
+	type?: string[];
 	level?: string;
+	experience?: string;
+	education?: string[];
 	location?: string;
-	category?: string; // slug của danh mục
+	category?: string;
 	remote?: boolean;
 	featured?: boolean;
 	sort?: "newest" | "deadline";
 	page: number;
 	limit: number;
+	country?: string; // mã ISO, ví dụ "VN"
 };
+
+// So khớp không phân biệt hoa thường và coi "-" như khoảng trắng ("Full-time" = "Full Time")
+const norm = (value: string) => value.toLowerCase().replaceAll("-", " ").replace(/\s+/g, " ").trim();
+
+const anyOf = (column: typeof jobs.type | typeof jobs.education, values?: string[]) => (values?.length ? or(...values.map((v) => sql`replace(lower(${column}), '-', ' ') = ${norm(v)}`)) : undefined);
 
 const jobColumns = {
 	job: jobs,
@@ -27,21 +35,27 @@ const jobColumns = {
 	categoryName: categories.name,
 };
 
-export const getPublishedJobs = async ({ q, type, level, location, category, remote, featured, sort = "newest", page, limit }: PublicJobQuery) => {
+export const getPublishedJobs = async ({ q, type, level, experience, education, location, country, category, remote, featured, sort = "newest", page, limit }: PublicJobQuery) => {
 	const db = getDb();
 	const search = q?.trim() ? `%${escapeLike(q.trim())}%` : undefined;
+	const wantsRemote = type?.some((t) => norm(t) === "remote");
+	const types = type?.filter((t) => norm(t) !== "remote");
 
 	const where = and(
 		eq(jobs.status, "published"),
 		search ? or(ilike(jobs.title, search), ilike(companies.name, search), sql`array_to_string(${jobs.tags}, ' ') ilike ${search}`) : undefined,
-		type ? ilike(jobs.type, escapeLike(type)) : undefined,
-		level ? ilike(jobs.level, escapeLike(level)) : undefined,
+		// Chọn "Remote" cùng loại khác thì lấy job thuộc loại đó HOẶC remote
+		or(anyOf(jobs.type, types), wantsRemote ? eq(jobs.remote, true) : undefined),
+		anyOf(jobs.education, education),
+		level ? ilike(jobs.level, `${escapeLike(level)}%`) : undefined, // "Entry" khớp "Entry Level"
+		experience ? sql`replace(lower(${jobs.experience}), ' ', '') = ${norm(experience).replaceAll(" ", "")}` : undefined, // "1 - 2 Years" = "1-2 Years"
 		location ? ilike(jobs.location, `%${escapeLike(location)}%`) : undefined,
 		category ? eq(categories.slug, category) : undefined,
 		remote === undefined ? undefined : eq(jobs.remote, remote),
 		featured === undefined ? undefined : eq(jobs.featured, featured),
+		location ? ilike(jobs.location, `%${escapeLike(location)}%`) : undefined,
+		country ? eq(jobs.country, country.toUpperCase()) : undefined,
 	);
-
 	const orderBy = sort === "deadline" ? [sql`${jobs.deadline} asc nulls last`, desc(jobs.id)] : [sql`${jobs.postedAt} desc nulls last`, desc(jobs.id)];
 
 	const [rows, totals] = await Promise.all([
@@ -76,12 +90,7 @@ export const getPublishedJobById = async (id: number) => {
 // Id nằm ngoài khoảng int32 của Postgres sẽ làm truy vấn lỗi, nên cần chặn trước khi gọi
 export const isValidId = (value: string) => /^\d{1,9}$/.test(value) && Number(value) > 0;
 
-export const getCompanies = (limit = 50) =>
-	getDb()
-		.select()
-		.from(companies)
-		.orderBy(desc(companies.featured), asc(companies.name))
-		.limit(limit);
+export const getCompanies = (limit = 50) => getDb().select().from(companies).orderBy(desc(companies.featured), asc(companies.name)).limit(limit);
 
 // count được tính từ job đang đăng, không lưu trong bảng nên không bao giờ bị lệch
 export const getCategoriesWithCount = () =>
@@ -97,3 +106,11 @@ export const getCategoriesWithCount = () =>
 		.leftJoin(jobs, and(eq(jobs.categoryId, categories.id), eq(jobs.status, "published")))
 		.groupBy(categories.id)
 		.orderBy(asc(categories.sortOrder), asc(categories.name));
+
+// Các nước đang có job published, kèm số job
+export const getJobCountries = () =>
+	getDb()
+		.select({ code: jobs.country, count: count() })
+		.from(jobs)
+		.where(and(eq(jobs.status, "published"), sql`${jobs.country} is not null`))
+		.groupBy(jobs.country);

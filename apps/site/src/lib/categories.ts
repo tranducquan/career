@@ -9,6 +9,7 @@ export const getCategories = async () => {
 	return rows.map((row) => ({
 		id: row.id,
 		name: row.name,
+		slug: row.slug,
 		count: row.count,
 		iconKey: row.iconKey ?? undefined,
 		href: `/jobs?category=${encodeURIComponent(row.slug)}`,

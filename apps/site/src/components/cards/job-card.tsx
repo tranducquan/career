@@ -8,6 +8,7 @@ import { jobPath } from "@/lib/slug";
 import { getJobLocation } from "@/lib/job-format";
 import type { JobType } from "@/types";
 import FeaturedBadge from "../jobs/featured-badge";
+import CountryFlag from "../ui/country-flag";
 
 type Props = {
 	job: JobType;
@@ -22,9 +23,9 @@ const stretched = "after:absolute after:inset-0 after:content-['']";
 
 const typeLabel = (type: string) => type.replace(" ", "-");
 
-const Meta = ({ icon: Icon, children }: { icon: typeof MapPin; children: React.ReactNode }) => (
+const Meta = ({ icon: Icon, flag, children }: { icon?: typeof MapPin; flag?: string; children: React.ReactNode }) => (
 	<span className="inline-flex items-center gap-1.5">
-		<Icon aria-hidden className="size-5 shrink-0 text-gray-400" strokeWidth={1.5} />
+		{flag ? <CountryFlag code={flag} /> : Icon && <Icon aria-hidden className="size-5 shrink-0 text-gray-400" strokeWidth={1.5} />}
 		{children}
 	</span>
 );
@@ -34,7 +35,7 @@ const Horizontal = ({ job, className }: CardProps) => {
 
 	return (
 		<article className={cn("group relative flex items-center gap-4 rounded-xl border border-gray-100 p-4 transition md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg", className)}>
-			<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="..." />
+			<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-14 rounded-md text-xl md:size-16" />
 			<div className="min-w-0 flex-1">
 				<div className="flex flex-wrap items-center gap-2">
 					<h3 className="text-base font-medium text-gray-900 md:text-lg group-hover:text-primary-500">
@@ -47,7 +48,11 @@ const Horizontal = ({ job, className }: CardProps) => {
 				</div>
 
 				<div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-gray-500">
-					{location && <Meta icon={job.remote ? Globe : MapPin}>{location}</Meta>}
+					{location && (
+						<Meta icon={job.remote ? Globe : MapPin} flag={job.country}>
+							{location}
+						</Meta>
+					)}
 					{job.salary && <Meta icon={DollarSign}>{job.salary}</Meta>}
 					{job.deadline && (
 						<Meta icon={CalendarDays}>
@@ -56,7 +61,6 @@ const Horizontal = ({ job, className }: CardProps) => {
 					)}
 				</div>
 			</div>
-
 			<div className="flex shrink-0 items-center gap-3 md:gap-5">
 				<SaveJobButton jobId={job.id} appearance="plain" className="relative z-10" />
 				<span className="hidden items-center gap-2 rounded-md bg-primary-100 px-6 py-3.5 text-sm font-semibold text-primary-500 transition-colors group-hover:bg-primary-500 group-hover:text-white md:inline-flex">
@@ -85,17 +89,16 @@ const Vertical = ({ job, className }: CardProps) => {
 			</div>
 
 			<div className="mt-auto flex items-center gap-3 pt-2.5">
-				<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="..." />
+				<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-14 rounded-md bg-primary-50 text-xl" />
 				<div className="min-w-0 flex-1">
 					<p className="mb-1.5 truncate text-base font-medium text-gray-900">{job.company}</p>
 					{location && (
 						<p className="flex items-center gap-1.5 text-sm text-gray-500">
-							{job.remote ? <Globe aria-hidden className="size-5 shrink-0 text-gray-400" /> : <MapPin aria-hidden className="size-5 shrink-0 text-gray-400" />}
+							{job.country ? <CountryFlag code={job.country} /> : job.remote ? <Globe aria-hidden className="size-5 shrink-0 text-gray-400" /> : <MapPin aria-hidden className="size-5 shrink-0 text-gray-400" />}
 							<span className="truncate">{location}</span>
 						</p>
 					)}
 				</div>
-
 				<SaveJobButton jobId={job.id} appearance="plain" className="relative z-10 text-gray-300" />
 			</div>
 		</article>

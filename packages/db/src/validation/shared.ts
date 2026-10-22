@@ -52,3 +52,11 @@ export const slugify = (text: string) =>
 const logoPattern = /^(thesvg:[a-z0-9-]+|https?:\/\/\S+|\/\S+)$/i;
 
 export const logoValue = z.preprocess(emptyToNull, z.string().max(300).regex(logoPattern, "Logo must be an icon name or a link starting with http(s):// or /").nullable());
+
+export const countryCode = z.preprocess(
+	(value) => (typeof value === "string" && value.trim() !== "" ? value.trim().toUpperCase() : null),
+	z
+		.string()
+		.regex(/^[A-Z]{2}$/, "Invalid country")
+		.nullable(),
+);

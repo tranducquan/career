@@ -3,10 +3,12 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import type { Job } from "@repo/db/schema";
+import { jobEducations, jobExperiences, jobLevels, jobTypes, countries } from "@repo/db/validation";
 import type { FormState } from "@/lib/form-state";
 import { input, textarea } from "./styles";
 import RichTextEditor from "./rich-text-editor";
 import { Field, FormErrors, Metabox, SubmitButton } from "./wp";
+import LocationPicker from "./location-picker";
 
 type Option = { id: number; name: string };
 
@@ -17,7 +19,7 @@ type Props = {
 	job?: Job;
 };
 
-type TextField = "title" | "type" | "level" | "location" | "salary" | "salaryRange" | "salaryType" | "education" | "experience" | "postedAt" | "deadline" | "description" | "companyId" | "categoryId" | "status";
+type TextField = "title" | "type" | "level" | "location" | "salary" | "salaryRange" | "salaryType" | "education" | "experience" | "postedAt" | "deadline" | "description" | "companyId" | "categoryId" | "status" | "country";
 type ListField = "responsibilities" | "requirements" | "desirable" | "benefits" | "perks" | "tags";
 
 const JobForm = ({ action, companies, categories, job }: Props) => {
@@ -118,33 +120,50 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 
 					<Metabox title="Job details">
 						<Field label="Type">
-							<input name="type" defaultValue={text("type")} list="job-types" required className={input} />
-							<datalist id="job-types">
-								{["Full Time", "Part Time", "Contract", "Internship", "Freelance"].map((type) => (
-									<option key={type} value={type} />
+							<select name="type" defaultValue={text("type") || jobTypes[0]} className={input}>
+								{jobTypes.map((t) => (
+									<option key={t} value={t}>
+										{t}
+									</option>
 								))}
-							</datalist>
+							</select>
 						</Field>
 						<Field label="Level">
-							<input name="level" defaultValue={text("level")} list="job-levels" className={input} />
-							<datalist id="job-levels">
-								{["Intern", "Entry Level", "Mid Level", "Senior Level", "Lead"].map((level) => (
-									<option key={level} value={level} />
+							<select name="level" defaultValue={text("level")} className={input}>
+								<option value="">None</option>
+								{jobLevels.map((l) => (
+									<option key={l} value={l}>
+										{l}
+									</option>
 								))}
-							</datalist>
+							</select>
 						</Field>
-						<Field label="Location" hint="Required unless the job is remote. For remote jobs, use it for the allowed region.">
-							<input name="location" defaultValue={text("location")} className={input} />
+						<Field label="Location" hint="Required unless the job is remote. For remote jobs, pick the allowed country.">
+							<LocationPicker defaultCountry={text("country")} defaultLocation={text("location")} />
 						</Field>
 						<label className="flex items-center gap-2">
 							<input type="checkbox" name="remote" defaultChecked={checked("remote")} />
 							<span>Remote</span>
 						</label>
 						<Field label="Education">
-							<input name="education" defaultValue={text("education")} className={input} />
+							<select name="education" defaultValue={text("education")} className={input}>
+								<option value="">None</option>
+								{jobEducations.map((e) => (
+									<option key={e} value={e}>
+										{e}
+									</option>
+								))}
+							</select>
 						</Field>
 						<Field label="Experience">
-							<input name="experience" defaultValue={text("experience")} className={input} />
+							<select name="experience" defaultValue={text("experience")} className={input}>
+								<option value="">None</option>
+								{jobExperiences.map((x) => (
+									<option key={x} value={x}>
+										{x}
+									</option>
+								))}
+							</select>
 						</Field>
 					</Metabox>
 
