@@ -1,15 +1,16 @@
 import Container from "../layout/container";
 import SectionHeading from "../ui/section-heading";
 import TestimonialsCarousel from "../ui/testimonials-carousel";
+import Section from "../layout/section";
 
 const TestimonialsSection = () => {
 	return (
-		<section className="bg-gray-100 py-12 md:py-20 lg:py-24">
+		<Section className="bg-gray-100">
 			<Container>
 				<SectionHeading title="Clients Testimonial" align="center" className="mb-8 md:mb-12" />
 				<TestimonialsCarousel />
 			</Container>
-		</section>
+		</Section>
 	);
 };
 

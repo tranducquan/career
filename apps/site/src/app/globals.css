@@ -45,5 +45,25 @@
 
 .testimonial-bullet-active {
 	width: 1.5rem;
-	background: #2563eb;
+	background: #0a65cc;
+}
+
+/* job search */
+.check-tick,
+.radio-dot {
+	appearance: none;
+	-webkit-appearance: none;
+}
+.check-tick:checked {
+	background-color: #0a65cc;
+	border-color: #0a65cc;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 12px;
+}
+.radio-dot:checked {
+	background-color: #0a65cc;
+	border-color: #0a65cc;
+	box-shadow: inset 0 0 0 3px #fff;
 }

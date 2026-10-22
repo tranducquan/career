@@ -114,3 +114,12 @@ export const getJobCountries = () =>
 		.from(jobs)
 		.where(and(eq(jobs.status, "published"), sql`${jobs.country} is not null`))
 		.groupBy(jobs.country);
+
+// Các tag xuất hiện nhiều nhất trong job đang đăng
+export const getPopularTags = async (limit = 10) => {
+	const db = getDb();
+	const tag = sql<string>`unnest(${jobs.tags})`.as("tag");
+	const source = db.select({ tag }).from(jobs).where(eq(jobs.status, "published")).as("t");
+
+	return db.select({ tag: source.tag, total: count() }).from(source).groupBy(source.tag).orderBy(desc(count()), asc(source.tag)).limit(limit);
+};

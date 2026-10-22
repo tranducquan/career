@@ -16,7 +16,7 @@ const navs = [
 	{
 		title: "Candidate",
 		list: [
-			{ title: "Browse Jobs", link: "#" },
+			{ title: "Browse Jobs", link: "/jobs" },
 			{ title: "Browse Employees", link: "#" },
 			{ title: "Candidate Dashboard", link: "#" },
 			{ title: "Saved Jobs", link: "#" },
@@ -50,7 +50,7 @@ const socials = [
 
 const Footer = () => {
 	return (
-		<footer id="footer" className="bg-gray-900 text-sm text-white/75 md:text-base">
+		<footer id="footer" className="bg-primary-900 text-sm text-white/75 md:text-base">
 			<div className="py-14 md:py-20">
 				<Container>
 					<div className="grid gap-10 md:gap-12 xl:grid-cols-6">

@@ -5,6 +5,7 @@ import SectionHeading from "../ui/section-heading";
 import Button from "../ui/button";
 import { vacancies } from "@/data";
 import { cn } from "@/lib/cn";
+import Section from "../layout/section";
 
 const MOBILE_LIMIT = 6;
 
@@ -12,7 +13,7 @@ const numberFormat = new Intl.NumberFormat("en-US");
 
 const VacancySection = () => {
 	return (
-		<section className="border-b border-gray-100 py-12 md:py-20 lg:py-24">
+		<Section>
 			<Container>
 				<SectionHeading title="Most Popular Vacancies" />
 
@@ -36,7 +37,7 @@ const VacancySection = () => {
 					</Button>
 				)}
 			</Container>
-		</section>
+		</Section>
 	);
 };
 

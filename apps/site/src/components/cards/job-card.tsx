@@ -8,7 +8,6 @@ import { jobPath } from "@/lib/slug";
 import { getJobLocation } from "@/lib/job-format";
 import type { JobType } from "@/types";
 import FeaturedBadge from "../jobs/featured-badge";
-import CountryFlag from "../ui/country-flag";
 
 type Props = {
 	job: JobType;
@@ -23,9 +22,9 @@ const stretched = "after:absolute after:inset-0 after:content-['']";
 
 const typeLabel = (type: string) => type.replace(" ", "-");
 
-const Meta = ({ icon: Icon, flag, children }: { icon?: typeof MapPin; flag?: string; children: React.ReactNode }) => (
+const Meta = ({ icon: Icon, children }: { icon: typeof MapPin; children: React.ReactNode }) => (
 	<span className="inline-flex items-center gap-1.5">
-		{flag ? <CountryFlag code={flag} /> : Icon && <Icon aria-hidden className="size-5 shrink-0 text-gray-400" strokeWidth={1.5} />}
+		<Icon aria-hidden className="size-5 shrink-0 text-gray-400" strokeWidth={1.75} />
 		{children}
 	</span>
 );
@@ -34,8 +33,8 @@ const Horizontal = ({ job, className }: CardProps) => {
 	const location = getJobLocation(job);
 
 	return (
-		<article className={cn("group relative flex items-center gap-4 rounded-xl border border-gray-100 p-4 transition md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg", className)}>
-			<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-14 rounded-md text-xl md:size-16" />
+		<article className={cn("group relative isolate flex items-center gap-4 rounded-xl border border-gray-100 p-4 transition md:gap-6 md:p-6 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg", className)}>
+			<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-14 rounded-lg text-xl md:size-16 p-0.5 md:p-1" />
 			<div className="min-w-0 flex-1">
 				<div className="flex flex-wrap items-center gap-2">
 					<h3 className="text-base font-medium text-gray-900 md:text-lg group-hover:text-primary-500">
@@ -48,11 +47,7 @@ const Horizontal = ({ job, className }: CardProps) => {
 				</div>
 
 				<div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-gray-500">
-					{location && (
-						<Meta icon={job.remote ? Globe : MapPin} flag={job.country}>
-							{location}
-						</Meta>
-					)}
+					{location && <Meta icon={job.remote ? Globe : MapPin}>{location}</Meta>}
 					{job.salary && <Meta icon={DollarSign}>{job.salary}</Meta>}
 					{job.deadline && (
 						<Meta icon={CalendarDays}>
@@ -75,27 +70,26 @@ const Vertical = ({ job, className }: CardProps) => {
 	const location = getJobLocation(job);
 
 	return (
-		<article className={cn("group relative flex h-full flex-col gap-3.5 rounded-xl border border-gray-200 p-5 transition md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg md:p-6", className)}>
+		<article className={cn("group relative isolate flex h-full flex-col gap-3.5 rounded-xl border border-gray-200 p-5 transition md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg md:p-6", className)}>
 			<h3 className="line-clamp-2 text-xl leading-normal font-medium text-gray-900 transition-colors group-hover:text-primary-500">
 				<Link href={jobPath(job)} className={stretched}>
 					{job.title}
 				</Link>
 			</h3>
 
-			<div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
+			<div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 -mt-1">
 				{job.featured && <FeaturedBadge />}
 				<span className="rounded-xs bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-500 uppercase">{typeLabel(job.type)}</span>
 				{job.salary && <span>{job.salary}</span>}
 			</div>
 
 			<div className="mt-auto flex items-center gap-3 pt-2.5">
-				<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-14 rounded-md bg-primary-50 text-xl" />
+				<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-14 rounded-lg text-xl p-0.5" />
 				<div className="min-w-0 flex-1">
 					<p className="mb-1.5 truncate text-base font-medium text-gray-900">{job.company}</p>
 					{location && (
-						<p className="flex items-center gap-1.5 text-sm text-gray-500">
-							{job.country ? <CountryFlag code={job.country} /> : job.remote ? <Globe aria-hidden className="size-5 shrink-0 text-gray-400" /> : <MapPin aria-hidden className="size-5 shrink-0 text-gray-400" />}
-							<span className="truncate">{location}</span>
+						<p className="text-sm text-gray-500">
+							<Meta icon={job.remote ? Globe : MapPin}>{location}</Meta>
 						</p>
 					)}
 				</div>
