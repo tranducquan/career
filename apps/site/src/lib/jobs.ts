@@ -47,7 +47,6 @@ const toJob = ({ job, companyName, companyLogoUrl }: Row): JobType => ({
 	requirements: job.requirements,
 	desirable: job.desirable,
 	benefits: job.benefits,
-	perks: job.perks,
 	tags: job.tags,
 });
 

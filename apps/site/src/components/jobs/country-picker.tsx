@@ -48,15 +48,15 @@ const CountryPicker = ({ options, value, onChange, onOpen }: Props) => {
 					if (!open) onOpen?.();
 					setOpen((v) => !v);
 				}}
-				className="flex h-12 w-full items-center gap-3 px-3 text-left text-base"
+				className="flex h-12.5 w-full items-center gap-3 px-3 text-left text-base"
 			>
-				{selected ? <CountryFlag code={selected.code} /> : <Globe className="size-5 shrink-0 text-primary-500" aria-hidden />}
+				{selected ? <CountryFlag code={selected.code} /> : <Globe className="size-6 shrink-0 text-primary-500" strokeWidth={1.75} aria-hidden />}
 				<span className={cn("min-w-0 flex-1 truncate", !selected && "text-gray-400")}>{selected ? selected.name : "Select Country"}</span>
 				<ChevronDown className={cn("size-4 shrink-0 text-gray-400 transition-transform", open && "rotate-180")} aria-hidden />
 			</button>
 
 			{open && (
-				<ul role="listbox" className="absolute top-full left-0 z-30 mt-4 max-h-72 w-full min-w-60 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+				<ul role="listbox" className="absolute top-full left-0 z-30 mt-5 max-h-75 w-full min-w-60 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
 					<li role="option" aria-selected={!value}>
 						<button type="button" onClick={() => pick(undefined)} className={cn(item, !value && "bg-primary-50 text-primary-500")}>
 							<Globe className="size-5 shrink-0 text-gray-400" aria-hidden />

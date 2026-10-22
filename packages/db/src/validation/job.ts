@@ -27,7 +27,6 @@ export const jobInputSchema = z
 		requirements: lines,
 		desirable: lines,
 		benefits: lines,
-		perks: lines,
 		tags: lines,
 	})
 	.refine((job) => job.remote || job.location, { message: "Location is required for non-remote jobs", path: ["location"] });
