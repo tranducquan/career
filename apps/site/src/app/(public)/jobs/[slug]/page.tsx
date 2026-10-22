@@ -15,6 +15,8 @@ import type { JobType } from "@/types";
 import { jobPath } from "@/lib/slug";
 import { getJob, SITE_URL } from "@/lib/jobs";
 import { typeLabel } from "@/lib/job-format";
+import CountryFlag from "@/components/ui/country-flag";
+import { countryName } from "@/lib/country";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -60,7 +62,11 @@ const SalaryLocation = ({ job }: { job: JobType }) => {
 				{job.salaryRange && <p className="mt-2 text-lg font-medium text-green-500 md:text-xl">{job.salaryRange}</p>}
 				{job.salaryType && <p className="mt-1 text-sm text-gray-500">{job.salaryType}</p>}
 			</div>
-
+			{job.country && (
+				<p className="mt-1 flex items-center justify-center gap-2 text-sm text-gray-500">
+					<CountryFlag code={job.country} /> {countryName(job.country)}
+				</p>
+			)}
 			{hasLocation && (
 				<div className="border-l border-primary-100 pl-2 text-center">
 					<LocationIcon aria-hidden className="mx-auto mb-2 size-7 text-primary-500" strokeWidth={1.5} />

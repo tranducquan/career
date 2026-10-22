@@ -54,6 +54,7 @@ export type JobType = {
 	logoUrl?: string; // logo lấy từ database
 	companyInfo?: CompanyInfoType;
 	featured?: boolean;
+	country?: string;
 	location?: string;
 	remote?: boolean;
 	type: string;

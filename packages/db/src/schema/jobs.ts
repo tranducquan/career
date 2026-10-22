@@ -46,6 +46,7 @@ export const jobs = pgTable(
 		benefits: list("benefits"),
 		perks: list("perks"),
 		tags: list("tags"),
+		country: text("country"), // mã ISO 3166-1 alpha-2, ví dụ "VN"
 		createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 		updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 	},
