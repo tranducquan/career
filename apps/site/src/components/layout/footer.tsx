@@ -2,6 +2,7 @@ import Link from "next/link";
 import Container from "./container";
 import { Phone, MapPin } from "lucide-react";
 import { Facebook, Youtube, Instagram, Twitter } from "@thesvg/react";
+import Logo from "./logo";
 
 const navs = [
 	{
@@ -54,10 +55,8 @@ const Footer = () => {
 			<div className="py-14 md:py-20">
 				<Container>
 					<div className="grid gap-10 md:gap-12 xl:grid-cols-6">
-						<div className="space-y-5 border-b border-white/10 pb-10 xl:col-span-2 xl:border-b-0 xl:pb-0">
-							<Link href="/" className="inline-block text-2xl font-semibold text-white">
-								JobPlatform
-							</Link>
+						<div className="space-y-6 border-b border-white/10 pb-10 xl:col-span-2 xl:border-b-0 xl:pb-0">
+							<Logo className="text-white" />
 
 							<div className="space-y-3">
 								<a href="tel:+13195550115" className="flex items-center gap-3 font-medium text-white transition-colors hover:text-primary-400 md:text-lg">

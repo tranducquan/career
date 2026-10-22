@@ -20,7 +20,7 @@ type Props = {
 };
 
 type TextField = "title" | "type" | "level" | "location" | "salary" | "salaryRange" | "salaryType" | "education" | "experience" | "postedAt" | "deadline" | "description" | "companyId" | "categoryId" | "status" | "country";
-type ListField = "responsibilities" | "requirements" | "desirable" | "benefits" | "perks" | "tags";
+type ListField = "responsibilities" | "requirements" | "desirable" | "benefits" | "tags";
 
 const JobForm = ({ action, companies, categories, job }: Props) => {
 	const [state, formAction, pending] = useActionState(action, undefined);
@@ -38,7 +38,7 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 
 	const listBox = (name: ListField, title: string) => (
 		<Metabox title={title}>
-			<textarea name={name} defaultValue={list(name)} rows={4} aria-label={title} className={textarea} />
+			<textarea name={name} defaultValue={list(name)} rows={7} aria-label={title} className={textarea} />
 			<p className="text-xs text-[#646970]">One item per line.</p>
 		</Metabox>
 	);
@@ -60,7 +60,6 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 					{listBox("desirable", "Desirable")}
 					{listBox("benefits", "Benefits")}
 					{listBox("responsibilities", "Responsibilities")}
-					{listBox("perks", "Perks (tags)")}
 					{listBox("tags", "Job tags")}
 				</div>
 

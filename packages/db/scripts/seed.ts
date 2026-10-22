@@ -73,7 +73,6 @@ const seeds: Seed[] = [
 		requirements: ["3+ years of product design experience", "Strong portfolio of shipped work", "Comfortable with Figma and design systems"],
 		desirable: ["Experience with e-commerce platforms", "API platform experience"],
 		benefits: ["Early finish on Fridays", "28 days holiday", "Healthcare package"],
-		perks: ["401k Salary", "Async", "Learning budget", "Vision Insurance"],
 		tags: ["Design", "UX", "Figma"],
 	},
 	{
@@ -95,7 +94,6 @@ const seeds: Seed[] = [
 		requirements: ["3+ years of backend experience", "Experience designing distributed systems"],
 		desirable: ["Experience with Kubernetes"],
 		benefits: ["Stock purchase plan", "Health, dental and vision coverage"],
-		perks: ["Remote friendly", "Equity Compensation"],
 		tags: ["Backend", "Go", "Distributed systems"],
 	},
 	{
@@ -115,7 +113,6 @@ const seeds: Seed[] = [
 		description: "Join our marketing design team and help create visuals across web, print and social.",
 		requirements: ["1+ year of graphic design experience", "Proficiency in Figma and Illustrator"],
 		benefits: ["Mentorship from senior designers", "Flexible hours"],
-		perks: ["Mentorship", "Flexible hours", "Free snacks"],
 		tags: ["Design", "Branding"],
 	},
 	{
@@ -138,7 +135,6 @@ const seeds: Seed[] = [
 		requirements: ["5+ years of backend development", "Experience with Ruby on Rails or Go", "Strong knowledge of relational databases"],
 		desirable: ["Experience with Git internals"],
 		benefits: ["Fully remote with a home office stipend", "Unlimited paid time off"],
-		perks: ["Fully remote", "Async", "Unlimited PTO"],
 		tags: ["Backend", "Ruby", "Go", "MySQL"],
 	},
 	{
@@ -158,7 +154,6 @@ const seeds: Seed[] = [
 		description: "Lead the roadmap for our collaboration features and turn customer problems into products people love.",
 		requirements: ["4+ years of product management in SaaS", "Track record of shipping measurable impact"],
 		benefits: ["Hybrid schedule", "Wellness stipend", "401(k) with company match"],
-		perks: ["Hybrid", "Wellness stipend", "401k Match"],
 		tags: ["Product", "SaaS", "Roadmap"],
 	},
 	{
@@ -178,7 +173,6 @@ const seeds: Seed[] = [
 		description: "Grow our blog, templates library and newsletter with content that helps teams get more done.",
 		requirements: ["2+ years in content marketing", "Strong portfolio of long-form articles", "Understanding of SEO"],
 		benefits: ["Flexible working hours", "Possibility of extension to full-time"],
-		perks: ["Flexible hours", "6 month contract"],
 		tags: ["Marketing", "Content", "SEO"],
 	},
 	{
@@ -220,7 +214,6 @@ const seeds: Seed[] = [
 		description: "A 12 week internship running real campaigns across search, display and social, with a dedicated mentor.",
 		requirements: ["Currently enrolled in a bachelor's or master's program", "Interest in digital marketing"],
 		benefits: ["Dedicated mentor", "Housing stipend"],
-		perks: ["Mentorship", "Housing stipend", "Free meals"],
 		tags: ["Marketing", "Internship"],
 	},
 	{
@@ -240,7 +233,6 @@ const seeds: Seed[] = [
 		description: "Help customers get the most out of Notion by answering questions and escalating issues.\n\nThis part-time role covers weekend shifts and is open worldwide.",
 		requirements: ["1+ year in customer support", "Clear written English", "Available for weekend shifts"],
 		benefits: ["Work from anywhere", "Paid training"],
-		perks: ["Work from anywhere", "Paid training", "Weekend shifts"],
 		tags: ["Support", "Customer service"],
 	},
 ];

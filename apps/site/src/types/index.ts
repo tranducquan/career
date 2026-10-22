@@ -71,7 +71,6 @@ export type JobType = {
 	requirements?: string[];
 	desirable?: string[]; // mục "Desirable"
 	benefits?: string[]; // bullet ở cột trái
-	perks?: string[]; // tag xanh trong card "Job Benefits"
 	tags?: string[]; // "Job tags"
 };
 

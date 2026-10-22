@@ -18,7 +18,7 @@ const CompanyCard = ({ company }: { company: CompanyType }) => {
 						{featured && <FeaturedBadge />}
 					</div>
 					<p className="mt-1 flex items-center gap-1.5 text-sm text-gray-500">
-						<MapPin className="size-4 shrink-0" aria-hidden />
+						<MapPin className="size-5 shrink-0" strokeWidth={1.75} aria-hidden />
 						<span className="truncate">{location}</span>
 					</p>
 				</div>

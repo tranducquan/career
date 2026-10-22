@@ -175,14 +175,14 @@ const JobsSearch = ({ values, categories, countries, viewState }: { values: JobF
 			<div aria-hidden className={cn("fixed inset-0 z-30 bg-black/50 transition-opacity duration-300", dim ? "opacity-100" : "pointer-events-none opacity-0")} />
 
 			<form ref={formRef} onSubmit={submit} onFocus={onFocus} onBlur={onBlur} onMouseDown={onFocus} role="search" className={cn("relative rounded-xl bg-white shadow-sm transition-shadow", dim && "z-40 shadow-xl")}>
-				<div className="flex flex-col gap-1 p-2 lg:flex-row lg:items-center lg:gap-0">
-					<label className="flex flex-1 items-center gap-3 px-3 lg:border-r lg:border-gray-100">
-						<Search className="size-5 shrink-0 text-primary-500" aria-hidden />
+				<div className="flex flex-col gap-1 p-3 lg:flex-row lg:items-center lg:gap-0">
+					<label className="flex flex-1 items-center gap-3 px-3 lg:border-r lg:border-gray-200">
+						<Search className="size-6 shrink-0 text-primary-500" strokeWidth={1.75} aria-hidden />
 						<span className="sr-only">Keyword</span>
 						<input value={draft.q ?? ""} onChange={(e) => patch({ q: e.target.value })} placeholder="Job title, Keyword..." className={inputClass} />
 					</label>
 
-					<div className="flex flex-1 lg:border-r lg:border-gray-100">
+					<div className="flex flex-1 lg:border-r lg:border-gray-200">
 						<CountryPicker options={countries} value={draft.country} onChange={(country) => patch({ country })} onOpen={() => setOpen(false)} />
 					</div>
 

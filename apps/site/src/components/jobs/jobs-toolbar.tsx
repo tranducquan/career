@@ -12,7 +12,7 @@ type Props = {
 	view: "grid" | "list";
 };
 
-const selectClass = "h-12 w-full cursor-pointer appearance-none rounded-md border border-gray-200 bg-white pr-9 pl-4 text-sm text-gray-700 outline-none focus-visible:border-blue-600";
+const selectClass = "h-12 w-full cursor-pointer appearance-none rounded-md border border-gray-200 bg-white pr-9 pl-4 text-sm text-gray-700 outline-none focus-visible:border-primary-500";
 
 const JobsToolbar = ({ params, sort, limit, view }: Props) => {
 	const router = useRouter();
@@ -58,7 +58,7 @@ const JobsToolbar = ({ params, sort, limit, view }: Props) => {
 				<ChevronDown className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-gray-400" aria-hidden />
 			</div>
 
-			<div className="flex items-center gap-1 rounded-md border border-gray-200 bg-white p-1">
+			<div className="hidden md:flex items-center gap-1 rounded-md border border-gray-200 bg-white p-1">
 				{viewButton("grid", "Grid view", LayoutGrid)}
 				{viewButton("list", "List view", StretchHorizontal)}
 			</div>

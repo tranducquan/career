@@ -23,7 +23,7 @@ const CategorySection = async () => {
 					{categories.map(({ id, href, name, count, iconKey }, i) => (
 						<li key={id} className={cn(i >= MOBILE_LIMIT && "max-md:hidden")}>
 							<Link href={href} className="group flex h-full flex-col items-start gap-3 rounded-xl border border-gray-100 p-3 transition md:gap-4 md:p-5 md:hover:-translate-y-1 md:hover:border-primary-300 md:hover:shadow-lg lg:flex-row lg:items-center">
-								<div className="flex size-12 shrink-0 items-center justify-center rounded-md bg-primary-100 p-3 text-primary-500 transition-colors group-hover:bg-primary-500 group-hover:text-white md:size-17 md:p-5">
+								<div className="flex size-12 shrink-0 items-center justify-center rounded-md bg-primary-50 p-3 text-primary-500 transition-colors group-hover:bg-primary-500 group-hover:text-white md:size-17 md:p-5">
 									<DynamicIcon name={(iconKey ?? "shapes") as IconName} className="size-6 md:size-7" strokeWidth={1.75} />
 								</div>
 

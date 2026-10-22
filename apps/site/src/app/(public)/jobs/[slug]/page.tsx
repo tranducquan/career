@@ -15,8 +15,10 @@ import type { JobType } from "@/types";
 import { jobPath } from "@/lib/slug";
 import { getJob, SITE_URL } from "@/lib/jobs";
 import { typeLabel } from "@/lib/job-format";
+import JobDescription from "@/components/jobs/job-description";
+import { formatDate } from "@/lib/date";
 import CountryFlag from "@/components/ui/country-flag";
-import { countryName } from "@/lib/country";
+import { getJobLocation } from "@/lib/job-format";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,9 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	return { title: `${job.title} - ${job.company}`, description: job.description.slice(0, 150) };
 }
 
-const card = "rounded-lg border border-primary-100 bg-white";
+const card = "rounded-lg border border-gray-200 bg-white";
 const gridCols = "lg:grid-cols-[1fr_28rem] lg:gap-10 xl:grid-cols-[1fr_32rem] xl:gap-14";
-const heading = "text-lg leading-normal font-medium text-gray-900 md:text-xl";
+const heading = "text-lg leading-normal font-medium text-gray-900";
 
 const BulletList = ({ title, items }: { title: string; items?: string[] }) => {
 	if (!items?.length) return null;
@@ -39,8 +41,8 @@ const BulletList = ({ title, items }: { title: string; items?: string[] }) => {
 		<section>
 			<h2 className={`mb-4 ${heading}`}>{title}</h2>
 			<ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-gray-500 marker:text-gray-500 md:text-base">
-				{items.map((item) => (
-					<li key={item}>{item}</li>
+				{items.map((item, i) => (
+					<li key={`${i}-${item}`}>{item}</li>
 				))}
 			</ul>
 		</section>
@@ -48,50 +50,23 @@ const BulletList = ({ title, items }: { title: string; items?: string[] }) => {
 };
 
 const SalaryLocation = ({ job }: { job: JobType }) => {
-	const hasLocation = job.remote || job.location;
-	if (!job.salaryRange && !hasLocation) return null;
-
-	const LocationIcon = job.remote ? Globe : MapIcon;
-	const locationValue = job.remote ? "Remote" : job.location;
-	const locationNote = job.remote ? (job.location ?? "Work from anywhere") : undefined;
+	const location = getJobLocation(job);
+	if (!job.salaryRange && !location) return null;
 
 	return (
-		<div className={`${card} grid ${hasLocation ? "grid-cols-2" : "grid-cols-1"} items-center gap-4 p-4 md:p-6`}>
+		<div className={`${card} grid ${location ? "grid-cols-2" : "grid-cols-1"} items-center gap-4 p-4 md:p-6`}>
 			<div className="pr-2 text-center">
 				<p className="text-base leading-normal font-medium text-gray-900 md:text-lg">Salary (USD)</p>
-				{job.salaryRange && <p className="mt-2 text-lg font-medium text-green-500 md:text-xl">{job.salaryRange}</p>}
+				{job.salaryRange && <p className="mt-2 text-lg font-semibold text-success-500 md:text-xl">{job.salaryRange}</p>}
 				{job.salaryType && <p className="mt-1 text-sm text-gray-500">{job.salaryType}</p>}
 			</div>
-			{job.country && (
-				<p className="mt-1 flex items-center justify-center gap-2 text-sm text-gray-500">
-					<CountryFlag code={job.country} /> {countryName(job.country)}
-				</p>
-			)}
-			{hasLocation && (
-				<div className="border-l border-primary-100 pl-2 text-center">
-					<LocationIcon aria-hidden className="mx-auto mb-2 size-7 text-primary-500" strokeWidth={1.5} />
+			{location && (
+				<div className="flex flex-col items-center border-l border-gray-200 pl-2 text-center">
+					{job.country ? <CountryFlag code={job.country} className="mb-2 w-9" /> : job.remote ? <Globe aria-hidden className="mb-2 size-6 text-primary-500" strokeWidth={1.75} /> : <MapIcon aria-hidden className="mb-2 size-6 text-primary-500" strokeWidth={1.75} />}
 					<p className="text-base leading-normal font-medium text-gray-900 md:text-lg">Job Location</p>
-					<p className="mt-1 text-sm text-gray-500 md:text-base">{locationValue}</p>
-					{locationNote && <p className="text-sm text-gray-400">{locationNote}</p>}
+					<p className="mt-1 text-sm text-gray-500 md:text-base">{location}</p>
 				</div>
 			)}
-		</div>
-	);
-};
-
-const JobBenefits = ({ perks }: { perks?: string[] }) => {
-	if (!perks?.length) return null;
-
-	return (
-		<div className={`${card} p-4 md:p-6`}>
-			<h2 className={`mb-5 ${heading}`}>Job Benefits</h2>
-			<ul className="flex flex-wrap gap-2.5">
-				{perks.map((perk) => (
-					<li key={perk} className="rounded-sm bg-green-100 px-3 py-2 text-sm font-medium text-green-700">
-						{perk}
-					</li>
-				))}
-			</ul>
 		</div>
 	);
 };
@@ -125,8 +100,8 @@ const ShareButtons = ({ job }: { job: JobType }) => {
 
 const JobOverview = ({ job }: { job: JobType }) => {
 	const items = [
-		{ icon: CalendarDays, label: "Job posted", value: job.postedAt },
-		{ icon: Timer, label: "Job expire in", value: job.deadline },
+		{ icon: CalendarDays, label: "Job posted", value: formatDate(job.postedAt) },
+		{ icon: Timer, label: "Job expires", value: formatDate(job.deadline) },
 		{ icon: Layers, label: "Job level", value: job.level },
 		{ icon: Wallet, label: "Experience", value: job.experience },
 		{ icon: BriefcaseBusiness, label: "Education", value: job.education },
@@ -139,7 +114,7 @@ const JobOverview = ({ job }: { job: JobType }) => {
 				<dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
 					{items.map(({ icon: Icon, label, value }) => (
 						<div key={label}>
-							<Icon aria-hidden className="mb-4 size-7 text-primary-500" strokeWidth={1.5} />
+							<Icon aria-hidden className="mb-4 size-6 text-primary-500" strokeWidth={1.75} />
 							<dt className="text-sm text-gray-500 uppercase">{label}</dt>
 							<dd className="mt-1.5 text-sm font-medium text-gray-900 md:text-base">{value}</dd>
 						</div>
@@ -147,7 +122,7 @@ const JobOverview = ({ job }: { job: JobType }) => {
 				</dl>
 			</div>
 
-			<div className="space-y-4 border-t border-primary-100 p-4 md:space-y-6 md:p-6">
+			<div className="space-y-4 border-t border-gray-200 p-4 md:space-y-6 md:p-6">
 				<ShareButtons job={job} />
 
 				{job.tags && job.tags.length > 0 && (
@@ -173,8 +148,6 @@ const JobDetail = async ({ params }: Props) => {
 	if (!job) notFound();
 	if (jobPath(job) !== `/jobs/${slug}`) permanentRedirect(jobPath(job));
 
-	const paragraphs = job.description.split("\n\n");
-
 	return (
 		<div className="pb-16 md:pb-24">
 			<Container>
@@ -182,18 +155,18 @@ const JobDetail = async ({ params }: Props) => {
 					<div className="flex items-center gap-4 md:gap-6">
 						<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-17 rounded-full text-3xl md:size-20 p-2.5" />
 						<div className="min-w-0">
-							<h1 className="text-xl leading-normal font-medium text-gray-900 md:text-2xl lg:text-3xl">{job.title}</h1>
+							<h1 className="text-xl leading-normal font-medium text-gray-900 md:text-2xl lg:text-[1.75rem]">{job.title}</h1>
 							<div className="mt-2.5 flex flex-wrap items-center gap-2.5">
 								<span className="text-sm text-gray-500">at {job.company}</span>
 								{job.featured && <FeaturedBadge />}
-								<span className="rounded-sm bg-green-500 px-2.5 py-0.5 text-xs font-medium text-white uppercase">{typeLabel(job.type)}</span>
+								<span className="rounded-xs bg-success-50 px-2 pt-[0.313rem] pb-1 leading-none text-xs font-semibold text-success-500 uppercase">{typeLabel(job.type)}</span>
 							</div>
 						</div>
 					</div>
 
 					<div className="flex items-center gap-3">
 						<SaveJobButton jobId={job.id} />
-						<Button href="/login" size="lg" className="flex-1 md:flex-none">
+						<Button href="/login">
 							Apply Now <ArrowRight aria-hidden />
 						</Button>
 					</div>
@@ -205,13 +178,10 @@ const JobDetail = async ({ params }: Props) => {
 					<article className="min-w-0 space-y-6">
 						<section>
 							<h2 className={`mb-4 ${heading}`}>Job Description</h2>
-							<div className="space-y-4 text-sm leading-relaxed text-gray-500 md:text-base">
-								{paragraphs.map((p, i) => (
-									<p key={i}>{p}</p>
-								))}
-							</div>
+							<JobDescription text={job.description} />
 						</section>
 
+						<BulletList title="Responsibilities" items={job.responsibilities} />
 						<BulletList title="Requirements" items={job.requirements} />
 						<BulletList title="Desirable" items={job.desirable} />
 						<BulletList title="Benefits" items={job.benefits} />
@@ -219,7 +189,6 @@ const JobDetail = async ({ params }: Props) => {
 
 					<aside className="space-y-6">
 						<SalaryLocation job={job} />
-						<JobBenefits perks={job.perks} />
 						<JobOverview job={job} />
 					</aside>
 				</div>

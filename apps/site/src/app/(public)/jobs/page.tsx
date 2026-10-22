@@ -12,6 +12,7 @@ import { getCategories } from "@/lib/categories";
 import { getCountryOptions } from "@/lib/job-countries";
 import { getTopTags } from "@/lib/popular-tags";
 import Section from "@/components/layout/section";
+import JobsSkeleton from "@/components/jobs/jobs-skeleton";
 
 export const metadata: Metadata = { title: "Find Job | JobPlatform" };
 
@@ -22,7 +23,7 @@ const list = (v: string | string[] | undefined) => first(v)?.split(",").filter(B
 
 export default function JobsPage({ searchParams }: { searchParams: SearchParams }) {
 	return (
-		<Suspense fallback={<div className="py-24 text-center text-gray-500">Loading…</div>}>
+		<Suspense fallback={<JobsSkeleton />}>
 			<JobsContent searchParams={searchParams} />
 		</Suspense>
 	);
