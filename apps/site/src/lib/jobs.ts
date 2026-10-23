@@ -24,7 +24,7 @@ type Row = Awaited<ReturnType<typeof getPublishedJobs>>["items"][number];
 const opt = <T>(value: T | null | undefined) => value ?? undefined;
 
 // Chuyển dòng database sang JobType để component không phải sửa
-const toJob = ({ job, companyName, companyLogoUrl }: Row): JobType => ({
+const toJob = ({ job, companyName, companyLogoUrl, categorySlug }: Row): JobType => ({
 	id: job.id,
 	title: job.title,
 	company: companyName,
@@ -48,6 +48,7 @@ const toJob = ({ job, companyName, companyLogoUrl }: Row): JobType => ({
 	desirable: job.desirable,
 	benefits: job.benefits,
 	tags: job.tags,
+	categorySlug: opt(categorySlug),
 });
 
 export const queryJobs = async (query: JobQuery) => {

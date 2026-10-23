@@ -3,12 +3,13 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import type { Job } from "@repo/db/schema";
-import { jobEducations, jobExperiences, jobLevels, jobTypes, countries } from "@repo/db/validation";
+import { jobEducations, jobExperiences, jobLevels, jobTypes } from "@repo/db/validation";
 import type { FormState } from "@/lib/form-state";
 import { input, textarea } from "./styles";
 import RichTextEditor from "./rich-text-editor";
 import { Field, FormErrors, Metabox, SubmitButton } from "./wp";
 import LocationPicker from "./location-picker";
+import SalaryField from "./salary-field";
 
 type Option = { id: number; name: string };
 
@@ -167,15 +168,7 @@ const JobForm = ({ action, companies, categories, job }: Props) => {
 					</Metabox>
 
 					<Metabox title="Salary">
-						<Field label="Short" hint="Shown on cards, e.g. $30K-$35K/month">
-							<input name="salary" defaultValue={text("salary")} className={input} />
-						</Field>
-						<Field label="Range" hint="e.g. $100,000 - $120,000">
-							<input name="salaryRange" defaultValue={text("salaryRange")} className={input} />
-						</Field>
-						<Field label="Type" hint="e.g. Yearly salary">
-							<input name="salaryType" defaultValue={text("salaryType")} className={input} />
-						</Field>
+						<SalaryField defaultType={text("salaryType")} defaultMin={job?.salaryMin} defaultMax={job?.salaryMax} />
 					</Metabox>
 				</aside>
 			</div>

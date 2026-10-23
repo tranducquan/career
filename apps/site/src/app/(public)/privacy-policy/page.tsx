@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@/components/layout/container";
+import Section from "@/components/layout/section";
 
 export const metadata: Metadata = {
 	title: "Điều khoản & Chính sách | JobPlatform",
@@ -17,7 +18,7 @@ const pad = (n: number) => String(n + 1).padStart(2, "0"); // 0 -> "01"
 const PrivacyPage = () => {
 	return (
 		<div id="privacy-page">
-			<section className="py-12 md:py-20 lg:py-24">
+			<Section>
 				<Container>
 					<div className="grid grid-cols-4 gap-x-20 relative">
 						<div className="col-span-full lg:col-span-3 flex flex-col gap-y-5 md:gap-y-6 [&_h2]:scroll-mt-32 [&_h2:not(:first-child)]:mt-6 [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-4">
@@ -78,7 +79,7 @@ const PrivacyPage = () => {
 						</div>
 					</div>
 				</Container>
-			</section>
+			</Section>
 		</div>
 	);
 };

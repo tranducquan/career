@@ -72,6 +72,7 @@ export type JobType = {
 	desirable?: string[]; // mục "Desirable"
 	benefits?: string[]; // bullet ở cột trái
 	tags?: string[]; // "Job tags"
+	categorySlug?: string;
 };
 
 export type FaqItemType = { question: string; answer: string };

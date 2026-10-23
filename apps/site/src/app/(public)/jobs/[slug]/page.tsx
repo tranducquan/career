@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { ArrowRight, BriefcaseBusiness, CalendarDays, Globe, Layers, Mail, Map as MapIcon, Timer, Wallet } from "lucide-react";
-import { Facebook, Linkedin, Twitter } from "@thesvg/react";
+import { ArrowRight, BriefcaseBusiness, CalendarDays, Globe, Layers, Map as MapIcon, Timer, Wallet } from "lucide-react";
+import Link from "next/link";
 
 import Container from "@/components/layout/container";
+import Section from "@/components/layout/section";
 import Button from "@/components/ui/button";
 import CompanyLogo from "@/components/ui/company-logo";
-// import CopyLinkButton from "@/components/ui/copy-link-button";
 import FeaturedBadge from "@/components/jobs/featured-badge";
 import SaveJobButton from "@/components/jobs/save-job-button";
-
+import ShareButtons from "@/components/jobs/share-buttons";
 import type { JobType } from "@/types";
 import { jobPath } from "@/lib/slug";
 import { getJob, SITE_URL } from "@/lib/jobs";
@@ -19,6 +19,9 @@ import JobDescription from "@/components/jobs/job-description";
 import { formatDate } from "@/lib/date";
 import CountryFlag from "@/components/ui/country-flag";
 import { getJobLocation } from "@/lib/job-format";
+
+import RelatedJobs, { RelatedJobsFallback } from "@/components/jobs/related-jobs";
+import JobDetailFallback from "@/components/jobs/job-detail-fallback";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -71,33 +74,6 @@ const SalaryLocation = ({ job }: { job: JobType }) => {
 	);
 };
 
-const ShareButtons = ({ job }: { job: JobType }) => {
-	const fullUrl = `${SITE_URL}${jobPath(job)}`;
-	const url = encodeURIComponent(fullUrl);
-	const text = encodeURIComponent(job.title);
-
-	const links = [
-		{ label: "LinkedIn", icon: Linkedin, href: `https://www.linkedin.com/sharing/share-offsite/?url=${url}` },
-		{ label: "Facebook", icon: Facebook, href: `https://www.facebook.com/sharer/sharer.php?u=${url}` },
-		{ label: "Twitter", icon: Twitter, href: `https://twitter.com/intent/tweet?url=${url}&text=${text}` },
-		{ label: "Email", icon: Mail, href: `mailto:?subject=${text}&body=${url}` },
-	];
-
-	return (
-		<div>
-			<h3 className={`mb-5 ${heading}`}>Share this job:</h3>
-			<div className="flex flex-wrap items-center gap-2">
-				{/* <CopyLinkButton url={fullUrl} />
-				{links.map(({ label, icon: Icon, href }) => (
-					<a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Share on ${label}`} className="flex size-10 items-center justify-center rounded-sm bg-primary-50 text-primary-500 transition-colors hover:bg-primary-500 hover:text-white motion-reduce:transition-none">
-						<Icon aria-hidden className="size-5" />
-					</a>
-				))} */}
-			</div>
-		</div>
-	);
-};
-
 const JobOverview = ({ job }: { job: JobType }) => {
 	const items = [
 		{ icon: CalendarDays, label: "Job posted", value: formatDate(job.postedAt) },
@@ -123,15 +99,20 @@ const JobOverview = ({ job }: { job: JobType }) => {
 			</div>
 
 			<div className="space-y-4 border-t border-gray-200 p-4 md:space-y-6 md:p-6">
-				<ShareButtons job={job} />
+				<div>
+					<h3 className={`mb-5 ${heading}`}>Share this job:</h3>
+					<ShareButtons url={`${SITE_URL}${jobPath(job)}`} title={job.title} />
+				</div>
 
 				{job.tags && job.tags.length > 0 && (
 					<div>
 						<h3 className={`mb-5 ${heading}`}>Job tags:</h3>
 						<ul className="flex flex-wrap gap-2.5">
 							{job.tags.map((tag) => (
-								<li key={tag} className="rounded-sm bg-gray-100 px-3 py-2 text-sm text-gray-500">
-									{tag}
+								<li key={tag}>
+									<Link href={`/jobs?q=${encodeURIComponent(tag)}`} target="_blank" rel="noopener noreferrer" className="block rounded-sm bg-gray-100 px-3 py-2 text-sm text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-500 motion-reduce:transition-none">
+										{tag}
+									</Link>
 								</li>
 							))}
 						</ul>
@@ -149,71 +130,55 @@ const JobDetail = async ({ params }: Props) => {
 	if (jobPath(job) !== `/jobs/${slug}`) permanentRedirect(jobPath(job));
 
 	return (
-		<div className="pb-16 md:pb-24">
-			<Container>
-				<div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-10">
-					<div className="flex items-center gap-4 md:gap-6">
-						<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-17 rounded-full text-3xl md:size-20 p-2.5" />
-						<div className="min-w-0">
-							<h1 className="text-xl leading-normal font-medium text-gray-900 md:text-2xl lg:text-[1.75rem]">{job.title}</h1>
-							<div className="mt-2.5 flex flex-wrap items-center gap-2.5">
-								<span className="text-sm text-gray-500">at {job.company}</span>
-								{job.featured && <FeaturedBadge />}
-								<span className="rounded-xs bg-success-50 px-2 pt-[0.313rem] pb-1 leading-none text-xs font-semibold text-success-500 uppercase">{typeLabel(job.type)}</span>
+		<div id="job-detail-page">
+			<Section className="pt-0!">
+				<Container>
+					<div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-10">
+						<div className="flex items-center gap-4 md:gap-6">
+							<CompanyLogo name={job.company} logo={job.logo} logoUrl={job.logoUrl} className="size-17 rounded-full text-3xl md:size-20 p-2.5" />
+							<div className="min-w-0">
+								<h1 className="text-xl leading-normal font-medium text-gray-900 md:text-2xl lg:text-[1.75rem]">{job.title}</h1>
+								<div className="mt-2.5 flex flex-wrap items-center gap-2.5">
+									<span className="text-sm text-gray-500">at {job.company}</span>
+									{job.featured && <FeaturedBadge />}
+									<span className="rounded-xs bg-success-50 px-2 pt-[0.313rem] pb-1 leading-none text-xs font-semibold text-success-500 uppercase">{typeLabel(job.type)}</span>
+								</div>
 							</div>
+						</div>
+						<div className="flex items-center gap-3">
+							<SaveJobButton jobId={job.id} />
+							<Button href="/login">
+								Apply Now <ArrowRight aria-hidden />
+							</Button>
 						</div>
 					</div>
 
-					<div className="flex items-center gap-3">
-						<SaveJobButton jobId={job.id} />
-						<Button href="/login">
-							Apply Now <ArrowRight aria-hidden />
-						</Button>
+					<div className={`grid gap-8 ${gridCols}`}>
+						<article className="min-w-0 divide-y divide-gray-200 *:py-8 *:first:pt-0 *:last:pb-0">
+							<section>
+								<h2 className={`mb-4 ${heading}`}>Job Description</h2>
+								<JobDescription text={job.description} />
+							</section>
+							<BulletList title="Responsibilities" items={job.responsibilities} />
+							<BulletList title="Requirements" items={job.requirements} />
+							<BulletList title="Desirable" items={job.desirable} />
+							<BulletList title="Benefits" items={job.benefits} />
+						</article>
+
+						<aside className="space-y-6">
+							<SalaryLocation job={job} />
+							<JobOverview job={job} />
+						</aside>
 					</div>
-				</div>
-			</Container>
+				</Container>
+			</Section>
 
-			<Container>
-				<div className={`grid gap-8 ${gridCols}`}>
-					<article className="min-w-0 space-y-6">
-						<section>
-							<h2 className={`mb-4 ${heading}`}>Job Description</h2>
-							<JobDescription text={job.description} />
-						</section>
-
-						<BulletList title="Responsibilities" items={job.responsibilities} />
-						<BulletList title="Requirements" items={job.requirements} />
-						<BulletList title="Desirable" items={job.desirable} />
-						<BulletList title="Benefits" items={job.benefits} />
-					</article>
-
-					<aside className="space-y-6">
-						<SalaryLocation job={job} />
-						<JobOverview job={job} />
-					</aside>
-				</div>
-			</Container>
+			<Suspense fallback={<RelatedJobsFallback />}>
+				<RelatedJobs jobId={job.id} category={job.categorySlug} />
+			</Suspense>
 		</div>
 	);
 };
-
-const JobDetailFallback = () => (
-	<Container>
-		<div className="space-y-8 py-8 md:py-10">
-			<div className="flex items-center gap-4 md:gap-6">
-				<div className="size-17 animate-pulse rounded-full bg-gray-100 md:size-20" />
-				<div className="space-y-3">
-					<div className="h-6 w-64 max-w-full animate-pulse rounded bg-gray-100" />
-					<div className="h-4 w-48 max-w-full animate-pulse rounded bg-gray-100" />
-				</div>
-			</div>
-			<div className={`grid gap-8 ${gridCols}`}>
-				<div className="h-96 animate-pulse rounded-lg bg-gray-100" />
-				<div className="h-96 animate-pulse rounded-lg bg-gray-100" />
-			</div>
-		</div>
-	</Container>
-);
 
 const JobsPage = ({ params }: Props) => (
 	<Suspense fallback={<JobDetailFallback />}>

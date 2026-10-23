@@ -4,7 +4,7 @@ import CompanyCard from "../cards/company-card";
 import { getTopCompanies } from "@/lib/companies";
 import Section from "../layout/section";
 
-const COMPANIES_LIMIT = 8;
+const COMPANIES_LIMIT = 6;
 
 const CompaniesSection = async () => {
 	const topCompanies = await getTopCompanies(COMPANIES_LIMIT);
@@ -13,9 +13,9 @@ const CompaniesSection = async () => {
 	return (
 		<Section>
 			<Container>
-				<SectionHeading title="Top Companies" href="/employers" />
+				<SectionHeading eyebrow="Employers" title="Top Companies" href="/employers" />
 
-				<ul className="grid gap-3 md:gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+				<ul className="grid gap-3 md:gap-6 sm:grid-cols-2 md:grid-cols-3">
 					{topCompanies.map((company) => (
 						<li key={company.id}>
 							<CompanyCard company={company} />

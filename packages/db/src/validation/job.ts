@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { jobStatuses } from "../schema/jobs";
-import { checkbox, lines, nullableDate, nullableText, countryCode } from "./shared";
+import { checkbox, lines, nullableDate, nullableText, countryCode, nullableInt } from "./shared";
 
 export const jobInputSchema = z
 	.object({
@@ -18,6 +18,8 @@ export const jobInputSchema = z
 		salary: nullableText,
 		salaryRange: nullableText,
 		salaryType: nullableText,
+		salaryMin: nullableInt,
+		salaryMax: nullableInt,
 		education: nullableText,
 		experience: nullableText,
 		postedAt: nullableDate,

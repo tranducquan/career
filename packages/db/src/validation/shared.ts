@@ -6,6 +6,8 @@ export const checkbox = z.preprocess((value) => value === "on" || value === "tru
 // Ô trống hoặc thiếu field thì thành null, để khi sửa vẫn xoá được giá trị cũ
 const emptyToNull = (value: unknown) => (typeof value === "string" && value.trim() !== "" ? value.trim() : null);
 
+export const nullableInt = z.preprocess((value) => (typeof value === "string" && value.trim() !== "" ? Number(value) : null), z.number().int().min(0).max(100_000_000).nullable());
+
 export const nullableText = z.preprocess(emptyToNull, z.string().max(300).nullable());
 
 export const nullableDate = z.preprocess(

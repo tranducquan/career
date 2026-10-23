@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Layers } from "lucide-react";
+import { ChevronDown, Layers, X } from "lucide-react";
 import { DynamicIcon, type IconName } from "lucide-react/dynamic";
 import { cn } from "@/lib/cn";
 
@@ -50,12 +50,18 @@ const CategoryPicker = ({ options, value, onChange, onOpen }: Props) => {
 					if (!open) onOpen?.();
 					setOpen((v) => !v);
 				}}
-				className="flex h-12.5 w-full items-center gap-3 px-3 text-left text-base"
+				className={cn("flex h-12.5 w-full items-center gap-3 pr-10 pl-3 text-left text-base", selected && "pr-16")}
 			>
 				<CategoryIcon name={selected?.iconKey} className="size-6 shrink-0 text-primary-500" />
 				<span className={cn("min-w-0 flex-1 truncate", !selected && "text-gray-400")}>{selected ? selected.name : "Select Category"}</span>
-				<ChevronDown className={cn("size-4 shrink-0 text-gray-400 transition-transform", open && "rotate-180")} aria-hidden />
 			</button>
+
+			{selected && (
+				<button type="button" onClick={() => onChange(undefined)} aria-label="Clear category" className="absolute top-1/2 right-9 flex size-6 -translate-y-1/2 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 focus-visible:outline-2 focus-visible:outline-primary-500">
+					<X className="size-4" aria-hidden />
+				</button>
+			)}
+			<ChevronDown className={cn("pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-gray-400 transition-transform", open && "rotate-180")} aria-hidden />
 
 			{open && (
 				<ul role="listbox" className="absolute top-full left-0 z-30 mt-5 max-h-75 w-full min-w-60 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">

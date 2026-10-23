@@ -56,7 +56,6 @@ const OtherSection = () => {
 					<CtaCard role="employer" variant="primary" image="/images/become.jpg" title="Become an Employer" text="Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi sed efficitur dolor. Pelque augue risus, aliqu." />
 				</div>
 			</Container>
-			``
 		</Section>
 	);
 };

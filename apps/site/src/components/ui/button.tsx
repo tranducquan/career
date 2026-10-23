@@ -21,7 +21,7 @@ type Props = ButtonProps | LinkProps;
 const variants: Record<Variant, string> = {
 	primary: "border-primary-500 bg-primary-500 text-white hover:border-primary-700 hover:bg-primary-700",
 	outline: "border-primary-100 bg-transparent text-primary-500 hover:bg-primary-100",
-	light: "border-primary-50 bg-primary-50 text-primary-500 hover:border-primary-500 hover:bg-primary-500 group-hover:text-white",
+	light: "border-primary-50 bg-primary-50 text-primary-500 hover:border-primary-500 hover:bg-primary-500 hover:text-white",
 	ghost: "border-white bg-white text-primary-500 hover:shadow-md",
 };
 

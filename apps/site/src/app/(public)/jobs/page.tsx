@@ -6,7 +6,8 @@ import JobsSearch from "@/components/jobs/jobs-search";
 import JobsToolbar from "@/components/jobs/jobs-toolbar";
 import { DEFAULT_LIMIT, LIMIT_OPTIONS } from "@/lib/jobs-view";
 import PopularSearches from "@/components/jobs/popular-searches";
-import Pagination from "@/components/jobs/pagination";
+import Pagination from "@/components/ui/pagination";
+import { buildJobsHref } from "@/lib/jobs-view";
 import { queryJobs } from "@/lib/jobs";
 import { getCategories } from "@/lib/categories";
 import { getCountryOptions } from "@/lib/job-countries";
@@ -60,7 +61,7 @@ async function JobsContent({ searchParams }: { searchParams: SearchParams }) {
 	const extra = { sort: sort === "newest" ? undefined : sort, limit: limit === DEFAULT_LIMIT ? undefined : String(limit), view: view === "grid" ? undefined : view };
 
 	return (
-		<>
+		<div id="jobs-page">
 			<section className="relative z-10 bg-gray-100 pb-6 ">
 				<Container>
 					<JobsSearch key={JSON.stringify(filterParams)} values={{ q, country, category, experience, salary, level, type, education }} categories={categories} countries={countries} viewState={{ sort, limit, view }} />
@@ -78,9 +79,9 @@ async function JobsContent({ searchParams }: { searchParams: SearchParams }) {
 					</div>
 
 					{items.length > 0 ? (
-						<ul className={view === "list" ? "grid gap-4 md:gap-6" : "grid gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3"}>
+						<ul className={view === "list" ? "grid grid-cols-1 gap-4 md:gap-6" : "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3"}>
 							{items.map((job) => (
-								<li key={job.id}>
+								<li key={job.id} className="min-w-0">
 									<JobCard job={job} layout={view === "list" ? "horizontal" : "vertical"} />
 								</li>
 							))}
@@ -92,9 +93,9 @@ async function JobsContent({ searchParams }: { searchParams: SearchParams }) {
 						</div>
 					)}
 
-					<Pagination page={meta.page} totalPages={meta.totalPages} params={pageParams} />
+					<Pagination page={meta.page} totalPages={meta.totalPages} getHref={(p) => buildJobsHref(pageParams, p)} />
 				</Container>
 			</Section>
-		</>
+		</div>
 	);
 }

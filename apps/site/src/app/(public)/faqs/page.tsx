@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/layout/container";
 import Accordion from "@/components/ui/accordion";
 import { faqs } from "@/data";
+import Section from "@/components/layout/section";
 
 export const metadata: Metadata = {
 	title: "Câu hỏi thường gặp",
@@ -23,7 +24,7 @@ const jsonLd = {
 
 const FaqsPage = () => (
 	<div id="faqs-page">
-		<section className="py-12 md:py-20 lg:py-24">
+		<Section>
 			<Container>
 				<div className="mx-auto max-w-2xl space-y-12">
 					{faqs.map((group) => (
@@ -34,7 +35,7 @@ const FaqsPage = () => (
 					))}
 				</div>
 			</Container>
-		</section>
+		</Section>
 
 		<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
 	</div>

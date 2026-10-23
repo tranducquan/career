@@ -25,10 +25,15 @@ const labels: Record<string, string> = {
 	"post-job": "Post a Job",
 };
 
-const humanize = (segment: string) => {
-	const text = decodeURIComponent(segment).replace(/-/g, " ");
-	return text.charAt(0).toUpperCase() + text.slice(1);
-};
+const humanize = (segment: string) =>
+	decodeURIComponent(segment)
+		.split("-")
+		.filter(Boolean)
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+
+// /jobs/<slug>-<id>: bỏ phần id số ở cuối
+const stripId = (segment: string) => segment.replace(/-\d+$/, "");
 
 // Segment không có trang riêng: hiện text, không tạo link
 const noPage = new Set(["employer", "candidate"]);
@@ -42,11 +47,14 @@ const Inner = () => {
 
 	const items: BreadcrumbItem[] = [
 		{ label: "Home", href: "/" },
-		...segments.map((segment, index) => ({
-			segment,
-			label: labels[segment] ?? humanize(segment),
-			href: "/" + segments.slice(0, index + 1).join("/"),
-		})),
+		...segments.map((segment, index) => {
+			const isJobDetail = segments[0] === "jobs" && index > 0;
+			return {
+				segment,
+				label: labels[segment] ?? humanize(isJobDetail ? stripId(segment) : segment),
+				href: "/" + segments.slice(0, index + 1).join("/"),
+			};
+		}),
 	];
 
 	const current = items[items.length - 1].label;
