@@ -14,9 +14,9 @@ const JobsSection = async () => {
 		<Section className="pb-0!">
 			<Container>
 				<SectionHeading title="Featured Jobs" href="/jobs" />
-				<ul className="grid gap-3 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				<ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
 					{featuredJobs.map((job) => (
-						<li key={job.id}>
+						<li key={job.id} className="min-w-0">
 							<JobCard job={job} layout="vertical" />
 						</li>
 					))}

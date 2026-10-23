@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ChevronDown, Loader2 } from "lucide-react";
+import { Search, ChevronDown, Loader2, X } from "lucide-react";
 import Button from "../ui/button";
 import { cn } from "@/lib/cn";
 import CountryPicker, { type CountryOption } from "./country-picker";
@@ -134,6 +134,13 @@ const JobsSearch = ({ values, categories, countries, viewState }: { values: JobF
 		if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
 	};
 
+	const qRef = useRef<HTMLInputElement>(null);
+
+	const clearQ = () => {
+		patch({ q: undefined });
+		qRef.current?.focus();
+	};
+
 	const submit = (e: React.FormEvent) => {
 		e.preventDefault();
 		setOpen(false);
@@ -179,7 +186,12 @@ const JobsSearch = ({ values, categories, countries, viewState }: { values: JobF
 					<label className="flex flex-1 items-center gap-3 px-3 lg:border-r lg:border-gray-200">
 						<Search className="size-6 shrink-0 text-primary-500" strokeWidth={1.75} aria-hidden />
 						<span className="sr-only">Keyword</span>
-						<input value={draft.q ?? ""} onChange={(e) => patch({ q: e.target.value })} placeholder="Job title, Keyword..." className={inputClass} />
+						<input ref={qRef} value={draft.q ?? ""} onChange={(e) => patch({ q: e.target.value })} placeholder="Job title, Keyword..." className={inputClass} />
+						{draft.q && (
+							<button type="button" onClick={clearQ} aria-label="Clear keyword" className="flex size-6 shrink-0 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 focus-visible:outline-2 focus-visible:outline-primary-500">
+								<X className="size-4" aria-hidden />
+							</button>
+						)}
 					</label>
 
 					<div className="flex flex-1 lg:border-r lg:border-gray-200">

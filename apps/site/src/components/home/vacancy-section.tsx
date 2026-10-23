@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import Container from "../layout/container";
 import SectionHeading from "../ui/section-heading";
 import Button from "../ui/button";
+import Section from "../layout/section";
 import { vacancies } from "@/data";
 import { cn } from "@/lib/cn";
-import Section from "../layout/section";
 
-const MOBILE_LIMIT = 6;
+const MOBILE_LIMIT = 8;
 
 const numberFormat = new Intl.NumberFormat("en-US");
 
@@ -17,15 +16,12 @@ const VacancySection = () => {
 			<Container>
 				<SectionHeading title="Most Popular Vacancies" />
 
-				<ul className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+				<ul className="flex flex-wrap gap-2.5 md:gap-3">
 					{vacancies.map((item, i) => (
 						<li key={item.id} className={cn(i >= MOBILE_LIMIT && "max-md:hidden")}>
-							<Link href={item.href} className="group flex items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3.5 transition-colors hover:border-primary-200 hover:bg-primary-50/50 active:bg-primary-50 md:px-5 md:py-4">
-								<span className="min-w-0">
-									<span className="block truncate text-base font-medium transition-colors group-hover:text-primary-500 md:text-lg">{item.name}</span>
-									<span className="mt-2 block text-sm text-gray-500">{numberFormat.format(item.count)} open positions</span>
-								</span>
-								<ArrowUpRight className="size-5 shrink-0 text-gray-300 transition-colors group-hover:text-primary-500" aria-hidden />
+							<Link href={item.href} className="group inline-flex items-center gap-2.5 rounded-full border border-gray-200 bg-white py-2 pr-2 pl-4 text-sm font-medium text-gray-900 transition-colors hover:border-primary-300 hover:bg-primary-50 hover:text-primary-500 motion-reduce:transition-none md:text-base">
+								{item.name}
+								<span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-semibold text-gray-500 tabular-nums transition-colors group-hover:bg-primary-500 group-hover:text-white">{numberFormat.format(item.count)}</span>
 							</Link>
 						</li>
 					))}

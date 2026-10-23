@@ -8,30 +8,30 @@ import NavLinks from "./nav-links";
 import MobileMenu from "./mobile-menu";
 import HeaderShell from "./header-shell";
 import Button from "../ui/button";
+import { cn } from "@/lib/cn";
+import { navLinkBase, navLinkIdle, navListClass } from "./nav-styles";
 import { getPostJobAction } from "@/lib/post-job-path";
+import AccountMenu from "./account-menu";
+import { accountLinks } from "@/lib/account-links";
 
+// Chỉ giữ các trang đang có. Thêm lại About, Employers... khi đã làm trang.
 export const navs = [
 	{ title: "Home", href: "/" },
 	{ title: "Find Job", href: "/jobs" },
-	{ title: "About", href: "/about" },
 	{ title: "Blog", href: "/blog" },
-	{ title: "Employers", href: "/employers" },
-	{ title: "Candidates", href: "/candidates" },
-];
-
-const extraNavs = [
-	{ title: "Pricing Plans", href: "/pricing" },
-	{ title: "Customer Supports", href: "/support" },
+	{ title: "FAQs", href: "/faqs" },
+	{ title: "Contact", href: "/contact" },
 ];
 
 // Tạm hard-code, sau này lấy từ session
-const user = null as null | { name: string; role: "candidate" | "employer" };
+// const user = null as null | { name: string; role: "candidate" | "employer" };
+const user = { name: "Quan Tran", role: "candidate" } as null | { name: string; role: "candidate" | "employer" };
 
 // Hiển thị khi chưa biết pathname (lúc prerender), cùng style với NavLinks nhưng chưa có trạng thái active
 const NavLinksFallback = () => (
-	<nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
+	<nav aria-label="Main" className={cn(navListClass, "hidden lg:flex")}>
 		{navs.map((item) => (
-			<Link key={item.title} href={item.href} className="relative py-2 text-base font-medium text-gray-500 transition-colors hover:text-primary-500">
+			<Link key={item.title} href={item.href} className={cn(navLinkBase, navLinkIdle)}>
 				{item.title}
 			</Link>
 		))}
@@ -44,7 +44,7 @@ const Header = () => {
 	return (
 		<HeaderShell>
 			<Container>
-				<div className="flex h-16 items-center justify-between gap-6 md:h-22.5">
+				<div className="flex h-16 items-center justify-between gap-6 md:h-20">
 					<Logo />
 
 					<Suspense fallback={<NavLinksFallback />}>
@@ -54,12 +54,12 @@ const Header = () => {
 					<div className="flex items-center gap-2 md:gap-3">
 						{user ? (
 							<>
-								<button type="button" aria-label="Notifications" className="flex size-10 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-500">
+								<button type="button" aria-label="Notifications" className="flex size-10 cursor-pointer items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-primary-50 hover:text-primary-500">
 									<Bell className="size-5" />
 								</button>
-								<Link href={user.role === "employer" ? "/employer" : "/candidate"} aria-label="Account" className="flex size-10 items-center justify-center rounded-full bg-primary-100 font-medium text-primary-500">
-									{user.name.charAt(0)}
-								</Link>
+								<div className="hidden lg:block">
+									<AccountMenu user={user} links={accountLinks[user.role]} />
+								</div>
 							</>
 						) : (
 							<Button href="/login" variant="outline" className="hidden sm:inline-flex">
@@ -73,7 +73,7 @@ const Header = () => {
 							</Button>
 						)}
 
-						<MobileMenu navs={[...navs, ...extraNavs]} isLoggedIn={!!user} postJobHref={postJob?.href} />
+						<MobileMenu navs={navs} user={user} accountLinks={user ? accountLinks[user.role] : []} postJobHref={postJob?.href} />
 					</div>
 				</div>
 			</Container>

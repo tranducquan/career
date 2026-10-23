@@ -14,7 +14,7 @@ const HeaderShell = ({ children }: { children: React.ReactNode }) => {
 	}, []);
 
 	return (
-		<header id="header" className={cn("sticky top-0 z-50 border-b bg-white transition-shadow duration-200", scrolled ? "border-transparent shadow-md" : "border-gray-100")}>
+		<header id="header" className={cn("sticky top-0 z-50 border-b transition-[background-color,box-shadow,border-color] duration-200", scrolled ? "border-transparent bg-white/90 shadow-sm backdrop-blur-md" : "border-gray-100 bg-white")}>
 			{children}
 		</header>
 	);

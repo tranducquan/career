@@ -33,6 +33,7 @@ const jobColumns = {
 	companyName: companies.name,
 	companyLogoUrl: companies.logoUrl,
 	categoryName: categories.name,
+	categorySlug: categories.slug,
 };
 
 export const getPublishedJobs = async ({ q, type, level, experience, education, location, country, category, remote, featured, sort = "newest", page, limit }: PublicJobQuery) => {

@@ -35,6 +35,8 @@ export const jobs = pgTable(
 		salary: text("salary"),
 		salaryRange: text("salary_range"),
 		salaryType: text("salary_type"),
+		salaryMin: integer("salary_min"),
+		salaryMax: integer("salary_max"),
 		education: text("education"),
 		experience: text("experience"),
 		postedAt: date("posted_at", { mode: "string" }),

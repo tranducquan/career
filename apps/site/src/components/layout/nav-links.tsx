@@ -3,18 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
+import { navLinkActive, navLinkBase, navLinkIdle, navListClass } from "./nav-styles";
 
 type Props = { navs: { title: string; href: string }[]; className?: string };
+
+// "/blog" khớp "/blog" và "/blog/abc", nhưng không khớp "/blogger"
+const isActive = (href: string, pathname: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`));
 
 const NavLinks = ({ navs, className }: Props) => {
 	const pathname = usePathname();
 
 	return (
-		<nav aria-label="Main" className={cn("items-center gap-8", className)}>
+		<nav aria-label="Main" className={cn(navListClass, className)}>
 			{navs.map((item) => {
-				const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+				const active = isActive(item.href, pathname);
 				return (
-					<Link key={item.title} href={item.href} aria-current={active ? "page" : undefined} className={cn("relative py-2 text-base font-medium transition-colors", "after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:origin-left after:bg-primary-500 after:transition-transform", active ? "text-primary-500 after:scale-x-100" : "text-gray-500 after:scale-x-0 hover:text-primary-500 hover:after:scale-x-100")}>
+					<Link key={item.title} href={item.href} aria-current={active ? "page" : undefined} className={cn(navLinkBase, active ? navLinkActive : navLinkIdle)}>
 						{item.title}
 					</Link>
 				);

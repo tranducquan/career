@@ -17,7 +17,7 @@ const CategorySection = async () => {
 	return (
 		<Section className=" border-gray-100" bordered>
 			<Container>
-				<SectionHeading title="Popular Category" href="/jobs" />
+				<SectionHeading eyebrow="Browse by field" title="Popular Category" href="/jobs" />
 
 				<ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6 xl:grid-cols-4">
 					{categories.map(({ id, href, name, count, iconKey }, i) => (

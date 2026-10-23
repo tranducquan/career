@@ -1,15 +1,14 @@
 // app/(public)/blog/page.tsx
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import Container from "@/components/layout/container";
+import Section from "@/components/layout/section";
 import PostCard from "@/components/cards/post-card";
 import PostSidebar from "@/components/layout/post-sidebar";
+import Pagination from "@/components/ui/pagination";
 import { posts } from "@/data";
 import { buildBlogHref, type BlogFilters } from "@/lib/blog-filters";
-import { cn } from "@/lib/cn";
 import { categories, tags } from "@/lib/blog-data";
 
 export const metadata: Metadata = {
@@ -25,17 +24,15 @@ type BlogPageProps = {
 
 const BlogPage = ({ searchParams }: BlogPageProps) => {
 	return (
-		<>
-			{/* <PageHeader title="Blog" breadcrumb={[{ label: "Home", href: "/" }, { label: "Blog" }]} /> */}
-
-			<section className="py-12 md:py-20">
+		<div id="blog-page">
+			<Section>
 				<Container>
 					<Suspense fallback={<BlogSkeleton />}>
 						<BlogContent searchParams={searchParams} />
 					</Suspense>
 				</Container>
-			</section>
-		</>
+			</Section>
+		</div>
 	);
 };
 
@@ -77,23 +74,7 @@ const BlogContent = async ({ searchParams }: BlogPageProps) => {
 					</div>
 				)}
 
-				{totalPages > 1 && (
-					<nav aria-label="Pagination" className="mt-10 flex items-center justify-center gap-2 md:mt-14">
-						<PageLink href={buildBlogHref({ ...filters, page: currentPage - 1 })} disabled={currentPage === 1} label="Previous page">
-							<ChevronLeft aria-hidden className="size-5" />
-						</PageLink>
-
-						{Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-							<PageLink key={p} href={buildBlogHref({ ...filters, page: p })} active={p === currentPage} label={`Page ${p}`}>
-								{String(p).padStart(2, "0")}
-							</PageLink>
-						))}
-
-						<PageLink href={buildBlogHref({ ...filters, page: currentPage + 1 })} disabled={currentPage === totalPages} label="Next page">
-							<ChevronRight aria-hidden className="size-5" />
-						</PageLink>
-					</nav>
-				)}
+				<Pagination page={currentPage} totalPages={totalPages} getHref={(p) => buildBlogHref({ ...filters, page: p })} />
 			</div>
 		</div>
 	);
@@ -109,31 +90,5 @@ const BlogSkeleton = () => (
 		</div>
 	</div>
 );
-
-type PageLinkProps = {
-	href: string;
-	label: string;
-	active?: boolean;
-	disabled?: boolean;
-	children: React.ReactNode;
-};
-
-const PageLink = ({ href, label, active, disabled, children }: PageLinkProps) => {
-	const base = "flex size-10 items-center justify-center rounded-full text-sm font-medium transition-colors md:size-12";
-
-	if (disabled) {
-		return (
-			<span aria-label={label} aria-disabled className={cn(base, "cursor-not-allowed text-gray-400")}>
-				{children}
-			</span>
-		);
-	}
-
-	return (
-		<Link href={href} aria-label={label} aria-current={active ? "page" : undefined} className={cn(base, active ? "bg-primary-500 text-white" : "text-gray-700 hover:bg-primary-50 hover:text-primary-500")}>
-			{children}
-		</Link>
-	);
-};
 
 export default BlogPage;

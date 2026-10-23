@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { Calendar, MessageCircleMore, Tag } from "lucide-react";
 
 import Container from "@/components/layout/container";
+import Section from "@/components/layout/section";
 import PostCard from "@/components/cards/post-card";
 import PostSidebar from "@/components/layout/post-sidebar";
 import { posts } from "@/data";
@@ -54,8 +55,8 @@ const PostDetail = async ({ params }: PostDetailPageProps) => {
 	const paragraphs = post.content.split("\n\n");
 
 	return (
-		<>
-			<section className="py-12 md:py-20">
+		<div id="post-detail-page">
+			<Section>
 				<Container>
 					<div className="grid gap-8 lg:grid-cols-[18rem_1fr] xl:grid-cols-[20rem_1fr]">
 						<PostSidebar filters={{}} categories={categories} tags={tags} />
@@ -126,8 +127,8 @@ const PostDetail = async ({ params }: PostDetailPageProps) => {
 						</div>
 					</div>
 				</Container>
-			</section>
-		</>
+			</Section>
+		</div>
 	);
 };
 
